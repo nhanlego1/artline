@@ -713,7 +713,7 @@ function artline_post_comment()
     //   $comment->is_anonymous = 0; // leave it as is
     $comment->status = COMMENT_PUBLISHED; // We auto-publish this comment
     $comment->language = LANGUAGE_NONE; // The same as for a node
-    $comment->subject = $data['name'] . ' comment';
+    $comment->subject = filter_bad_word($data['comment']);
     $comment->comment_body[$comment->language][0]['value'] = filter_bad_word($data['comment']); // Everything here is pretty much like with a node
     $comment->comment_body[$comment->language][0]['format'] = 'plain_text';
     try{
