@@ -614,18 +614,33 @@ input.gsc-input, .gsc-input-box, .gsc-input-box-hover, .gsc-input-box-focus {
     position: absolute;
     background: #ccc;
     padding: 5px;
-    top: 530px;
+    margin-top: -92px;
     left: 28px;
     z-index: 99999;
+}
+input[type="text"].share-link{
+    padding: 5px!important;
+    width: 68%!important;
+}
+.admin-dashboard-back{
+    position: fixed;
+    z-index: 999999;
+    left: 10px;
+    bottom: 10px;
+    width: 153px;
+    padding: 10px 5px;
+    background: #48649f;
+}
+.admin-dashboard-back a{
+    color: #fff;
+    text-decoration: none;
 }
 .share-link{
     position: absolute;
     right: 50px;
-    background: #eee;
-    padding: 7px;
+    background: #e4e4e4;
     top: 11px;
     z-index: 99999;
-    border-radius: 20px;
     font-size: 11px;
     color: #999;
 }

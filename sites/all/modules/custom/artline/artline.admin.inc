@@ -95,5 +95,10 @@ function artline_admin(){
         '#title'=>'Giới hạn thời gian đếm cho partner, store',
         '#default_value'=> variable_get('timeline_view')
     );
+    $form['setting']['filter_word'] = array(
+        '#type'=>'textarea',
+        '#title'=>'Lọc từ khoá tục tỉu',
+        '#default_value'=> variable_get('filter_word')
+    );
     return system_settings_form($form);
 }

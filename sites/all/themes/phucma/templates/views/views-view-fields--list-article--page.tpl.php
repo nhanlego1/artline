@@ -36,9 +36,8 @@ if ($account->picture) {
             <span class="share-link-button" data="<?php print $node->nid ?>"><img
                     src="<?php print base_path() . drupal_get_path('theme', 'artline') ?>/images/ic.png"
                     class="icon-link"></span>
-            <div class="share-link hidden"
-                 id="share-link-<?php print $node->nid ?>"><?php print url('node/' . $node->nid, array('absolute' => true)) ?></div>
-        </div>
+            <input type="text" class="share-link hidden" id="share-link-<?php print $node->nid ?>" value="<?php print url('node/' . $node->nid, array('absolute' => true)) ?>"/>
+              </div>
 
         <?php if (isset($node->field_category[LANGUAGE_NONE])): ?>
             <div class="category-article">

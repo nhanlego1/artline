@@ -109,21 +109,22 @@
                   $(class_ + " .name-comment").removeClass('error');
                   $(class_ + " .submit-comment").removeAttr('disabled');
                   $(class_ + " .loading-comment").hide();
+                setTimeout(function () {
+                  if($(classApen_).length > 0){
+                    $(classApen_).append('<div class="comment-item"><div class="avatar-comment"><img typeof="foaf:Image" src="'+avatar_+'" width="40" height="40" alt="" /></div><div class="comment-content">'+comment_ +'</div><div class="clearfix"></div><span class="reply-form" data="58" style="display: none;">Trả lời</span><div class="clearfix"></div><div class="reply-comment-child"></div></div>');
+                  }else{
+                    var classApendN_ = '.article-comment-wrapper-'+nid_;
+                    $(classApendN_).append('<div class="comment-page-wrapper"><div class="comment-item"><div class="avatar-comment"><img typeof="foaf:Image" src="'+avatar_+'" width="40" height="40" alt="" /></div><div class="comment-content">'+data +'</div><div class="clearfix"></div><span class="reply-form" data="58" style="display: none;">Trả lời</span><div class="clearfix"></div><div class="reply-comment-child"></div></div></div>');
+                  }
+
+                }, 2000);
 
               })
               .fail(function () {
                 //alert( "error" );
               });
         }, 1000);
-        setTimeout(function () {
-        if($(classApen_).length > 0){
-          $(classApen_).append('<div class="comment-item"><div class="avatar-comment"><img typeof="foaf:Image" src="'+avatar_+'" width="40" height="40" alt="" /></div><div class="comment-content">'+comment_ +'</div><div class="clearfix"></div><span class="reply-form" data="58" style="display: none;">Trả lời</span><div class="clearfix"></div><div class="reply-comment-child"></div></div>');
-        }else{
-          var classApendN_ = '.article-comment-wrapper-'+nid_;
-          $(classApendN_).append('<div class="comment-page-wrapper"><div class="comment-item"><div class="avatar-comment"><img typeof="foaf:Image" src="'+avatar_+'" width="40" height="40" alt="" /></div><div class="comment-content">'+comment_ +'</div><div class="clearfix"></div><span class="reply-form" data="58" style="display: none;">Trả lời</span><div class="clearfix"></div><div class="reply-comment-child"></div></div></div>');
-        }
 
-        }, 2000);
         setTimeout(function () {
           $(".plugin").pinto({
             itemWidth: 415,
@@ -162,28 +163,26 @@
           setTimeout(function(){
             $.post( "/artline/post/comment",{ nid: nid_, uid: uid_, cid:cid_, name:name_, comment:comment_ })
                 .done(function(data) {
-                  if(data =='ok'){
+
                     $(class_+" .comment-comment-reply").val('');
                     $(class_+" .comment-comment-reply").removeClass('error');
                     $(class_+" .name-comment-reply").removeClass('error');
                     $(class_+" .submit-comment-reply").removeAttr('disabled');
                     $(class_+" .loading-comment").hide();
-                  }
+                  setTimeout(function () {
+                    if($(classApen_ +" .comment-page-wrapper").length > 0){
+                      $(classApen_ +" .comment-page-wrapper").append('<div class="article-comment-'+nid_+'"><div class="comment-item"><div class="avatar-comment"><img typeof="foaf:Image" src="'+avatar_+'" width="40" height="40" alt="" /></div><div class="comment-content">'+comment_ +'</div><div class="clearfix"></div><span class="reply-form" data="58" style="display: none;">Trả lời</span><div class="clearfix"></div><div class="reply-comment-child"></div></div></div>');
+                    }else{
+                      var classApendN_ = '.reply-comment-child-'+cid_;
+                      $(classApendN_).append('<div class="comment-page-wrapper"><div class="article-comment-'+nid_+'"><div class="comment-item"><div class="avatar-comment"><img typeof="foaf:Image" src="'+avatar_+'" width="40" height="40" alt="" /></div><div class="comment-content">'+data +'</div><div class="clearfix"></div><span class="reply-form" data="58" style="display: none;">Trả lời</span><div class="clearfix"></div><div class="reply-comment-child"></div></div></div></div>');
+                    }
+
+                  }, 2000);
                 })
                 .fail(function() {
                   //alert( "error" );
                 });
           }, 1000);
-
-          setTimeout(function () {
-            if($(classApen_ +" .comment-page-wrapper").length > 0){
-              $(classApen_ +" .comment-page-wrapper").append('<div class="article-comment-'+nid_+'"><div class="comment-item"><div class="avatar-comment"><img typeof="foaf:Image" src="'+avatar_+'" width="40" height="40" alt="" /></div><div class="comment-content">'+comment_ +'</div><div class="clearfix"></div><span class="reply-form" data="58" style="display: none;">Trả lời</span><div class="clearfix"></div><div class="reply-comment-child"></div></div></div>');
-            }else{
-              var classApendN_ = '.reply-comment-child-'+cid_;
-              $(classApendN_).append('<div class="comment-page-wrapper"><div class="article-comment-'+nid_+'"><div class="comment-item"><div class="avatar-comment"><img typeof="foaf:Image" src="'+avatar_+'" width="40" height="40" alt="" /></div><div class="comment-content">'+comment_ +'</div><div class="clearfix"></div><span class="reply-form" data="58" style="display: none;">Trả lời</span><div class="clearfix"></div><div class="reply-comment-child"></div></div></div></div>');
-            }
-
-          }, 2000);
 
           setTimeout(function () {
             $(".plugin").pinto({
@@ -285,14 +284,17 @@
       var id_ = "#share-link-"+nid_;
       $(this).click(function(){
         $(id_).removeClass('hidden');
+        $(id_).select();
       });
       $(this).mouseleave(function(){
         setTimeout(function(){
           $(id_).addClass('hidden');
+
         },2000)
       });
       $(id_).hover(function(){
         $(id_).removeClass('hidden');
+        $(id_).select();
       });
       $(id_).mouseleave(function(){
         setTimeout(function(){
@@ -330,6 +332,49 @@
         },2000);
       });
 
+    });
+
+    //update action post
+    $("form.post-edit-article").each(function(){
+      var nid_ = $(this).attr('data');
+      $(this).submit(function(){
+        $(".post-"+nid_+' .loading-post-post').show();
+
+        var value_ = $("#edit-post-"+nid_).val();
+        setTimeout(function(){
+          $.post( "/artline/edit/post",{ nid: nid_, value:value_})
+              .done(function(data) {
+                setTimeout(function () {
+                  $(".content-desc-"+nid_+" .field-content").html(data);
+                  $(".content-desc-"+nid_).show();
+                  $("form.post-edit-article").hide();
+                  $(".post-"+nid_+' .loading-post-post').hide();
+                  $(".plugin").pinto({
+                    itemWidth: 415,
+                    gapX: 5,
+                    gapY: 30,
+                  });
+                },2000);
+              })
+              .fail(function() {
+                //alert( "error" );
+              });
+        }, 1000);
+
+        // setTimeout(function () {
+        //     $(".content-desc-"+nid_+" .field-content").html(value_);
+        //     $(".content-desc-"+nid_).show();
+        //     $("form.post-edit-article").hide();
+        //     $(".post-"+nid_+' .loading-post-post').hide();
+        //     $(".plugin").pinto({
+        //         itemWidth: 415,
+        //         gapX: 5,
+        //         gapY: 30,
+        //     });
+        // },2000);
+
+        return false;
+      }) ;
     });
 
 

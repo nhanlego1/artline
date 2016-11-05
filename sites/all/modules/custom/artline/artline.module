@@ -162,6 +162,11 @@ function artline_theme()
         'path' => drupal_get_path('module', 'artline') . '/theme',
         'template' => 'store',
     );
+    $items['admin_dashboard'] = array(
+        'render element' => 'element',
+        'path' => drupal_get_path('module', 'artline') . '/theme',
+        'template' => 'dashboard',
+    );
 
     return $items;
 }
@@ -248,7 +253,7 @@ function artline_article_uploader_post()
         //save node
         $node = new stdClass();
         $node->type = 'article';
-        if (in_array('admin', $user->roles)) {
+        if (in_array('admin', $user->roles) || in_array('administrator', $user->roles)) {
             $node->status = 1;
         } else {
             $node->status = 0;
@@ -257,8 +262,8 @@ function artline_article_uploader_post()
         $node->language = LANGUAGE_NONE;
         $node->uid = $user->uid;
         $node->comment = 1;
-        $node->title = substr($post,0,100);
-        $node->field_description[LANGUAGE_NONE][0]['value'] = $post;
+        $node->title = substr(filter_bad_word($post),0,200);
+        $node->field_description[LANGUAGE_NONE][0]['value'] = filter_bad_word($post);
         $node->domain_site = TRUE;
         if($default_id == $id){
             $node->domains = $all_domain;
@@ -339,7 +344,7 @@ function artline_article_uploader_post()
         //save node
         $node = new stdClass();
         $node->type = 'article';
-        if (in_array('admin', $user->roles)) {
+        if (in_array('admin', $user->roles) || in_array('administrator', $user->roles)) {
             $node->status = 1;
         } else {
             $node->status = 0;
@@ -347,14 +352,14 @@ function artline_article_uploader_post()
         $node->language = LANGUAGE_NONE;
         $node->uid = $user->uid;
         $node->comment = 1;
-        $node->title = substr($post,0,100);
+        $node->title = substr(filter_bad_word($post),0,200);
         $node->domain_site = TRUE;
         if($default_id == $id){
             $node->domains = $all_domain;
         }else{
             $node->domains = array($id => $id);
         }
-        $node->field_description[LANGUAGE_NONE][0]['value'] = $post;
+        $node->field_description[LANGUAGE_NONE][0]['value'] = filter_bad_word($post);
         if ($file) {
             $node->field_video[LANGUAGE_NONE][0] = (array)$file;
         }
@@ -507,6 +512,7 @@ function artline_block_info()
     $blocks['artline_category'] = array('info' => t('Menu category'));
     $blocks['post_block'] = array('info' => t('Post block'));
     $blocks['user_block'] = array('info' => t('User Block'));
+    $blocks['admin_dashboard'] = array('info' => t('Admin dashboard'));
     return $blocks;
 }
 
@@ -516,6 +522,13 @@ function artline_block_info()
 function artline_block_view($delta = '')
 {
     switch ($delta) {
+        case 'admin_dashboard':
+            return array(
+                'subject' => t('Admin dashboard'),
+                'content' => artline_admin_dashboard(),
+            );
+
+            break;
         case 'artline_post':
             return array(
                 'subject' => t('Post article'),
@@ -701,7 +714,7 @@ function artline_post_comment()
     $comment->status = COMMENT_PUBLISHED; // We auto-publish this comment
     $comment->language = LANGUAGE_NONE; // The same as for a node
     $comment->subject = $data['name'] . ' comment';
-    $comment->comment_body[$comment->language][0]['value'] = $data['comment']; // Everything here is pretty much like with a node
+    $comment->comment_body[$comment->language][0]['value'] = filter_bad_word($data['comment']); // Everything here is pretty much like with a node
     $comment->comment_body[$comment->language][0]['format'] = 'plain_text';
     try{
         comment_submit($comment); // saving a comment
@@ -711,8 +724,8 @@ function artline_post_comment()
         $return = 'ko';
     }
 
-    print $return;
-    exit();
+    print filter_bad_word($data['comment']);
+    drupal_exit();
 }
 
 /**
@@ -844,9 +857,9 @@ function artline_check_ip($nid, $db = 'artline_post_view'){
 function artline_edit_post(){
   $data = $_POST;
   $node = node_load($data['nid']);
-  $node->field_description[LANGUAGE_NONE][0]['value'] = $data['value'];
+  $node->field_description[LANGUAGE_NONE][0]['value'] = filter_bad_word($data['value']);
   node_save($node);
-  return 'ok';
+  print filter_bad_word($data['value']);
     drupal_exit();
 }
 
@@ -1022,4 +1035,26 @@ function count_partner_view_user($uid,$nid = null){
         }
     }
     return $count;
+}
+
+/**
+ * Filter bad word
+ */
+function filter_bad_word($text){
+    if(variable_get('filter_word')){
+        $filters = variable_get('filter_word');
+        $filters = explode(',',$filters);
+        foreach($filters as $filter){
+            $text = str_replace($filter,' ***',$text);
+        }
+    }
+    return $text;
+}
+
+/**
+ * admin tdashboard
+ */
+
+function artline_admin_dashboard(){
+    return theme('admin_dashboard');
 }
