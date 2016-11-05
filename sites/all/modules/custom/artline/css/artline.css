@@ -93,7 +93,7 @@
     background: url(../images/close.png) no-repeat center;
     line-height: 24px;
     content: '';
-    font-size: 0px;
+    font-size: 0px!important;
     top: 5px;
     right: 5px;
     z-index: 100;
@@ -682,6 +682,7 @@ ul.store li{
     text-align: center;
     z-index: 9999;
     opacity: 0.2;
+    display: none;
 }
 .loading-post-post img{
     top: 33%;

@@ -64,7 +64,7 @@ if ($account->picture) {
                             <div class="item <?php if ($key == 0) {
                                 print 'active';
                             }; ?>">
-                                <?php print theme('image_style', array('path' => $image['uri'], 'style_name' => 'small')) ?>
+                                <?php print theme('image_style', array('path' => $image['uri'], 'style_name' => 'big')) ?>
                             </div>
                         <?php endforeach; ?>
                     </div>
