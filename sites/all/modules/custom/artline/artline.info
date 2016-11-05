@@ -1,0 +1,8 @@
+name = Artline
+description = Module custom add multiupload libraries.
+core = 7.x
+version = "7.x-0.1"
+project = "artline"
+package = "Artline"
+
+

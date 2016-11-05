@@ -1,0 +1,1025 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: nhan
+ * Date: 10/25/16
+ * Time: 10:14 AM
+ */
+
+/**
+ * Implement hook_menu()
+ */
+function artline_menu()
+{
+    $items = array();
+    $items['article/uploader'] = array(
+        'access arguments' => array('access content'),
+        'page callback' => 'artline_article_uploader',
+        'type' => MENU_CALLBACK
+    );
+
+    $items['uploader/post'] = array(
+        'access arguments' => array('access content'),
+        'page callback' => 'artline_article_uploader_post',
+        'type' => MENU_CALLBACK
+    );
+
+    $items['artline/remove/%'] = array(
+        'access arguments' => array('access content'),
+        'page callback' => 'artline_article_uploader_remove',
+        'page arguments' => array(2),
+        'type' => MENU_CALLBACK
+    );
+
+    $items['artline/like/%/%'] = array(
+        'access arguments' => array('access content'),
+        'page callback' => 'artline_like_article',
+        'page arguments' => array(2, 3),
+        'type' => MENU_CALLBACK
+    );
+    $items['artline/get/like/%'] = array(
+        'access arguments' => array('access content'),
+        'page callback' => 'artline_get_count_like',
+        'page arguments' => array(3),
+        'type' => MENU_CALLBACK
+    );
+
+    $items['artline/post/comment'] = array(
+        'access arguments' => array('access content'),
+        'page callback' => 'artline_post_comment',
+        'type' => MENU_CALLBACK
+    );
+
+    $items['artline/search'] = array(
+        'access arguments' => array('access content'),
+        'page callback' => 'artline_search_gss',
+        'type' => MENU_CALLBACK
+    );
+
+    $items['artline/store/%node/%ctools_js'] = array(
+        'page callback' => 'artline_store_post',
+        'page arguments' => array(2,3),
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    $items['artline/share/%node/%ctools_js'] = array(
+        'page callback' => 'artline_share_post',
+        'page arguments' => array(2,3),
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+
+    $items['artline/share/%node/%ctools_js'] = array(
+        'page callback' => 'artline_share_post',
+        'page arguments' => array(2,3),
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    $items['artline/edit/post'] = array(
+        'page callback' => 'artline_edit_post',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    $items['artline/delete/post'] = array(
+        'page callback' => 'artline_delete_post',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+
+    $items['admin/config/content/artline'] = array(
+        'title' => 'Artline ',
+        'description' => 'Control config for artline.',
+        'page callback'    => 'drupal_get_form',
+        'page arguments'   => array('artline_admin'),
+        'access arguments' => array('administer artline'),
+        'file' => 'artline.admin.inc',
+    );
+    return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function artline_permission() {
+    return array(
+        'administer artline' => array(
+            'title' => t('Administer Artline'),
+            'restrict access' => TRUE,
+        ),
+    );
+}
+/**
+ * Implementation of hook_theme().
+ */
+function artline_theme()
+{
+    $items = array();
+    $items['artline_uploader'] = array(
+        'render element' => 'element',
+        'path' => drupal_get_path('module', 'artline') . '/theme',
+        'template' => 'article-uploader',
+    );
+    $items['artline_post'] = array(
+        'render element' => 'element',
+        'path' => drupal_get_path('module', 'artline') . '/theme',
+        'template' => 'post',
+    );
+    $items['artline_upload_content'] = array(
+        'render element' => 'element',
+        'path' => drupal_get_path('module', 'artline') . '/theme',
+        'template' => 'upload-content',
+    );
+
+    $items['artline_category'] = array(
+        'render element' => 'element',
+        'path' => drupal_get_path('module', 'artline') . '/theme',
+        'template' => 'category-menu',
+    );
+    $items['artline_post_block'] = array(
+        'render element' => 'element',
+        'path' => drupal_get_path('module', 'artline') . '/theme',
+        'template' => 'post-block',
+    );
+
+    $items['artline_comment'] = array(
+        'render element' => 'element',
+        'path' => drupal_get_path('module', 'artline') . '/theme',
+        'template' => 'comment',
+    );
+    $items['comment_artline_page'] = array(
+        'render element' => 'element',
+        'path' => drupal_get_path('module', 'artline') . '/theme',
+        'template' => 'comment-page',
+    );
+
+    $items['user_block'] = array(
+        'render element' => 'element',
+        'path' => drupal_get_path('module', 'artline') . '/theme',
+        'template' => 'user-block',
+    );
+    $items['store_list'] = array(
+        'render element' => 'element',
+        'path' => drupal_get_path('module', 'artline') . '/theme',
+        'template' => 'store',
+    );
+
+    return $items;
+}
+
+/**
+ * Implement hook_init
+ */
+function artline_init()
+{
+    drupal_add_js(drupal_get_path('module', 'artline') . '/js/dropzone.js');
+    drupal_add_css(drupal_get_path('module', 'artline') . '/css/artline.css');
+    ctools_include('modal');
+    ctools_modal_add_js();
+}
+
+/**
+ * Implement add page uploader
+ */
+
+function artline_article_uploader()
+{
+    global $user;
+
+    $files = get_uploaded_user($user->uid);
+    return theme('artline_uploader', array('images' => $files, 'category' => get_category()));
+}
+
+/**
+ * Implement page get uploader content image
+ */
+function artline_article_uploader_post()
+{
+
+    global $user;
+    $domain = domain_get_domain();
+    $id = $domain['domain_id'];
+    $default_id = domain_default_id();
+    $domains = domain_domains();
+    $all_domain = array();
+    foreach($domains as $key => $do){
+        $all_domain[$do['domain_id']] = $do['domain_id'];
+    }
+
+    $storeFolder = DRUPAL_ROOT . '/uploads';   //2
+    if (!empty($_FILES)) {
+        $tempFile = $_FILES['file']['tmp_name'];          //3
+        $targetFile = $storeFolder . '/' . $_FILES['file']['name'];  //5
+        move_uploaded_file($tempFile, $targetFile); //6
+    }
+    //get list files
+    if (isset($_POST['image_upload']) && $_POST['image_upload'] == 1) {
+        if ($handle = opendir($storeFolder)) {
+            $images = array();
+            while (false !== ($entry = readdir($handle))) {
+                if (strpos($entry, '.jpg') !== false || strpos($entry, '.png') !== false || strpos($entry, '.jpeg') !== false || strpos($entry, '.gif') !== false) {
+                    $filepath = drupal_realpath($storeFolder . '/' . $entry);
+                    // Create managed File object and associate with Image field.
+                    $image = file_get_contents($filepath);
+                    // Returns the new file object
+                    $filename = 'artline_' . $entry;
+                    $file = file_save_data($image, 'public://' . $filename, FILE_EXISTS_RENAME);
+                    $images[] = $file;
+                    artline_article_uploader_remove($entry);
+                }
+            }
+
+            closedir($handle);
+        }
+
+        if (isset($_POST['image'])) {
+            foreach ($_POST['image'] as $fid) {
+                $images[] = file_load($fid);
+            }
+        }
+        $post = null;
+        if (isset($_POST['article'])) {
+            $post = $_POST['article'];
+        }
+
+        if (empty($post) && !$images) {
+            drupal_set_message('Không thể đăng bài viết vì bạn chưa nhập nội dung hay chưa upload hình ảnh.', 'error');
+            drupal_goto('<front>');
+        }
+        //save node
+        $node = new stdClass();
+        $node->type = 'article';
+        if (in_array('admin', $user->roles)) {
+            $node->status = 1;
+        } else {
+            $node->status = 0;
+        }
+
+        $node->language = LANGUAGE_NONE;
+        $node->uid = $user->uid;
+        $node->comment = 1;
+        $node->title = substr($post,0,100);
+        $node->field_description[LANGUAGE_NONE][0]['value'] = $post;
+        $node->domain_site = TRUE;
+        if($default_id == $id){
+            $node->domains = $all_domain;
+        }else{
+            $node->domains = array($id => $id);
+        }
+
+        if ($images) {
+            foreach ($images as $image) {
+                $node->field_image[LANGUAGE_NONE][] = (array)$image;
+            }
+        }
+        if (isset($_POST['category'])) {
+            $node->field_category[LANGUAGE_NONE][0]['tid'] = $_POST['category'];
+        }
+        node_save($node);
+        drupal_goto('<front>');
+    }
+    if (isset($_POST['video_upload']) && $_POST['video_upload'] == 1) {
+
+        $post = null;
+        $file = false;
+        if (isset($_POST['article'])) {
+            $post = $_POST['article'];
+        }
+        //check url link
+        if (isset($_POST['video'])) {
+            if (strpos($_POST['video'], 'youtube') !== false) {
+                $youtube = explode('?v=', $_POST['video']);
+                $youtube_id = $youtube[1];
+                $uri_youtube = 'youtube://v/' . $youtube_id;
+
+                $page = file_get_contents($_POST['video']);
+                $doc = new DOMDocument();
+                $doc->loadHTML(mb_convert_encoding($page, 'HTML-ENTITIES', 'UTF-8'));
+                $title_div = $doc->getElementById('eow-title');
+                $title = $title_div->nodeValue;
+                if (check_uri($uri_youtube)) {
+                    $file = check_uri($uri_youtube);
+                } else {
+                    $file = new stdClass();
+                    $file->uid = $user->uid;
+                    $file->filename = $title;
+                    $file->uri = $uri_youtube;
+                    $file->filemine = 'video/youtube';
+                    $file->status = 1;
+                    $file = file_save($file);
+                }
+
+
+            }
+
+            if (strpos($_POST['video'], 'facebook') !== false) {
+                $facebook = explode('videos/', $_POST['video']);
+                $facebook_id = $facebook[1];
+                $facebook_id = str_replace('/', '', $facebook_id);
+                $uri_facebook = 'facebook://v/' . $facebook_id;
+                if (check_uri($uri_facebook)) {
+                    $file = check_uri($uri_facebook);
+                } else {
+                    $file = new stdClass();
+                    $file->uid = $user->uid;
+                    $file->filename = '';
+                    $file->uri = $uri_facebook;
+                    $file->filemine = 'video/facebook';
+                    $file->status = 1;
+                    $file = file_save($file);
+                }
+
+
+            }
+
+        }
+        if (empty($post) && !$file) {
+            drupal_set_message('Không thể đăng bài viết vì bạn chưa nhập nội dung hay chưa upload video.', 'error');
+            drupal_goto('<front>');
+        }
+        //save node
+        $node = new stdClass();
+        $node->type = 'article';
+        if (in_array('admin', $user->roles)) {
+            $node->status = 1;
+        } else {
+            $node->status = 0;
+        }
+        $node->language = LANGUAGE_NONE;
+        $node->uid = $user->uid;
+        $node->comment = 1;
+        $node->title = substr($post,0,100);
+        $node->domain_site = TRUE;
+        if($default_id == $id){
+            $node->domains = $all_domain;
+        }else{
+            $node->domains = array($id => $id);
+        }
+        $node->field_description[LANGUAGE_NONE][0]['value'] = $post;
+        if ($file) {
+            $node->field_video[LANGUAGE_NONE][0] = (array)$file;
+        }
+        if (isset($_POST['category'])) {
+            $node->field_category[LANGUAGE_NONE][0]['tid'] = $_POST['category'];
+        }
+        node_save($node);
+        drupal_goto('<front>');
+
+    }
+
+
+}
+
+/**
+ * implement remove image upload
+ */
+
+function artline_article_uploader_remove($filename)
+{
+    if (file_exists('uploads/' . $filename)) {
+        unlink('uploads/' . $filename);
+    }
+}
+
+/**
+ * get uploaded file by user
+ */
+function get_uploaded_user($uid)
+{
+    $select = db_select('file_managed', 'f');
+    $select->fields('f');
+    $select->condition('uid', $uid);
+    $select->orderBy('filename', 'ASC');
+    $result = $select->execute()->fetchAllAssoc('fid');
+    if ($result) {
+        $files = array();
+        foreach ($result as $key => $file) {
+            $files[$key] = file_load($file->fid);
+        }
+        return $files;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * check uri before save
+ */
+function check_uri($uri)
+{
+    $select = db_select('file_managed', 'f');
+    $select->fields('f');
+    $select->condition('uri', $uri);
+    $select->orderBy('filename', 'ASC');
+    $result = $select->execute()->fetchObject();
+    if ($result) {
+        $file = file_load($result->fid);
+        return $file;
+    } else {
+        return false;
+    }
+
+}
+
+/**
+ * Get category list
+ */
+function get_category()
+{
+    $voca = taxonomy_vocabulary_machine_name_load('category');
+    $terms = taxonomy_get_tree($voca->vid);
+    $data = array();
+    foreach ($terms as $term) {
+        if (taxonomy_get_children($term->tid)) {
+            $data[$term->tid] = $term->name;
+        } else {
+            $data[$term->tid] = '&nbsp;&nbsp; ' . $term->name;
+        }
+    }
+    return $data;
+}
+
+/**
+ * Implement ctools
+ */
+function artline_store_post($node,$ajax)
+{
+    $output = get_store_category($node->field_category[LANGUAGE_NONE][0]['tid']);
+    if ($ajax) {
+        ctools_include('ajax');
+        $commands = array();
+        $commands[] = ctools_modal_command_display('Những store của Artline', $output);
+        print ajax_render($commands);
+        drupal_exit();
+    }
+    else {
+        return $output;
+    }
+}
+
+/**
+ * Implement ctools
+ */
+function artline_share_post($node,$ajax)
+{
+   $output = addtoany_create_node_buttons($node);
+
+    if ($ajax) {
+        ctools_include('ajax');
+        $commands = array();
+        $commands[] = ctools_modal_command_display('Share post', $output);
+        print ajax_render($commands);
+        drupal_exit();
+    }
+    else {
+        return $output;
+    }
+}
+
+/**
+ * get list store by caegory
+ */
+function get_store_category($tid){
+    $query = db_select('field_data_field_category','c');
+    $query->fields('c');
+    $query->condition('field_category_tid',$tid);
+    $query->condition('bundle','store');
+    $result = $query->execute()->fetchAllAssoc('entity_id');
+    if($result){
+        $data = array();
+        foreach($result as $entity){
+            $data[] = node_load($entity->entity_id);
+        }
+        return theme('store_list',array('nodes'=>$data));
+    }else{
+        return false;
+    }
+}
+
+/**
+ * Implementation of hook_block_info().
+ */
+function artline_block_info()
+{
+    $blocks = array();
+    $blocks['artline_post'] = array('info' => t('Post article'));
+    $blocks['artline_post_bottom'] = array('info' => t('Post article bottom'));
+    $blocks['artline_upload_content'] = array('info' => t('Article Content'));
+    $blocks['artline_category'] = array('info' => t('Menu category'));
+    $blocks['post_block'] = array('info' => t('Post block'));
+    $blocks['user_block'] = array('info' => t('User Block'));
+    return $blocks;
+}
+
+/**
+ * Implementation of hook_block_view().
+ */
+function artline_block_view($delta = '')
+{
+    switch ($delta) {
+        case 'artline_post':
+            return array(
+                'subject' => t('Post article'),
+                'content' => artline_article_uploader(),
+            );
+
+            break;
+        case 'user_block':
+            return array(
+                'subject' => t('User Block'),
+                'content' => login_user_block(),
+            );
+
+            break;
+
+        case 'artline_post_bottom':
+
+            return array(
+                'subject' => t('Post article bottom'),
+                'content' => theme('artline_post'),
+            );
+
+            break;
+        case 'post_block':
+
+            return array(
+                'subject' => t('Post block'),
+                'content' => theme('artline_post_block'),
+            );
+
+            break;
+
+        case 'artline_upload_content':
+            global $user;
+            //nice select
+            drupal_add_js(drupal_get_path('module', 'artline') . '/js/jquery.nice-select.js');
+            drupal_add_css(drupal_get_path('module', 'artline') . '/css/nice-select.css');
+            //checkbox library
+            drupal_add_js(drupal_get_path('module', 'artline') . '/lib/icheck/icheck.js');
+            drupal_add_css(drupal_get_path('module', 'artline') . '/lib/icheck/skins/all.css');
+            //dropzone library
+            drupal_add_js(drupal_get_path('module', 'artline') . '/js/prototype.js');
+            drupal_add_css(drupal_get_path('module', 'artline') . '/lib/dropzone/dist/dropzone.css');
+
+
+            drupal_add_js(drupal_get_path('module', 'artline') . '/js/artline.js');
+            $files = get_uploaded_user($user->uid);
+            return array(
+                'subject' => t('Post article bottom'),
+                'content' => theme('artline_upload_content', array('images' => $files, 'category' => get_category())),
+            );
+
+            break;
+        case 'artline_category':
+
+            return array(
+                'subject' => t('Menu category'),
+                'content' => get_category_menu(),
+            );
+
+            break;
+
+    }
+}
+
+/**
+ * Like artice by user
+ */
+function artline_like_article($uid, $nid)
+{
+    $select = db_select('artline_like', 'al');
+    $select->fields('al');
+    $select->condition('uid', $uid);
+    $select->condition('nid', $nid);
+    $result = $select->execute()->fetchObject();
+    if ($result) {
+        return false;
+    } else {
+        db_insert('artline_like')// Table name no longer needs {}
+        ->fields(array(
+            'uid' => $uid,
+            'nid' => $nid,
+            'count' => 1,
+        ))
+            ->execute();
+        return 'oke';
+    }
+    return 'oke';
+}
+
+/**
+ * check user ready like
+ */
+
+function artline_user_liked($uid, $nid)
+{
+    $select = db_select('artline_like', 'al');
+    $select->fields('al');
+    $select->condition('uid', $uid);
+    $select->condition('nid', $nid);
+    $result = $select->execute()->fetchObject();
+    if ($result) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * get count like
+ */
+function artline_count_like($nid)
+{
+    $select = db_select('artline_like', 'al');
+    $select->fields('al');
+    $select->condition('nid', $nid);
+    $result = $select->execute()->fetchAllAssoc('id');
+    $count = 0;
+    if ($result) {
+        foreach ($result as $like) {
+            $count += $like->count;
+        }
+    }
+    return $count;
+}
+
+/**
+ * get count like
+ */
+function artline_get_count_like($nid)
+{
+    $select = db_select('artline_like', 'al');
+    $select->fields('al');
+    $select->condition('nid', $nid);
+    $result = $select->execute()->fetchAllAssoc('id');
+    $count = 0;
+    if ($result) {
+        foreach ($result as $like) {
+            $count += $like->count;
+        }
+    }
+    print $count;
+    exit();
+}
+
+/**
+ * get menu list from category
+ */
+/**
+ * Get category list
+ */
+function get_category_menu()
+{
+    $voca = taxonomy_vocabulary_machine_name_load('category');
+    $terms = taxonomy_get_tree($voca->vid);
+    return theme('artline_category', array('terms' => $terms));
+}
+
+/**
+ * add form for comment
+ */
+function artline_conment_form($nid, $pid = 0)
+{
+    return theme('artline_comment', array('nid' => $nid, 'pid' => $pid));
+}
+
+/**
+ * post comment
+ */
+function artline_post_comment()
+{
+    $data = $_POST;
+    $comment = new stdClass();
+    $comment->nid = $data['nid']; // nid of a node you want to attach a comment to
+    $comment->pid = $data['cid']; // parent comment id, 0 if none
+    $comment->uid = $data['uid']; // user's id, who left the comment
+    //  $comment->mail = 'email@example.com'; // user's email
+    $comment->name = $data['name']; // If user is authenticated you can omit this field, it will be auto-populated, if the user is anonymous and you want to name him somehow, input his name here
+    $comment->thread = '01/'; // OPTIONAL. If you need comments to be threaded you can fill this value. Otherwise omit it.
+    $comment->hostname = ip_address();
+    $comment->created = time(); // OPTIONAL. You can set any time you want here. Useful for backdated comments creation.
+    //   $comment->is_anonymous = 0; // leave it as is
+    $comment->status = COMMENT_PUBLISHED; // We auto-publish this comment
+    $comment->language = LANGUAGE_NONE; // The same as for a node
+    $comment->subject = $data['name'] . ' comment';
+    $comment->comment_body[$comment->language][0]['value'] = $data['comment']; // Everything here is pretty much like with a node
+    $comment->comment_body[$comment->language][0]['format'] = 'plain_text';
+    try{
+        comment_submit($comment); // saving a comment
+        comment_save($comment);
+        $return = 'ok';
+    }catch(Exception $ex){
+        $return = 'ko';
+    }
+
+    print $return;
+    exit();
+}
+
+/**
+ * Get comment by node
+ */
+function artline_get_comment($nid, $cid = 0)
+{
+    if($cid==0){
+        $class='parent';
+    }else{
+        $class='child';
+    }
+    $node = node_load($nid);
+    $query = db_select('comment', 'c');
+    $query->fields('c');
+    $query->condition('nid', $nid);
+    $query->condition('status', 1);
+    if ($cid > 0) {
+        $query->condition('pid', $cid);
+    } else {
+        $query->condition('pid', 0);
+    }
+    $query->orderBy('created', 'ASC');
+    $result = $query->execute()->fetchAllAssoc('cid');
+    $data = array();
+    if ($result) {
+        foreach ($result as $key => $c) {
+            $data[$key] = comment_load($key);
+        }
+        return theme('comment_artline_page', array('comments' => $data,'class'=>$class, 'nid'=>$nid));
+    } else {
+        return false;
+    }
+}
+
+/**
+ * login user block
+ */
+function login_user_block(){
+    global $user;
+    return theme('user_block',array('user'=>$user));
+}
+
+/**
+ * search page
+ */
+function artline_search_gss(){
+ if(!empty($_POST['keyword'])){
+     drupal_goto('search/gss/'.$_POST['keyword']);
+ }else{
+     drupal_goto('<front>');
+ }
+}
+
+/**
+ * get location
+ */
+function get_location()
+{
+    $voca = taxonomy_vocabulary_machine_name_load('location');
+    $terms = taxonomy_get_tree($voca->vid);
+    $data = array();
+    foreach ($terms as $term) {
+       $data[$term->tid] = $term->name;
+    }
+    return $data;
+}
+
+/**
+ * Implement hook_node_view
+ */
+function artline_node_view($node){
+    if($node->type=='article'){
+        if(artline_check_ip($node->nid)){
+            db_insert('artline_post_view') // Table name no longer needs {}
+            ->fields(array(
+                'uid' => $node->uid,
+                'nid' => $node->nid,
+                'count' => 1,
+                'created' => REQUEST_TIME,
+                'ip'=> ip_address()
+            ))
+                ->execute();
+        }
+        $account = user_load($node->uid);
+        if(in_array('partner',$account->roles) || in_array('store',$account->roles)){
+
+            if(artline_check_ip($node->nid, 'artline_tracking_referral')){
+                db_insert('artline_tracking_referral') // Table name no longer needs {}
+                ->fields(array(
+                    'uid' => $node->uid,
+                    'nid' => $node->nid,
+                    'count' => 1,
+                    'created' => REQUEST_TIME,
+                    'ip'=> ip_address()
+                ))
+                    ->execute();
+            }
+        }
+    }
+}
+
+/**
+ * check before allow track again
+ */
+function artline_check_ip($nid, $db = 'artline_post_view'){
+    $ip = ip_address();
+    $current = REQUEST_TIME;
+    $query = db_select($db,'pv');
+    $query->fields('pv');
+    $query->condition('ip',$ip);
+    $query->condition('nid',$nid);
+    $query->orderBy('created','desc');
+    $result = $query->execute()->fetchObject();
+    if($result){
+        if($current - $result->created > (variable_get('timeline_view',1) * 60)){
+            return true;
+        }else{
+            return false;
+        }
+    }else{
+        return true;
+    }
+}
+
+/**
+ * edit post by user
+ */
+function artline_edit_post(){
+  $data = $_POST;
+  $node = node_load($data['nid']);
+  $node->field_description[LANGUAGE_NONE][0]['value'] = $data['value'];
+  node_save($node);
+  return 'ok';
+    drupal_exit();
+}
+
+/**
+ * Implement hook_form
+ * Form change table
+ */
+function artline_edit_form($form, &$form_state){
+    $node = $form_state['node'];
+    $form['article'] = array(
+        '#type' => 'textarea',
+        '#default_value' => $node->field_description[LANGUAGE_NONE][0]['value'],
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' =>'Cập nhật'
+    );
+    return $form;
+}
+/**
+ * Implement hook_form_submit
+ * Form change table
+ */
+function artline_edit_form_submit($form, &$form_state){
+    $node = $form_state['node'];
+    $node->field_description[LANGUAGE_NONE][0]['value'];
+    node_save($node);
+    // Tell the browser to close the modal.
+    $form_state['ajax_commands'][] = ctools_ajax_command_reload();
+    $form_state['ajax_commands'][] = ctools_modal_command_dismiss();
+}
+
+/**
+ * edit post by user
+ */
+function artline_delete_post(){
+    $data = $_POST;
+    $node = node_load($data['nid']);
+    node_delete($node->nid);
+    return 'ok';
+    drupal_exit();
+}
+
+/**
+ * Implement hook_form
+ * Form change table
+ */
+function artline_delete_form($form, &$form_state){
+    $node = $form_state['node'];
+    $form['markup'] = array(
+        '#markup' => '<p>Bạn có muốn xoá bài viết này không?</p>',
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' =>'Delete'
+    );
+    return $form;
+}
+/**
+ * Implement hook_form_submit
+ * Form change table
+ */
+function artline_delete_form_submit($form, &$form_state){
+    $node = $form_state['node'];
+    node_delete($node->nid);
+    // Tell the browser to close the modal.
+    $form_state['ajax_commands'][] = ctools_ajax_command_reload();
+    $form_state['ajax_commands'][] = ctools_modal_command_dismiss();
+}
+
+/**
+ * Get avartar user
+ */
+function artline_get_avatar(){
+    global $user;
+    $output = '';
+    if($user->uid > 0){
+        $account = user_load($user->uid);
+
+        if($account->picture){
+            $output .= '<span>'.theme('image_style',array('path'=>$account->picture->uri,'style_name'=>'avatar')).'</span>';
+        }else{
+            $output .= '<span><img src="'. base_path().drupal_get_path("theme","phucma").'/images/default-avatar.png"></span>';
+        }
+        $output .='<div class="user-wrapper"><span class="user-info">'.l('Hi '.$account->field_full_name[LANGUAGE_NONE][0]['value'],'user/'.$user->uid.'/edit').'</span>';
+        $output .='<span class="user-logout">'.l('Đăng xuất','user/logout').'</span></div>';
+    }else{
+        $output .= '<span><img src="'. base_path().drupal_get_path("theme","phucma").'/images/default-avatar.png"></span>';
+        $output .='<div class="user-wrapper"><span class="user-logout">'.l('Đăng ký','user/register').'</span>';
+        $output .='<span class="user-logout">'.l('Đăng xuất','user/logout').'</span></div>';
+    }
+
+
+    return $output;
+}
+
+/**
+ * Report by user
+ * count post
+ */
+function count_post_user($uid){
+    $count = 0;
+    $query = db_select('node','n');
+    $query->fields('n');
+    $query->condition('type','article');
+    $query->condition('status',1);
+    $query->condition('uid',$uid);
+    $result = $query->execute()->fetchAllAssoc('nid');
+    $count = count($result);
+    return $count;
+}
+
+/**
+ * Report by user
+ * count post
+ */
+function count_like_user($uid = null, $nid = null){
+    $count = 0;
+    $query = db_select('artline_like','al');
+    $query->fields('al');
+    if($nid){
+        $query->condition('nid',$nid);
+    }
+    if($uid){
+        $query->condition('uid',$uid);
+    }
+    $result = $query->execute()->fetchAllAssoc('id');
+    if($result){
+        foreach($result as $re){
+            $count += $re->count;
+        }
+    }
+    return $count;
+}
+
+/**
+ * Report user
+ * count partner view
+ */
+function count_post_view_user($uid,$nid = null){
+    $count = 0;
+    $query = db_select('artline_post_view','al');
+    $query->fields('al');
+    $query->condition('uid',$uid);
+    if($nid){
+        $query->condition('nid',$nid);
+    }
+    $result = $query->execute()->fetchAllAssoc('id');
+    if($result){
+        foreach($result as $re){
+            $count += $re->count;
+        }
+    }
+    return $count;
+}
+
+/**
+ * Report user
+ * count partner view
+ */
+function count_partner_view_user($uid,$nid = null){
+    $count = 0;
+    $query = db_select('artline_tracking_referral','al');
+    $query->fields('al');
+    $query->condition('uid',$uid);
+    if($nid){
+        $query->condition('nid',$nid);
+    }
+    $result = $query->execute()->fetchAllAssoc('id');
+    if($result){
+        foreach($result as $re){
+            $count += $re->count;
+        }
+    }
+    return $count;
+}
