@@ -141,8 +141,8 @@ if ($account->picture) {
         </div>
         <div class="share-item"
              id="share-button-<?php print $node->nid ?>">
-            <?php print $fields['addtoany_link']->content; ?>
-            <?php //print addtoany_create_node_buttons($node); ?>
+            <?php //print $fields['addtoany_link']->content; ?>
+            <?php print addtoany_create_node_buttons($node); ?>
         </div>
         <div class="article-comment post-comment-<?php print $node->nid ?>">
             <?php print artline_conment_form($node->nid, $pid = 0) ?>
