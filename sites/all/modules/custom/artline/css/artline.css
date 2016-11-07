@@ -807,5 +807,8 @@ ul.store li{
     .post-form-article textarea{
         height: 100px!important;
     }
+    .video-article iframe {
+        width: 100%!important;
+    }
 }
 
