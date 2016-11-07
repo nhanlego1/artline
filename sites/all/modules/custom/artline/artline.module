@@ -944,7 +944,7 @@ function artline_get_avatar(){
         }else{
             $output .= '<span><img src="'. base_path().drupal_get_path("theme","phucma").'/images/default-avatar.png"></span>';
         }
-        $output .='<div class="user-wrapper"><span class="user-info">'.l('Hi '.$account->field_full_name[LANGUAGE_NONE][0]['value'],'user/'.$user->uid.'/edit').'</span>';
+        $output .='<div class="user-wrapper"><span class="user-info">'.l('Hi '.$account->name,'user/'.$user->uid.'/edit').'</span>';
         $output .='<span class="user-logout">'.l('Đăng xuất','user/logout').'</span></div>';
     }else{
         $output .= '<span><img src="'. base_path().drupal_get_path("theme","phucma").'/images/default-avatar.png"></span>';
