@@ -725,7 +725,9 @@ ul.store li{
 .logo-chungnhan{
     margin-bottom: 10px;
 }
-
+#user-register-form .description{
+    display: none!important;
+}
 @media only screen and (min-width: 1200px){
     .navbar-default > .container-fluid .navbar-brand {
         font-size: 30px!important;
