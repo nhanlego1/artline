@@ -728,6 +728,9 @@ ul.store li{
 #user-register-form .description{
     display: none!important;
 }
+ul.pager-show-more{
+    display: none;
+}
 @media only screen and (min-width: 1200px){
     .navbar-default > .container-fluid .navbar-brand {
         font-size: 30px!important;

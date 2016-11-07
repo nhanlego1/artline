@@ -3,12 +3,6 @@
     Drupal.behaviors.initArtline = {
         attach: function (context, settings) {
 
-           // plugin pinto
-            $(".plugin").pinto({
-                itemWidth: 415,
-                gapX: 5,
-                gapY: 30,
-            });
             // end plugin pinto
 
             var hooks = $('.hooks');

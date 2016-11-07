@@ -427,22 +427,23 @@
                            });
                    }, 1000);
 
-                   // setTimeout(function () {
-                   //     $(".content-desc-"+nid_+" .field-content").html(value_);
-                   //     $(".content-desc-"+nid_).show();
-                   //     $("form.post-edit-article").hide();
-                   //     $(".post-"+nid_+' .loading-post-post').hide();
-                   //     $(".plugin").pinto({
-                   //         itemWidth: 415,
-                   //         gapX: 5,
-                   //         gapY: 30,
-                   //     });
-                   // },2000);
 
                   return false;
                }) ;
             });
         }
     };
+
+    Drupal.behaviors.ArtlineLoadmorePager= {
+        attach: function (context, settings) {
+            $(window).scroll(function() {
+                if( $(window).scrollTop() > $("footer .container").offset().top - 700 ) {
+                    $("ul.pager-show-more li.pager-show-more-next a").click();
+                }
+            });
+        }
+    };
+
+
 })(jQuery);
 

@@ -55,7 +55,7 @@ if ($account->picture) {
                             <li data-target="#<?php print $node->nid; ?>" data-slide-to="<?php print $key ?>"
                                 class="<?php if ($key == 0) {
                                     print 'active';
-                                }; ?>"><?php print theme('image_style', array('path' => $image['uri'], 'style_name' => 'big')) ?></li>
+                                }; ?>"><?php print theme('image_style', array('path' => $image['uri'], 'style_name' => 'small')) ?></li>
                         <?php endforeach; ?>
                     </ol>
 
@@ -140,7 +140,10 @@ if ($account->picture) {
                href="<?php print url('artline/store/' . $node->nid . '/nojs') ?>" style="display: none;">Mua hàng</a>
         </div>
         <div class="share-item"
-             id="share-button-<?php print $node->nid ?>"><?php print addtoany_create_node_buttons($node); ?></div>
+             id="share-button-<?php print $node->nid ?>">
+            <?php print $fields['addtoany_link']->content; ?>
+            <?php //print addtoany_create_node_buttons($node); ?>
+        </div>
         <div class="article-comment post-comment-<?php print $node->nid ?>">
             <?php print artline_conment_form($node->nid, $pid = 0) ?>
         </div>
