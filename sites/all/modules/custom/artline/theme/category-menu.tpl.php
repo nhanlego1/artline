@@ -10,6 +10,7 @@ $class_child = '';
 global $user;
 ?>
 <ul class="list-item">
+    <li class="<?php if(drupal_is_front_page()):?> active <?php endif; ?>" ><a href="<?php print url('<front>') ?>">Trang chủ</a></li>
     <?php foreach ($terms as $term): ?>
     <?php
     if ($_GET['q'] == 'taxonomy/term/' . $term->tid) {
@@ -18,7 +19,7 @@ global $user;
         $class = '';
     }
     ?>
-    <li class="<?php if(drupal_is_front_page()):?> active <?php endif; ?>" ><a href="<?php print url('<front>') ?>">Trang chủ</a></li>
+
     <?php if (!taxonomy_get_parents($term->tid)): ?>
     <li class="<?php print $class ?>"><a
             href="<?php print url('taxonomy/term/' . $term->tid) ?>"><?php print $term->name ?></a>
