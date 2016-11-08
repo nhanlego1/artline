@@ -17,7 +17,10 @@ if ($account->picture) {
 
 ?>
 
-<div class="col-md-6 col-xs-12 product node-detail post-<?php print $node->nid ?>">
+<div class="col-md-6 col-xs-12 product node-detail node-overview post-<?php print $node->nid ?>">
+    <div class="close-node"><img
+            src="<?php print base_path() . drupal_get_path('module', 'artline ') ?>/images/close-node.png"
+            width="30" height="auto"/></div>
     <div class="loading-post-post">
         <img
             src="<?php print base_path() . drupal_get_path('module', 'artline ') ?>/images/loading.gif"
@@ -38,7 +41,7 @@ if ($account->picture) {
                     src="<?php print base_path() . drupal_get_path('theme', 'artline') ?>/images/ic.png"
                     class="icon-link"></span>
             <input type="text" class="share-link hidden" id="share-link-<?php print $node->nid ?>"
-                   value="<?php print url('node/' . $node->nid, array('absolute' => true)) ?>"/>
+                   value="<?php print artline_share_url_encode($node->nid) ?>"/>
         </div>
         <?php if (isset($node->field_category[LANGUAGE_NONE])): ?>
             <div class="category-article">
@@ -139,12 +142,23 @@ if ($account->picture) {
             <a class="store-<?php print $node->nid ?> ctools-use-modal"
                href="<?php print url('artline/store/' . $node->nid . '/nojs') ?>" style="display: none;">Mua hàng</a>
         </div>
-        <div class="share-item" id="share-button-<?php print $node->nid ?>">
-            <?php if ($content['links']): ?>
-                <?php print render($content['links']); ?>
-            <?php else: ?>
-                <?php print addtoany_create_node_buttons($node); ?>
-            <?php endif; ?>
+        <div class="share-item"
+             id="share-button-<?php print $node->nid ?>">
+            <span class="a2a_kit a2a_kit_size_40 a2a_target addtoany_list" id="" style="line-height: 30px;">
+      <a class="a2a_button_facebook" onClick="return popup(this, 'notes')"
+         href="http://www.addtoany.com/add_to/facebook?linkurl=<?php print url('node/'.$node->nid,array('absolute'=>true)) ?>&amp;linkname=<?php print strip_tags(render($content['field_description'])) ?>&amp;linknote="
+         rel="nofollow"><span class="a2a_svg a2a_s__default a2a_s_facebook"
+                              style="width: 30px; line-height: 30px; height: 30px; background-size: 30px; border-radius: 6px;"></span></a>
+<a class="a2a_button_twitter" onClick="return popup(this, 'notes')" href="http://www.addtoany.com/add_to/twitter?linkurl=<?php print url('node/'.$node->nid,array('absolute'=>true)) ?>&amp;linkname=<?php print strip_tags(render($content['field_description'])) ?>&amp;linknote=" rel="nofollow"><span
+        class="a2a_svg a2a_s__default a2a_s_twitter"
+        style="width: 30px; line-height: 30px; height: 30px; background-size: 30px; border-radius: 6px;"></span></a>
+<a class="a2a_button_google_plus" onClick="return popup(this, 'notes')"
+   href="http://www.addtoany.com/add_to/google_plus?linkurl=<?php print url('node/'.$node->nid,array('absolute'=>true)) ?>&amp;linkname=<?php print strip_tags(render($content['field_description'])) ?>&amp;linknote="
+   rel="nofollow"><span class="a2a_svg a2a_s__default a2a_s_google_plus"
+                        style="width: 30px; line-height: 30px; height: 30px; background-size: 30px; border-radius: 6px;"></span></a>
+    </span>
+            <?php //print $fields['addtoany_link']->content; ?>
+            <?php //print addtoany_create_node_buttons($node); ?>
         </div>
         <div class="article-comment post-comment-<?php print $node->nid ?>">
             <?php print artline_conment_form($node->nid, $pid = 0) ?>
@@ -152,4 +166,14 @@ if ($account->picture) {
 
     </div>
 </div>
+<script TYPE="text/javascript">
+    function popup(mylink, windowname) {
+        if (! window.focus)return true;
+        var href;
+        if (typeof(mylink) == 'string') href=mylink;
+        else href=mylink.href;
+        window.open(href, windowname, 'width=600,height=400,scrollbars=yes');
+        return false;
+    }
+</script>
 <?php //print views_embed_view('list_article','block_1',$node->field_category[LANGUAGE_NONE][0]['tid']) ?>

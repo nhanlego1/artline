@@ -78,11 +78,7 @@
                 });
             });
 
-            $(".plugin").pinto({
-                itemWidth: 415,
-                gapX: 5,
-                gapY: 30,
-            });
+
             $(".reply-comment-child span.reply-form").hide();
             $(".comment-item").each(function(){
                 $(this).mouseover(function(){
@@ -430,10 +426,33 @@
 
     Drupal.behaviors.ArtlineLoadmorePager= {
         attach: function (context, settings) {
+
+            $(".plugin").pinto({
+                itemWidth: 415,
+                gapX: 5,
+                gapY: 30,
+            });
+
             $(window).scroll(function() {
-                if( $(window).scrollTop() > $("footer .container").offset().top - 700 ) {
-                    $("ul.pager-show-more li.pager-show-more-next a").click();
+                if( $(window).scrollTop() > $("footer .container").offset().top - 800 ) {
+                    $(".loading-view").show()
+                    setTimeout(function(){
+                        $("ul.pager-show-more li.pager-show-more-next a").click();
+                        $(".loading-view").hide();
+                        // $(".plugin").pinto({
+                        //     itemWidth: 415,
+                        //     gapX: 5,
+                        //     gapY: 30,
+                        // });
+                    },2000);
+
                 }
+            });
+            $(".comment-login a").each(function(){
+                $(this).click(function(event){
+                    event.preventDefault();
+                    $("a.inline.cboxElement").click();
+                })
             });
         }
     };

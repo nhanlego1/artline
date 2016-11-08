@@ -31,17 +31,20 @@ if($account->picture){
         <input type="hidden"  name="user_comment" class="user-comment" value="<?php print $user->uid ?>">
         <input type="hidden"  name="user_comment_avatar" class="user-comment-avatar" value="<?php print $avatar ?>">
 
-        <?php if ($user->uid <= 0): ?>
-            <input type="text"  name="name_comment" class="name-comment" placeholder="Họ và tên">
-        <?php else: ?>
+        <?php if ($user->uid > 0): ?>
+
+
             <input type="hidden"  name="name_comment" class="name-comment"
                    value="<?php print isset($account->field_full_name[LANGUAGE_NONE]) ? $account->field_full_name[LANGUAGE_NONE][0]['value'] : $user->name ?>">
-        <?php endif; ?>
+
 
         <div class="comment-box">
             <textarea cols="40" rows="2" name="comment_comment"  class="comment-comment" placeholder="Viết bình luận"></textarea>
             <input type="submit" name="submit_comment" class="submit-comment" value="Đăng">
         </div>
+        <?php else: ?>
+        <p class="comment-login"> <a href="#">Viết bình luận</a></p>
+        <?php endif; ?>
 
     </form>
 </div>

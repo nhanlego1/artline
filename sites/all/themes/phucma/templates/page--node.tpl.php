@@ -85,6 +85,29 @@
  * @see html.tpl.php
  */
 ?>
+<!--<div class="node-loading">-->
+<!--    <div id="main-wrapper" class="clearfix">-->
+<!--        <div id="main" class="clearfix">-->
+<!---->
+<!--            <div id="content">-->
+<!--                <div class="container">-->
+<!--                    <div class="row change">-->
+<!--                        <div class="col-md-12">-->
+<!--                            <div class="main">-->
+<!--                                <div class="wrap-main">-->
+<!--                                    <div class="row">-->
+<!---->
+<!--                                    </div>-->
+<!---->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 <div id="wrapper">
     <div id="page">
 
@@ -104,10 +127,12 @@
                         </button>
                         <span class="hide-menu"><i class="fa fa-bars" aria-hidden="true"></i></span>
                         <?php if ($logo): ?>
-                            <a class="navbar-brand" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>"
+                            <a class="navbar-brand" href="<?php print $front_page; ?>"
+                               title="<?php print t('Home'); ?>"
                                rel="home"
                                id="logo">Artline.vn
-                                <!--                                <img src="--><?php //print $logo; ?><!--" alt="-->
+                                <!--                                <img src="-->
+                                <?php //print $logo; ?><!--" alt="-->
                                 <?php //print t('Home'); ?><!--"/>-->
                             </a>
                         <?php endif; ?>
@@ -123,7 +148,8 @@
                                             print ' class="element-invisible"';
                                         } ?>>
                                             <strong>
-                                                <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>"
+                                                <a href="<?php print $front_page; ?>"
+                                                   title="<?php print t('Home'); ?>"
                                                    rel="home"><span><?php print $site_name; ?></span></a>
                                             </strong>
                                         </div>
@@ -151,11 +177,13 @@
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <form class="navbar-form navbar-left" name="search_google" action="/artline/search" method="post">
+                        <form class="navbar-form navbar-left" name="search_google" action="/artline/search"
+                              method="post">
                             <div class="form-group">
                                 <input type="text" class="form-control" name="keyword" placeholder="Search">
                             </div>
-                            <button type="submit" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            <button type="submit" class="btn btn-default"><i class="fa fa-search"
+                                                                             aria-hidden="true"></i></button>
                         </form>
                         <?php print render($page['header']); ?>
                     </div><!-- /.navbar-collapse -->
@@ -203,8 +231,8 @@
                                 <div class="main">
                                     <div class="wrap-main">
                                         <div class="row plugin">
-                                                <?php print render($page['content']); ?>
-                                            </div>
+                                            <?php print render($page['content']); ?>
+                                        </div>
 
                                     </div>
                                 </div>
@@ -221,7 +249,6 @@
                         </div>
                     <?php endif; ?>
                 </div>
-
 
 
             </div>
@@ -241,23 +268,7 @@
             <div class="container">
                 <div class="row change">
                     <?php print render($page['footer']); ?>
-                    <div class="col-md-4">
-                        <div class="social-icon">
-                            <a href="<?php print variable_get('facebook_link'); ?>" title="facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                            <a href="<?php print variable_get('youtube_link'); ?>" title="youtube"><i class="fa fa-youtube" aria-hidden="true"></i></a><br />
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="info">
-                            <h4><?php print variable_get('company_name'); ?></h4>
-                            <p class="address"><?php print variable_get('address'); ?><br />
-                                ĐT: <?php print variable_get('phone'); ?> - Fax: <?php print variable_get('fax'); ?><br />
-                                Hotline: <?php print variable_get('hotline'); ?><br />
-                                <?php print variable_get('email_company'); ?>
-                            </p>
-                            <p class="copyright">2016 © Artline All rights reserved.</p>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </footer><!-- end footer --> <!-- /.section, /#footer-wrapper -->

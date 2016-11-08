@@ -36,9 +36,11 @@ if ($account->picture) {
             <span class="share-link-button" data="<?php print $node->nid ?>"><img
                     src="<?php print base_path() . drupal_get_path('theme', 'artline') ?>/images/ic.png"
                     class="icon-link"></span>
-            <input type="text" class="share-link hidden" id="share-link-<?php print $node->nid ?>" value="<?php print url('node/' . $node->nid, array('absolute' => true)) ?>"/>
-<!--            <div class="share-link hidden"-->
-<!--                 id="share-link---><?php //print $node->nid ?><!--">--><?php //print url('node/' . $node->nid, array('absolute' => true)) ?><!--</div>-->
+            <input type="text" class="share-link hidden" id="share-link-<?php print $node->nid ?>"
+                   value="<?php print artline_share_url_encode($node->nid) ?>"/>
+            <!--            <div class="share-link hidden"-->
+            <!--                 id="share-link---><?php //print $node->nid ?><!--">-->
+            <?php //print url('node/' . $node->nid, array('absolute' => true)) ?><!--</div>-->
         </div>
 
         <?php if (isset($node->field_category[LANGUAGE_NONE])): ?>
@@ -103,7 +105,8 @@ if ($account->picture) {
                 <div
                     class="content-desc content-desc-<?php print $node->nid ?>"><?php print $fields['field_description']->content; ?>
                 </div>
-                <form data="<?php print $node->nid ?>" class="post-edit-article" name="post_edit_<?php print $node->nid ?>" id="post-edit-<?php print $node->nid ?>">
+                <form data="<?php print $node->nid ?>" class="post-edit-article"
+                      name="post_edit_<?php print $node->nid ?>" id="post-edit-<?php print $node->nid ?>">
                     <textarea name="post_<?php print $node->nid ?>" id="edit-post-<?php print $node->nid ?>" cols="40"
                               rows="2"
                               style="padding: 5px"><?php print strip_tags($fields['field_description']->content); ?></textarea>
@@ -141,8 +144,24 @@ if ($account->picture) {
         </div>
         <div class="share-item"
              id="share-button-<?php print $node->nid ?>">
+            <span class="a2a_kit a2a_kit_size_40 a2a_target addtoany_list" id="" style="line-height: 30px;">
+      <a class="a2a_button_facebook" onClick="return popup(this, 'notes')"
+         href="http://www.addtoany.com/add_to/facebook?linkurl=<?php print url('node/'.$node->nid,array('absolute'=>true)) ?>&amp;linkname=<?php print strip_tags($fields['field_description']->content) ?>&amp;linknote="
+         rel="nofollow"><span class="a2a_svg a2a_s__default a2a_s_facebook"
+                              style="width: 30px; line-height: 30px; height: 30px; background-size: 30px; border-radius: 6px;"></span></a>
+<a class="a2a_button_twitter" onClick="return popup(this, 'notes')" href="http://www.addtoany.com/add_to/twitter?linkurl=<?php print url('node/'.$node->nid,array('absolute'=>true)) ?>&amp;linkname=<?php print strip_tags($fields['field_description']->content) ?>&amp;linknote=" rel="nofollow"><span
+        class="a2a_svg a2a_s__default a2a_s_twitter"
+        style="width: 30px; line-height: 30px; height: 30px; background-size: 30px; border-radius: 6px;"></span></a>
+<a class="a2a_button_google_plus" onClick="return popup(this, 'notes')"
+   href="http://www.addtoany.com/add_to/google_plus?linkurl=<?php print url('node/'.$node->nid,array('absolute'=>true)) ?>&amp;linkname=<?php print strip_tags($fields['field_description']->content) ?>&amp;linknote="
+   rel="nofollow"><span class="a2a_svg a2a_s__default a2a_s_google_plus"
+                        style="width: 30px; line-height: 30px; height: 30px; background-size: 30px; border-radius: 6px;"></span></a>
+
+
+
+    </span>
             <?php //print $fields['addtoany_link']->content; ?>
-            <?php print addtoany_create_node_buttons($node); ?>
+            <?php //print addtoany_create_node_buttons($node); ?>
         </div>
         <div class="article-comment post-comment-<?php print $node->nid ?>">
             <?php print artline_conment_form($node->nid, $pid = 0) ?>
@@ -151,4 +170,14 @@ if ($account->picture) {
     </div>
 </div>
 
+<script TYPE="text/javascript">
+    function popup(mylink, windowname) {
+        if (! window.focus)return true;
+        var href;
+        if (typeof(mylink) == 'string') href=mylink;
+        else href=mylink.href;
+        window.open(href, windowname, 'width=600,height=400,scrollbars=yes');
+        return false;
+    }
+</script>
 

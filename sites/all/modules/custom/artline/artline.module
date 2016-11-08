@@ -18,6 +18,13 @@ function artline_menu()
         'type' => MENU_CALLBACK
     );
 
+    $items['article/link/%'] = array(
+        'access arguments' => array('access content'),
+        'page callback' => 'artline_article_shared',
+        'page arguments' => array(2),
+        'type' => MENU_CALLBACK
+    );
+
     $items['uploader/post'] = array(
         'access arguments' => array('access content'),
         'page callback' => 'artline_article_uploader_post',
@@ -58,20 +65,20 @@ function artline_menu()
 
     $items['artline/store/%node/%ctools_js'] = array(
         'page callback' => 'artline_store_post',
-        'page arguments' => array(2,3),
+        'page arguments' => array(2, 3),
         'access callback' => TRUE,
         'type' => MENU_CALLBACK,
     );
     $items['artline/share/%node/%ctools_js'] = array(
         'page callback' => 'artline_share_post',
-        'page arguments' => array(2,3),
+        'page arguments' => array(2, 3),
         'access callback' => TRUE,
         'type' => MENU_CALLBACK,
     );
 
     $items['artline/share/%node/%ctools_js'] = array(
         'page callback' => 'artline_share_post',
-        'page arguments' => array(2,3),
+        'page arguments' => array(2, 3),
         'access callback' => TRUE,
         'type' => MENU_CALLBACK,
     );
@@ -89,8 +96,8 @@ function artline_menu()
     $items['admin/config/content/artline'] = array(
         'title' => 'Artline ',
         'description' => 'Control config for artline.',
-        'page callback'    => 'drupal_get_form',
-        'page arguments'   => array('artline_admin'),
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('artline_admin'),
         'access arguments' => array('administer artline'),
         'file' => 'artline.admin.inc',
     );
@@ -100,7 +107,8 @@ function artline_menu()
 /**
  * Implements hook_permission().
  */
-function artline_permission() {
+function artline_permission()
+{
     return array(
         'administer artline' => array(
             'title' => t('Administer Artline'),
@@ -108,6 +116,7 @@ function artline_permission() {
         ),
     );
 }
+
 /**
  * Implementation of hook_theme().
  */
@@ -167,6 +176,11 @@ function artline_theme()
         'path' => drupal_get_path('module', 'artline') . '/theme',
         'template' => 'dashboard',
     );
+    $items['artline_footer'] = array(
+        'render element' => 'element',
+        'path' => drupal_get_path('module', 'artline') . '/theme',
+        'template' => 'footer',
+    );
 
     return $items;
 }
@@ -180,6 +194,8 @@ function artline_init()
     drupal_add_css(drupal_get_path('module', 'artline') . '/css/artline.css');
     ctools_include('modal');
     ctools_modal_add_js();
+    drupal_add_js(drupal_get_path('module','artline').'/js/chosen.jquery.js');
+    drupal_add_js(drupal_get_path('module','artline').'/css/chosen.css');
 }
 
 /**
@@ -206,7 +222,7 @@ function artline_article_uploader_post()
     $default_id = domain_default_id();
     $domains = domain_domains();
     $all_domain = array();
-    foreach($domains as $key => $do){
+    foreach ($domains as $key => $do) {
         $all_domain[$do['domain_id']] = $do['domain_id'];
     }
 
@@ -262,12 +278,12 @@ function artline_article_uploader_post()
         $node->language = LANGUAGE_NONE;
         $node->uid = $user->uid;
         $node->comment = 1;
-        $node->title = substr(filter_bad_word($post),0,200);
+        $node->title = substr(filter_bad_word($post), 0, 50);
         $node->field_description[LANGUAGE_NONE][0]['value'] = filter_bad_word($post);
         $node->domain_site = TRUE;
-        if($default_id == $id){
+        if ($default_id == $id) {
             $node->domains = $all_domain;
-        }else{
+        } else {
             $node->domains = array($id => $id);
         }
 
@@ -352,11 +368,11 @@ function artline_article_uploader_post()
         $node->language = LANGUAGE_NONE;
         $node->uid = $user->uid;
         $node->comment = 1;
-        $node->title = substr(filter_bad_word($post),0,200);
+        $node->title = substr(filter_bad_word($post), 0, 50);
         $node->domain_site = TRUE;
-        if($default_id == $id){
+        if ($default_id == $id) {
             $node->domains = $all_domain;
-        }else{
+        } else {
             $node->domains = array($id => $id);
         }
         $node->field_description[LANGUAGE_NONE][0]['value'] = filter_bad_word($post);
@@ -446,7 +462,7 @@ function get_category()
 /**
  * Implement ctools
  */
-function artline_store_post($node,$ajax)
+function artline_store_post($node, $ajax)
 {
     $output = get_store_category($node->field_category[LANGUAGE_NONE][0]['tid']);
     if ($ajax) {
@@ -455,8 +471,7 @@ function artline_store_post($node,$ajax)
         $commands[] = ctools_modal_command_display('Những store của Artline', $output);
         print ajax_render($commands);
         drupal_exit();
-    }
-    else {
+    } else {
         return $output;
     }
 }
@@ -464,9 +479,9 @@ function artline_store_post($node,$ajax)
 /**
  * Implement ctools
  */
-function artline_share_post($node,$ajax)
+function artline_share_post($node, $ajax)
 {
-   $output = addtoany_create_node_buttons($node);
+    $output = addtoany_create_node_buttons($node);
 
     if ($ajax) {
         ctools_include('ajax');
@@ -474,8 +489,7 @@ function artline_share_post($node,$ajax)
         $commands[] = ctools_modal_command_display('Share post', $output);
         print ajax_render($commands);
         drupal_exit();
-    }
-    else {
+    } else {
         return $output;
     }
 }
@@ -483,21 +497,67 @@ function artline_share_post($node,$ajax)
 /**
  * get list store by caegory
  */
-function get_store_category($tid){
-    $query = db_select('field_data_field_category','c');
-    $query->fields('c');
-    $query->condition('field_category_tid',$tid);
-    $query->condition('bundle','store');
-    $result = $query->execute()->fetchAllAssoc('entity_id');
-    if($result){
+function get_store_category($tid)
+{
+    $query = db_select('node', 'n');
+    $query->fields('n');
+    $query->condition('type', 'store');
+    $query->condition('status', 1);
+    $query->orderBy('sticky','ASC');
+    $result = $query->execute()->fetchAllAssoc('nid');
+    if ($result) {
         $data = array();
-        foreach($result as $entity){
-            $data[] = node_load($entity->entity_id);
+        foreach ($result as $entity) {
+            $node = node_load($entity->nid);
+            if ($node->field_sale_all[LANGUAGE_NONE][0]['value'] == 0) {
+                $data[] = $node;
+            }
+
         }
-        return theme('store_list',array('nodes'=>$data));
-    }else{
+        return theme('store_list', array('nodes' => $data, 'tid' => $tid));
+    } else {
         return false;
     }
+}
+
+/**
+ * get store link toan quoc
+ */
+function get_store_toanquoc()
+{
+    $query = db_select('node', 'n');
+    $query->fields('n');
+    $query->condition('type', 'store');
+    $query->condition('status', 1);
+    $query->orderBy('sticky','ASC');
+    $result = $query->execute()->fetchAllAssoc('nid');
+    if ($result) {
+        $data = array();
+        foreach ($result as $entity) {
+            $node = node_load($entity->nid);
+            if ($node->field_sale_all[LANGUAGE_NONE][0]['value'] == 1) {
+                $data[] = $node;
+            }
+        }
+        return $data;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * load collection
+ */
+function artline_load_collection($node)
+{
+    if (isset($node->field_store_link[LANGUAGE_NONE])) {
+        $entity = entity_load('field_collection_item', array($node->field_store_link[LANGUAGE_NONE][0]['value']));
+        return $entity;
+    } else {
+        return false;
+    }
+
+
 }
 
 /**
@@ -513,6 +573,7 @@ function artline_block_info()
     $blocks['post_block'] = array('info' => t('Post block'));
     $blocks['user_block'] = array('info' => t('User Block'));
     $blocks['admin_dashboard'] = array('info' => t('Admin dashboard'));
+    $blocks['artline_footer'] = array('info' => t('Artline footer'));
     return $blocks;
 }
 
@@ -526,6 +587,13 @@ function artline_block_view($delta = '')
             return array(
                 'subject' => t('Admin dashboard'),
                 'content' => artline_admin_dashboard(),
+            );
+
+            break;
+        case 'artline_footer':
+            return array(
+                'subject' => t('Artline footer'),
+                'content' => theme('artline_footer'),
             );
 
             break;
@@ -716,11 +784,11 @@ function artline_post_comment()
     $comment->subject = filter_bad_word($data['comment']);
     $comment->comment_body[$comment->language][0]['value'] = filter_bad_word($data['comment']); // Everything here is pretty much like with a node
     $comment->comment_body[$comment->language][0]['format'] = 'plain_text';
-    try{
+    try {
         comment_submit($comment); // saving a comment
         comment_save($comment);
         $return = 'ok';
-    }catch(Exception $ex){
+    } catch (Exception $ex) {
         $return = 'ko';
     }
 
@@ -733,10 +801,10 @@ function artline_post_comment()
  */
 function artline_get_comment($nid, $cid = 0)
 {
-    if($cid==0){
-        $class='parent';
-    }else{
-        $class='child';
+    if ($cid == 0) {
+        $class = 'parent';
+    } else {
+        $class = 'child';
     }
     $node = node_load($nid);
     $query = db_select('comment', 'c');
@@ -755,7 +823,7 @@ function artline_get_comment($nid, $cid = 0)
         foreach ($result as $key => $c) {
             $data[$key] = comment_load($key);
         }
-        return theme('comment_artline_page', array('comments' => $data,'class'=>$class, 'nid'=>$nid));
+        return theme('comment_artline_page', array('comments' => $data, 'class' => $class, 'nid' => $nid));
     } else {
         return false;
     }
@@ -764,20 +832,22 @@ function artline_get_comment($nid, $cid = 0)
 /**
  * login user block
  */
-function login_user_block(){
+function login_user_block()
+{
     global $user;
-    return theme('user_block',array('user'=>$user));
+    return theme('user_block', array('user' => $user));
 }
 
 /**
  * search page
  */
-function artline_search_gss(){
- if(!empty($_POST['keyword'])){
-     drupal_goto('search/gss/'.$_POST['keyword']);
- }else{
-     drupal_goto('<front>');
- }
+function artline_search_gss()
+{
+    if (!empty($_POST['keyword'])) {
+        drupal_goto('search/gss/' . $_POST['keyword']);
+    } else {
+        drupal_goto('<front>');
+    }
 }
 
 /**
@@ -789,7 +859,7 @@ function get_location()
     $terms = taxonomy_get_tree($voca->vid);
     $data = array();
     foreach ($terms as $term) {
-       $data[$term->tid] = $term->name;
+        $data[$term->tid] = $term->name;
     }
     return $data;
 }
@@ -797,30 +867,31 @@ function get_location()
 /**
  * Implement hook_node_view
  */
-function artline_node_view($node){
-    if($node->type=='article'){
-        if(artline_check_ip($node->nid)){
-            db_insert('artline_post_view') // Table name no longer needs {}
+function artline_node_view($node)
+{
+    if ($node->type == 'article') {
+        if (artline_check_ip($node->nid)) {
+            db_insert('artline_post_view')// Table name no longer needs {}
             ->fields(array(
                 'uid' => $node->uid,
                 'nid' => $node->nid,
                 'count' => 1,
                 'created' => REQUEST_TIME,
-                'ip'=> ip_address()
+                'ip' => ip_address()
             ))
                 ->execute();
         }
         $account = user_load($node->uid);
-        if(in_array('partner',$account->roles) || in_array('store',$account->roles)){
+        if (in_array('partner', $account->roles) || in_array('store', $account->roles)) {
 
-            if(artline_check_ip($node->nid, 'artline_tracking_referral')){
-                db_insert('artline_tracking_referral') // Table name no longer needs {}
+            if (artline_check_ip($node->nid, 'artline_tracking_referral')) {
+                db_insert('artline_tracking_referral')// Table name no longer needs {}
                 ->fields(array(
                     'uid' => $node->uid,
                     'nid' => $node->nid,
                     'count' => 1,
                     'created' => REQUEST_TIME,
-                    'ip'=> ip_address()
+                    'ip' => ip_address()
                 ))
                     ->execute();
             }
@@ -831,22 +902,23 @@ function artline_node_view($node){
 /**
  * check before allow track again
  */
-function artline_check_ip($nid, $db = 'artline_post_view'){
+function artline_check_ip($nid, $db = 'artline_post_view')
+{
     $ip = ip_address();
     $current = REQUEST_TIME;
-    $query = db_select($db,'pv');
+    $query = db_select($db, 'pv');
     $query->fields('pv');
-    $query->condition('ip',$ip);
-    $query->condition('nid',$nid);
-    $query->orderBy('created','desc');
+    $query->condition('ip', $ip);
+    $query->condition('nid', $nid);
+    $query->orderBy('created', 'desc');
     $result = $query->execute()->fetchObject();
-    if($result){
-        if($current - $result->created > (variable_get('timeline_view',1) * 60)){
+    if ($result) {
+        if ($current - $result->created > (variable_get('timeline_view', 1) * 60)) {
             return true;
-        }else{
+        } else {
             return false;
         }
-    }else{
+    } else {
         return true;
     }
 }
@@ -854,12 +926,13 @@ function artline_check_ip($nid, $db = 'artline_post_view'){
 /**
  * edit post by user
  */
-function artline_edit_post(){
-  $data = $_POST;
-  $node = node_load($data['nid']);
-  $node->field_description[LANGUAGE_NONE][0]['value'] = filter_bad_word($data['value']);
-  node_save($node);
-  print filter_bad_word($data['value']);
+function artline_edit_post()
+{
+    $data = $_POST;
+    $node = node_load($data['nid']);
+    $node->field_description[LANGUAGE_NONE][0]['value'] = filter_bad_word($data['value']);
+    node_save($node);
+    print filter_bad_word($data['value']);
     drupal_exit();
 }
 
@@ -867,7 +940,8 @@ function artline_edit_post(){
  * Implement hook_form
  * Form change table
  */
-function artline_edit_form($form, &$form_state){
+function artline_edit_form($form, &$form_state)
+{
     $node = $form_state['node'];
     $form['article'] = array(
         '#type' => 'textarea',
@@ -875,15 +949,17 @@ function artline_edit_form($form, &$form_state){
     );
     $form['submit'] = array(
         '#type' => 'submit',
-        '#value' =>'Cập nhật'
+        '#value' => 'Cập nhật'
     );
     return $form;
 }
+
 /**
  * Implement hook_form_submit
  * Form change table
  */
-function artline_edit_form_submit($form, &$form_state){
+function artline_edit_form_submit($form, &$form_state)
+{
     $node = $form_state['node'];
     $node->field_description[LANGUAGE_NONE][0]['value'];
     node_save($node);
@@ -895,7 +971,8 @@ function artline_edit_form_submit($form, &$form_state){
 /**
  * edit post by user
  */
-function artline_delete_post(){
+function artline_delete_post()
+{
     $data = $_POST;
     $node = node_load($data['nid']);
     node_delete($node->nid);
@@ -907,22 +984,25 @@ function artline_delete_post(){
  * Implement hook_form
  * Form change table
  */
-function artline_delete_form($form, &$form_state){
+function artline_delete_form($form, &$form_state)
+{
     $node = $form_state['node'];
     $form['markup'] = array(
         '#markup' => '<p>Bạn có muốn xoá bài viết này không?</p>',
     );
     $form['submit'] = array(
         '#type' => 'submit',
-        '#value' =>'Delete'
+        '#value' => 'Delete'
     );
     return $form;
 }
+
 /**
  * Implement hook_form_submit
  * Form change table
  */
-function artline_delete_form_submit($form, &$form_state){
+function artline_delete_form_submit($form, &$form_state)
+{
     $node = $form_state['node'];
     node_delete($node->nid);
     // Tell the browser to close the modal.
@@ -933,23 +1013,24 @@ function artline_delete_form_submit($form, &$form_state){
 /**
  * Get avartar user
  */
-function artline_get_avatar(){
+function artline_get_avatar()
+{
     global $user;
     $output = '';
-    if($user->uid > 0){
+    if ($user->uid > 0) {
         $account = user_load($user->uid);
 
-        if($account->picture){
-            $output .= '<span>'.theme('image_style',array('path'=>$account->picture->uri,'style_name'=>'avatar')).'</span>';
-        }else{
-            $output .= '<span><img src="'. base_path().drupal_get_path("theme","phucma").'/images/default-avatar.png"></span>';
+        if ($account->picture) {
+            $output .= '<span>' . theme('image_style', array('path' => $account->picture->uri, 'style_name' => 'avatar')) . '</span>';
+        } else {
+            $output .= '<span><img src="' . base_path() . drupal_get_path("theme", "phucma") . '/images/default-avatar.png"></span>';
         }
-        $output .='<div class="user-wrapper"><span class="user-info">'.l('Hi '.$account->name,'user/'.$user->uid.'/edit').'</span>';
-        $output .='<span class="user-logout">'.l('Đăng xuất','user/logout').'</span></div>';
-    }else{
-        $output .= '<span><img src="'. base_path().drupal_get_path("theme","phucma").'/images/default-avatar.png"></span>';
-        $output .='<div class="user-wrapper"><span class="user-logout">'.l('Đăng ký','user/register').'</span>';
-        $output .='<span class="user-logout">'.l('Đăng xuất','user/logout').'</span></div>';
+        $output .= '<div class="user-wrapper"><span class="user-info">' . l('Hi ' . $account->name, 'user/' . $user->uid . '/edit') . '</span>';
+        $output .= '<span class="user-logout">' . l('Đăng xuất', 'user/logout') . '</span></div>';
+    } else {
+        $output .= '<span><img src="' . base_path() . drupal_get_path("theme", "phucma") . '/images/default-avatar.png"></span>';
+        $output .= '<div class="user-wrapper"><span class="user-logout">' . l('Đăng ký', 'user/register') . '</span>';
+        $output .= '<span class="user-logout">' . l('Đăng xuất', 'user/logout') . '</span></div>';
     }
 
 
@@ -960,13 +1041,14 @@ function artline_get_avatar(){
  * Report by user
  * count post
  */
-function count_post_user($uid){
+function count_post_user($uid)
+{
     $count = 0;
-    $query = db_select('node','n');
+    $query = db_select('node', 'n');
     $query->fields('n');
-    $query->condition('type','article');
-    $query->condition('status',1);
-    $query->condition('uid',$uid);
+    $query->condition('type', 'article');
+    $query->condition('status', 1);
+    $query->condition('uid', $uid);
     $result = $query->execute()->fetchAllAssoc('nid');
     $count = count($result);
     return $count;
@@ -976,19 +1058,20 @@ function count_post_user($uid){
  * Report by user
  * count post
  */
-function count_like_user($uid = null, $nid = null){
+function count_like_user($uid = null, $nid = null)
+{
     $count = 0;
-    $query = db_select('artline_like','al');
+    $query = db_select('artline_like', 'al');
     $query->fields('al');
-    if($nid){
-        $query->condition('nid',$nid);
+    if ($nid) {
+        $query->condition('nid', $nid);
     }
-    if($uid){
-        $query->condition('uid',$uid);
+    if ($uid) {
+        $query->condition('uid', $uid);
     }
     $result = $query->execute()->fetchAllAssoc('id');
-    if($result){
-        foreach($result as $re){
+    if ($result) {
+        foreach ($result as $re) {
             $count += $re->count;
         }
     }
@@ -999,17 +1082,18 @@ function count_like_user($uid = null, $nid = null){
  * Report user
  * count partner view
  */
-function count_post_view_user($uid,$nid = null){
+function count_post_view_user($uid, $nid = null)
+{
     $count = 0;
-    $query = db_select('artline_post_view','al');
+    $query = db_select('artline_post_view', 'al');
     $query->fields('al');
-    $query->condition('uid',$uid);
-    if($nid){
-        $query->condition('nid',$nid);
+    $query->condition('uid', $uid);
+    if ($nid) {
+        $query->condition('nid', $nid);
     }
     $result = $query->execute()->fetchAllAssoc('id');
-    if($result){
-        foreach($result as $re){
+    if ($result) {
+        foreach ($result as $re) {
             $count += $re->count;
         }
     }
@@ -1020,17 +1104,18 @@ function count_post_view_user($uid,$nid = null){
  * Report user
  * count partner view
  */
-function count_partner_view_user($uid,$nid = null){
+function count_partner_view_user($uid, $nid = null)
+{
     $count = 0;
-    $query = db_select('artline_tracking_referral','al');
+    $query = db_select('artline_tracking_referral', 'al');
     $query->fields('al');
-    $query->condition('uid',$uid);
-    if($nid){
-        $query->condition('nid',$nid);
+    $query->condition('uid', $uid);
+    if ($nid) {
+        $query->condition('nid', $nid);
     }
     $result = $query->execute()->fetchAllAssoc('id');
-    if($result){
-        foreach($result as $re){
+    if ($result) {
+        foreach ($result as $re) {
             $count += $re->count;
         }
     }
@@ -1040,12 +1125,13 @@ function count_partner_view_user($uid,$nid = null){
 /**
  * Filter bad word
  */
-function filter_bad_word($text){
-    if(variable_get('filter_word')){
+function filter_bad_word($text)
+{
+    if (variable_get('filter_word')) {
         $filters = variable_get('filter_word');
-        $filters = explode(',',$filters);
-        foreach($filters as $filter){
-            $text = str_replace($filter,' ***',$text);
+        $filters = explode(',', $filters);
+        foreach ($filters as $filter) {
+            $text = str_replace($filter, ' ***', $text);
         }
     }
     return $text;
@@ -1055,6 +1141,80 @@ function filter_bad_word($text){
  * admin tdashboard
  */
 
-function artline_admin_dashboard(){
+function artline_admin_dashboard()
+{
     return theme('admin_dashboard');
+}
+
+/**
+ * share link
+ */
+function artline_article_shared($token)
+{
+    $arr = base64_decode($token);
+    $arr = explode('|', $arr);
+    $nid = $arr[0];
+    $uid = $arr[1];
+    $node = node_load($nid);
+    if ($uid > 0) {
+        $user = user_load($uid);
+        if ($node->type == 'article') {
+            if (artline_check_ip($node->nid)) {
+                db_insert('artline_post_view')// Table name no longer needs {}
+                ->fields(array(
+                    'uid' => $node->uid,
+                    'nid' => $node->nid,
+                    'count' => 1,
+                    'created' => REQUEST_TIME,
+                    'ip' => ip_address()
+                ))
+                    ->execute();
+            }
+            $account = user_load($node->uid);
+            if (in_array('partner', $account->roles) || in_array('store', $account->roles)) {
+
+                if (artline_check_ip($node->nid, 'artline_tracking_referral')) {
+                    db_insert('artline_tracking_referral')// Table name no longer needs {}
+                    ->fields(array(
+                        'uid' => $node->uid,
+                        'nid' => $node->nid,
+                        'count' => 1,
+                        'created' => REQUEST_TIME,
+                        'ip' => ip_address()
+                    ))
+                        ->execute();
+                }
+            }
+
+            if (in_array('partner', $user->roles) || in_array('store', $user->roles)) {
+
+                if (artline_check_ip($node->nid, 'artline_tracking_referral')) {
+                    db_insert('artline_tracking_referral')// Table name no longer needs {}
+                    ->fields(array(
+                        'uid' => $user->uid,
+                        'nid' => $node->nid,
+                        'count' => 1,
+                        'created' => REQUEST_TIME,
+                        'ip' => ip_address()
+                    ))
+                        ->execute();
+                }
+            }
+        }
+    }
+
+    drupal_goto('node/' . $nid);
+
+}
+
+/**
+ * encode url
+ */
+function artline_share_url_encode($nid)
+{
+    global $user;
+    $data = $nid . '|' . $user->uid . '|artline.vn';
+    $token = base64_encode($data);
+    $url = url('article/link/' . $token, array('absolute' => true));
+    return $url;
 }

@@ -245,23 +245,6 @@
             <div class="container">
                 <div class="row change">
                     <?php print render($page['footer']); ?>
-                    <div class="col-md-4">
-                        <div class="social-icon">
-                            <a href="<?php print variable_get('facebook_link'); ?>" title="facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                            <a href="<?php print variable_get('youtube_link'); ?>" title="youtube"><i class="fa fa-youtube" aria-hidden="true"></i></a><br />
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="info">
-                            <h4><?php print variable_get('company_name'); ?></h4>
-                            <p class="address"><?php print variable_get('address'); ?><br />
-                                ĐT: <?php print variable_get('phone'); ?> - Fax: <?php print variable_get('fax'); ?><br />
-                                Hotline: <?php print variable_get('hotline'); ?><br />
-                                <?php print variable_get('email_company'); ?>
-                            </p>
-                            <p class="copyright">2016 © Artline All rights reserved.</p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </footer><!-- end footer --> <!-- /.section, /#footer-wrapper -->

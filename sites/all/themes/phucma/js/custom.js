@@ -437,10 +437,67 @@
     Drupal.behaviors.ArtlineLoadmorePager= {
         attach: function (context, settings) {
             $(window).scroll(function() {
-                if( $(window).scrollTop() > $("footer .container").offset().top - 700 ) {
-                    $("ul.pager-show-more li.pager-show-more-next a").click();
+                if( $(window).scrollTop() > $("footer .container").offset().top - 800 ) {
+                    $(".loading-view").show()
+                    setTimeout(function(){
+                        $("ul.pager-show-more li.pager-show-more-next a").click();
+                        $(".loading-view").hide()
+                        // $(".plugin").pinto({
+                        //     itemWidth: 415,
+                        //     gapX: 5,
+                        //     gapY: 30,
+                        // });
+                    },2000);
+
                 }
             });
+
+            //add class active
+            if($("#block-artline-artline-category ul li ul li.active").hasClass('active')){
+                $("#block-artline-artline-category ul li ul li.active").parent().parent().addClass('active');
+            }
+
+           $(".comment-login a").each(function(){
+                $(this).click(function(event){
+                    event.preventDefault();
+                    $("a.inline.cboxElement").click();
+                })
+           });
+
+           if($(".node-type-article").length > 0){
+               $(".node-type-article .hooks").addClass('hidden');
+               $(".node-type-article .banner").addClass('hidden');
+               $(".node-type-article footer").addClass('hidden');
+               $(".node-type-article .node-detail").addClass('node-overview');
+               $(".node-type-article").addClass('article-overview');
+           }
+           $(".close-node img").click(function(){
+               $(".node-type-article .node-detail").removeClass('node-overview');
+               $(".node-type-article .hooks").removeClass('hidden');
+               $(".node-type-article .banner").removeClass('hidden');
+               $(".node-type-article footer").removeClass('hidden');
+               $(".node-type-article").removeClass('article-overview');
+               $(this).parent().addClass('hidden');
+           });
+
+           $(".node-detail .share-post").each(function(){
+              $(this).click(function(){
+                  $(".share-item").each(function(){
+                      $(this).removeClass('hidden');
+                  })
+              });
+               $(this).mouseleave(function(){
+                   setTimeout(function(){
+                       $(".share-item").each(function(){
+                           $(this).addClass('hidden');
+                       })
+                   },3000);
+               });
+
+           });
+
+
+
         }
     };
 

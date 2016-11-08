@@ -1,0 +1,83 @@
+<?php
+
+function node_order_selector($nid) {
+  static $js_included;
+  
+  if (!$js_included) {
+    drupal_add_js(drupal_get_path('module', 'node_order') . '/jquery.tablednd.js');
+    drupal_add_js(drupal_get_path('module', 'node_order') . '/node_order.js');
+  }
+
+
+  $node = node_load($nid);
+
+  $selector = '<select id="edit-weights-' . $nid . '" name="weights[' . $nid . ']">';
+
+  $weight_range = 50;
+  for ($i = 0 - $weight_range; $i <= $weight_range; ++$i) {
+    if ($i==$node->sticky) {
+      $selector .= '<option value=' . $i . ' selected="selected">' . $i . '</option>';
+    }
+    else {
+      $selector .= '<option value=' . $i . '>' . $i . '</option>';
+    }
+  }
+  $selector .= '</select>';
+  
+  $selector = '<div class="weight-selector">' . $selector . '</div>';
+  
+  return $selector;
+}
+
+
+
+function node_order_form_alter(&$form, &$form_state, $form_id) {
+  
+  if (strpos($form_id, '_node_form') !== FALSE ) {
+    $types = node_order_get_types();
+    if (!empty($types)) {
+      $type = str_replace('_node_form', '', $form_id);
+      if (in_array($type, $types)) {
+        unset($form['options']['sticky']);
+      }
+    }
+  }
+}
+ 
+function node_order_menu() {
+  $order_types = node_order_get_types();
+  $types = node_type_get_types();
+  if (!empty($order_types)) {
+    foreach ($order_types as $type) {
+      $items['admin/content/' . $type] = array(
+        'title' => $types[$type]->name . ' Nodes',
+        'description' => "View, edit, and delete " . $types[$type]->name . " content.",
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('node_order_content_by_type', 2),
+        'access arguments' => array('administer nodes'),
+        'file' => 'node_order.admin.inc',
+        'type' => MENU_LOCAL_TASK,
+      );
+    }
+  }
+  $items['admin/config/content/node_order'] = array(
+    'title' => 'Node Order setting',
+    'description' => 'Settings for Node Order module',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('node_order_setting_form'),
+    'access arguments' => array('administer nodes'),
+    'file' => 'node_order.admin.inc',
+  );
+  return $items;
+}
+
+function node_order_get_types() {
+  $output = array();
+  $types = variable_get('node_order_types', array());
+  if (!empty($types)) {
+    foreach ($types as $type => $val) {
+      if ($val) $output[]=$type;
+    }
+  }
+  return $output;
+}
