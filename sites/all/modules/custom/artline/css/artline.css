@@ -853,7 +853,7 @@ body.article-overview {
     top: -23px;
 }
 #content .col-md-12 .main .carousel-indicators li img, #content .col-lg-12 .main .carousel-indicators li img{
-    width: auto!important;
+    width: 100%;
     height: auto!important;
 }
 #content .col-md-12 .main .carousel-indicators li {

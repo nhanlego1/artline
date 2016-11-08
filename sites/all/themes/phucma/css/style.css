@@ -201,8 +201,8 @@ header .hide-menu {
           margin: 1px;
           opacity: 1; }
         #content .col-md-12 .main .carousel-indicators li img, #content .col-lg-12 .main .carousel-indicators li img {
-          width: 110px;
-          height: 78px; }
+          width: 100%;
+          height: auto; }
     #content .col-md-12 .main .more, #content .col-lg-12 .main .more {
       padding-left: 20px;
       position: relative; }
@@ -554,7 +554,7 @@ footer .info {
     #content .col-md-12 .main .carousel-indicators {
       padding-left: 10px; }
       #content .col-md-12 .main .carousel-indicators li {
-        width: 24% !important;
+        width: 12% !important;
         display: inline-block;
         float: left; }
         #content .col-md-12 .main .carousel-indicators li img {
