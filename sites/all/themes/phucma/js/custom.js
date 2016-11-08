@@ -496,6 +496,11 @@
 
            });
 
+            $('#social_login_providers_8333246 iframe').load( function() {
+                $('#social_login_providers_8333246 iframe').contents().find("head")
+                    .append($("<style type='text/css'>  .branding{display:none;}  </style>"));
+            });
+
 
 
         }

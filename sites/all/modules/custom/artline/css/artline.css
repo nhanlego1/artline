@@ -861,6 +861,11 @@ body.article-overview {
     display: inline-block;
     float: left;
 }
+.social_login{
+    margin: 10px 0 10px 0!important;
+    height: 55px;
+    overflow: hidden;
+}
 @media only screen and (min-width: 1200px){
     .navbar-default > .container-fluid .navbar-brand {
         font-size: 18px!important;

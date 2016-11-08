@@ -6,7 +6,7 @@
  * Time: 8:17 PM
  */
 ?>
-<?php if (arg(0) != 'node'): ?>
+<?php if (arg(0) == 'taxonomy' && is_numeric(arg(2)) && arg(3)==null || arg(0)=='article' && arg(1)=='user' || drupal_is_front_page()): ?>
 <div class="loading-view"><img
         src="<?php print base_path() . drupal_get_path('module', 'artline') ?>/images/ajax-loader.gif"/></div>
 </div>

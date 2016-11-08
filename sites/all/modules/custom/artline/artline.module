@@ -194,8 +194,8 @@ function artline_init()
     drupal_add_css(drupal_get_path('module', 'artline') . '/css/artline.css');
     ctools_include('modal');
     ctools_modal_add_js();
-    drupal_add_js(drupal_get_path('module','artline').'/js/chosen.jquery.js');
-    drupal_add_js(drupal_get_path('module','artline').'/css/chosen.css');
+   // drupal_add_js(drupal_get_path('module','artline').'/js/chosen.jquery.js');
+  //  drupal_add_css(drupal_get_path('module','artline').'/css/chosen.css');
 }
 
 /**

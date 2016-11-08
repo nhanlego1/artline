@@ -1169,7 +1169,7 @@ function social_login_core_get_settings() {
 function social_login_core_preprocess_page(&$vars, $hook) {
   if (is_array($vars['page']) && isset($vars['page']) && isset($vars['page']['footer'])) {
     if (isset($vars['page']['footer']['system_powered-by']) && isset($vars['page']['footer']['system_powered-by']['#markup'])) {
-      $vars['page']['footer']['system_powered-by']['#markup'] .= '&nbsp; | &nbsp;' . l(t('Social Login'), 'http://www.oneall.com/services/social-login/') . ' ' . t('powered by') . ' ' . l(t('OneAll'), 'http://www.oneall.com/');
+     // $vars['page']['footer']['system_powered-by']['#markup'] .= '&nbsp; | &nbsp;' . l(t('Social Login'), 'http://www.oneall.com/services/social-login/') . ' ' . t('powered by') . ' ' . l(t('OneAll'), 'http://www.oneall.com/');
     }
   }
 }
