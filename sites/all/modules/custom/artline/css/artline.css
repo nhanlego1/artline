@@ -955,5 +955,32 @@ body.article-overview {
     .video-article iframe {
         width: 100%!important;
     }
+
+    .navbar-default .navbar-toggle span:last-of-type {
+        top: -17px!important;
+        right: -15px;
+    }
+    .navbar-default > .container-fluid .navbar-brand {
+        font-size: 12px!important;
+        margin: 7px 2px;
+    }
+    .navbar-collapse.collapse{
+        width: 100%;
+        background: #336699;
+        margin-left: 0px!important;
+        margin-top: 0px;
+        position: relative;
+        top: -28px;
+        hw
+    }
+    .navbar-default .btn-default {
+        top: 3px!important;
+    }
+    .nav.navbar-nav.navbar-right {
+        padding-top: 0px;
+        margin-top: -13px;
+        padding-bottom: 10px;
+    }
 }
+
 
