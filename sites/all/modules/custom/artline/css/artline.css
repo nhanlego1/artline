@@ -898,6 +898,10 @@ body.article-overview {
         left: 0%;
         z-index: 9999;
     }
+    .navbar-default > .container-fluid .navbar-brand {
+        font-size: 18px!important;
+        margin: 7px 2px;
+    }
 }
 /*mobile*/
 @media only screen and (max-width: 756px) {
@@ -971,7 +975,7 @@ body.article-overview {
         margin-top: 0px;
         position: relative;
         top: -28px;
-        hw
+
     }
     .navbar-default .btn-default {
         top: 3px!important;
