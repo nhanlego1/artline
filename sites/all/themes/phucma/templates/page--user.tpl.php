@@ -211,7 +211,7 @@
                                 <?php endif; ?>
                                 <div class="main">
                                     <div class="wrap-main">
-                                        <div class="row plugin">
+                                        <div class="row">
                                             <div class="col-md-6 col-xs-12 pinto ">
                                                 <?php print render($page['content']); ?>
                                             </div>

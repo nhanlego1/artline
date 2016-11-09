@@ -1022,12 +1022,12 @@ function artline_get_avatar()
         $account = user_load($user->uid);
 
         if ($account->picture) {
-            $output .= '<span>' . theme('image_style', array('path' => $account->picture->uri, 'style_name' => 'avatar')) . '</span>';
+            $output .= '<span><i class="fa fa-search" aria-hidden="true"></i>' . theme('image_style', array('path' => $account->picture->uri, 'style_name' => 'avatar')) . '</span>';
         } else {
-            $output .= '<span><img src="' . base_path() . drupal_get_path("theme", "phucma") . '/images/default-avatar.png"></span>';
+            $output .= '<span><i class="fa fa-search" aria-hidden="true"></i><img src="' . base_path() . drupal_get_path("theme", "phucma") . '/images/default-avatar.png"></span>';
         }
     } else {
-        $output .= '<span><img src="' . base_path() . drupal_get_path("theme", "phucma") . '/images/default-avatar.png"></span>';
+        $output .= '<span><i class="fa fa-search" aria-hidden="true"></i><img src="' . base_path() . drupal_get_path("theme", "phucma") . '/images/default-avatar.png"></span>';
     }
 
 

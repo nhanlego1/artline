@@ -85,29 +85,7 @@
  * @see html.tpl.php
  */
 ?>
-<!--<div class="node-loading">-->
-<!--    <div id="main-wrapper" class="clearfix">-->
-<!--        <div id="main" class="clearfix">-->
-<!---->
-<!--            <div id="content">-->
-<!--                <div class="container">-->
-<!--                    <div class="row change">-->
-<!--                        <div class="col-md-12">-->
-<!--                            <div class="main">-->
-<!--                                <div class="wrap-main">-->
-<!--                                    <div class="row">-->
-<!---->
-<!--                                    </div>-->
-<!---->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
+
 <div id="wrapper">
     <div id="page">
 
@@ -122,8 +100,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
-                            <span><img
-                                    src="<?php print base_path() . drupal_get_path('theme', 'artline') ?>/images/x.png"></span>
+                            <?php print artline_get_avatar();?>
                         </button>
                         <span class="hide-menu"><i class="fa fa-bars" aria-hidden="true"></i></span>
                         <?php if ($logo): ?>

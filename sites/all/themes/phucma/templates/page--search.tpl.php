@@ -99,8 +99,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
-                            <span><img
-                                    src="<?php print base_path() . drupal_get_path('theme', 'artline') ?>/images/x.png"></span>
+                            <?php print artline_get_avatar();?>
                         </button>
                         <span class="hide-menu"><i class="fa fa-bars" aria-hidden="true"></i></span>
                         <?php if ($logo): ?>
@@ -210,7 +209,7 @@
                                 <?php endif; ?>
                                 <div class="main">
                                     <div class="wrap-main">
-                                        <div class="row plugin">
+                                        <div class="row">
                                             <div class="col-md-12 col-xs-24 ">
                                                 <?php print render($page['content']); ?>
                                             </div>

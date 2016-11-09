@@ -368,6 +368,8 @@ fieldset#edit-timezone{
 }
 .article-comment{
     margin-top: 20px;
+    border-top: 1px solid #e4e4e4;
+    padding-top: 15px;
 }
 .reply-comment-child .comment-page-wrapper{
     margin-left: 43px;
@@ -874,6 +876,27 @@ body.article-overview {
 .close-comment:hover{
     color:#000;
 }
+.navbar-toggle .fa{
+    display: none;
+}
+.category ul.list, .location ul.list{
+    height: 155px;
+    overflow: scroll;
+}
+#content .col-md-12 .main .carousel-indicators, #content .col-lg-12 .main .carousel-indicators {
+    bottom: -50px!important;
+}
+.carousel-inner{
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.09);
+}
+
+
+@media only screen and (min-width: 768px){
+    #content .col-md-12 .main .slide {
+        margin-bottom: 50px!important;
+    }
+}
+
 @media only screen and (min-width: 1200px){
     .navbar-default > .container-fluid .navbar-brand {
         font-size: 18px!important;
@@ -987,7 +1010,7 @@ body.article-overview {
         margin-left: 0px!important;
         margin-top: 0px;
         position: relative;
-        top: -28px;
+        top: -21px;
 
     }
     .navbar-default .btn-default {
@@ -997,6 +1020,36 @@ body.article-overview {
         padding-top: 0px;
         margin-top: -13px;
         padding-bottom: 10px;
+    }
+    .navbar-default .navbar-toggle span:last-of-type img {
+        width: 30px!important;
+        height: 30px!important;
+        border-radius: 25px;
+        margin-top: -8px;
+    }
+    .navbar-default .navbar-collapse, .navbar-default .navbar-form {
+        border: 0;
+    }
+    .navbar-toggle .fa {
+        display: inline-block!important;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: 22px;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        margin-right: 10px;
+        color: #fff;
+        margin-top: 9px;
+    }
+    .loading-view {
+        left: 44%!important;
+    }
+    .search-form input {
+        margin-top: 10px;
+        margin-bottom: 0;
+    }
+    textarea.comment-comment {
+        width: 71%;
     }
 }
 
