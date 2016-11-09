@@ -436,13 +436,19 @@
 
     Drupal.behaviors.ArtlineLoadmorePager= {
         attach: function (context, settings) {
+
             $(window).scroll(function() {
                 if( $(window).scrollTop() > $("footer .container").offset().top - 800 ) {
                     if($("ul.pager-show-more li.pager-show-more-next a").length > 0){
                         $(".loading-view").show()
                         setTimeout(function(){
                             $("ul.pager-show-more li.pager-show-more-next a").click();
-                            $(".loading-view").hide()
+                            $(".loading-view").hide();
+                            $(".plugin").pinto({
+                                itemWidth: 415,
+                                gapX: 5,
+                                gapY: 30,
+                            });
 
                         },2000);
                     }
@@ -492,6 +498,22 @@
                });
 
            });
+
+            //close comment
+            $(".close-comment").each(function(){
+                var nid = $(this).attr('data');
+               $(this).click(function(){
+                 $(this).parent().parent().hide();
+                   $(".plugin").pinto({
+                       itemWidth: 415,
+                       gapX: 5,
+                       gapY: 30,
+                   });
+                   $('html, body').animate({
+                       scrollTop: $(".post-"+nid).offset().top
+                   }, 'fast');
+               });
+            });
             
 
         }

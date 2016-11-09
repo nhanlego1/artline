@@ -15,7 +15,7 @@ if($account->picture){
 }
 ?>
 <div class="clearfix"></div>
-<div class="title-comment"><span>Bình luận</span></div>
+<div class="title-comment"><span>Bình luận</span><span class="close-comment" data="<?php print $nid; ?>">Đóng bình luận</span></div>
 <div class="article-comment-wrapper-<?php print $nid; ?>">
     <?php print artline_get_comment($nid); ?>
 </div>

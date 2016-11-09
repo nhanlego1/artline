@@ -866,6 +866,14 @@ body.article-overview {
     height: 55px;
     overflow: hidden;
 }
+.close-comment{
+    float: right;
+    margin-right: 20px;
+    cursor: pointer;
+}
+.close-comment:hover{
+    color:#000;
+}
 @media only screen and (min-width: 1200px){
     .navbar-default > .container-fluid .navbar-brand {
         font-size: 18px!important;
