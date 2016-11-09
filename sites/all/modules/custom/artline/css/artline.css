@@ -1051,6 +1051,18 @@ body.article-overview {
     textarea.comment-comment {
         width: 71%;
     }
+    #content .col-md-12 .main .news span.datetime {
+        height: 25px;
+        width: 130px;
+        position: absolute;
+        top: 62px!important;
+        right: -24px!important;
+        background: none;
+        cursor: pointer;
+        transition: all .2s ease-in;
+        font-size: 11px!important;
+        color: #999;
+    }
 }
 
 
