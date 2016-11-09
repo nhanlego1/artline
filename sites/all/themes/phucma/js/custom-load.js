@@ -435,17 +435,14 @@
 
             $(window).scroll(function() {
                 if( $(window).scrollTop() > $("footer .container").offset().top - 800 ) {
-                    $(".loading-view").show()
-                    setTimeout(function(){
-                        $("ul.pager-show-more li.pager-show-more-next a").click();
-                        $(".loading-view").hide();
-                        // $(".plugin").pinto({
-                        //     itemWidth: 415,
-                        //     gapX: 5,
-                        //     gapY: 30,
-                        // });
-                    },2000);
+                    if($("ul.pager-show-more li.pager-show-more-next a").length > 0){
+                        $(".loading-view").show()
+                        setTimeout(function(){
+                            $("ul.pager-show-more li.pager-show-more-next a").click();
+                            $(".loading-view").hide()
 
+                        },2000);
+                    }
                 }
             });
             $(".comment-login a").each(function(){
