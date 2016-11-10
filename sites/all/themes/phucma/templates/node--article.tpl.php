@@ -159,6 +159,3 @@ if ($account->picture) {
 
     </div>
 </div>
-
-<?php //print views_embed_view('list_article','block_1',$node->field_category[LANGUAGE_NONE][0]['tid']) ?>
-<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Chia sẻ</a></div>
