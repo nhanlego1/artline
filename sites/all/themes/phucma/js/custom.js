@@ -428,9 +428,14 @@
                                             //alert( "error" );
                                         });
 
+
+
                                 }, 200);
 
-                                setTimeout(function(){isWorking=0},5000);
+                                setTimeout(function(){
+                                    isWorking=0;
+
+                                },5000);
 
                             }
                         }
@@ -583,16 +588,6 @@
 
     function _loadinitjs() {
         $(".reply-comment-child span.reply-form").hide();
-        // $(".comment-item").each(function(){
-        //     $(this).mouseover(function(){
-        //         $("span.reply-form",this).show();
-        //         $(".reply-comment-child span.reply-form").hide();
-        //     });
-        //     $(this).mouseleave(function(){
-        //         $("span.reply-form",this).hide();
-        //         $(".reply-comment-child span.reply-form").hide();
-        //     });
-        // });
 
         $(".readmore-article").each(function () {
             $(this).click(function () {
@@ -868,7 +863,32 @@
                 $(this).parent().parent().hide();
             });
         });
+//delet post
+        $(".action-link .delete-post").each(function () {
+            var nid_ = $(this).attr('data');
+            $(this).click(function (event) {
+                event.preventDefault();
+                $(".post-" + nid_ + ' .loading-post-post').show();
 
+                setTimeout(function () {
+                    $.post("/artline/delete/post", {nid: nid_})
+                        .done(function (data) {
+                            if (data == 'ok') {
+
+                            }
+                        })
+                        .fail(function () {
+                            //alert( "error" );
+                        });
+                }, 1000);
+                setTimeout(function () {
+                    $(".post-" + nid_ + ' .loading-post-post').hide();
+                    $(".post-" + nid_).remove();
+
+                }, 2000);
+            });
+
+        });
 
         //edit article
         $(".action-link .edit-post").each(function () {
