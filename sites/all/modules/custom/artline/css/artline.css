@@ -1154,6 +1154,11 @@ td .field-type-taxonomy-term-reference{
         top: 13px!important;
         margin-top: 0!important;
     }
+
+    .dropzone .dz-preview {
+        margin-right: 5px!important;
+
+    }
 }
 
 
