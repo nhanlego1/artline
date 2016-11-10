@@ -279,10 +279,11 @@ function artline_article_uploader_post()
         $all_domain[$do['domain_id']] = $do['domain_id'];
     }
 
-    $storeFolder = DRUPAL_ROOT . '/uploads';   //2
+    $storeFolder = DRUPAL_ROOT . '/'.variable_get('file_public_path');   //2
     if (!empty($_FILES)) {
         $tempFile = $_FILES['file']['tmp_name'];          //3
-        $targetFile = $storeFolder . '/' . $_FILES['file']['name'];  //5
+        $filename_tmp = time().str_replace(' ','',$_FILES['file']['name']);
+        $targetFile = $storeFolder . '/' .$filename_tmp ;  //5
         move_uploaded_file($tempFile, $targetFile); //6
     }
     //get list files
@@ -297,7 +298,7 @@ function artline_article_uploader_post()
                     $image = file_get_contents($filepath);
                     // Returns the new file object
 
-                    $filename = 'but-viet-artline-' . str_replace(' ','',$entry);
+                    $filename = 'but-viet-artline-' . $entry;
                     $file = file_save_data($image, 'public://' . $filename, FILE_EXISTS_RENAME);
                     $images[] = $file;
                     artline_article_uploader_remove($entry);
