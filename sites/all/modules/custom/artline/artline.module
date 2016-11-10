@@ -290,6 +290,7 @@ function artline_article_uploader_post()
         if ($handle = opendir($storeFolder)) {
             $images = array();
             while (false !== ($entry = readdir($handle))) {
+                $entry = strtolower($entry);
                 if (strpos($entry, '.jpg') !== false || strpos($entry, '.png') !== false || strpos($entry, '.jpeg') !== false || strpos($entry, '.gif') !== false) {
                     $filepath = drupal_realpath($storeFolder . '/' . $entry);
                     // Create managed File object and associate with Image field.
