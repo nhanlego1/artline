@@ -81,7 +81,7 @@ function artline_get_post_pager(){
 function artline_get_post_cate($tid, $page_num=0, $page_size=8){
     global $user;
     $children = taxonomy_get_children($tid);
-    $tids = [];
+    $tids = array();
     if($children){
         foreach($children as $child){
             $tids[] = $child->tid;
@@ -144,7 +144,7 @@ function artline_get_post_pager_category(){
     }
     $tid = $_POST['tid'];
     $children = taxonomy_get_children($tid);
-    $tids = [];
+    $tids = array();
     if($children){
         foreach($children as $child){
             $tids[] = $child->tid;
