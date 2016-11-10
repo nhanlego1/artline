@@ -273,6 +273,7 @@
                 var id_ = '#share-button-' + nid_;
                 //$(id_).addClass('hidden');
                 $(this).click(function () {
+                  //  $(".artline-share-social-"+nid_).clone().appendTo(id_);
                     // $(".share-item").hide();
                     $(id_).removeClass('hidden');
                 });
@@ -290,6 +291,7 @@
                     }, 3000)
                 });
             });
+
 
             //share link
             $("span.share-link-button").each(function () {
@@ -580,6 +582,8 @@
                     $("#" + nid_ + ".slide").parent().attr("style", "margin-bottom:13px!important");
                 }
             });
+
+            //
 
 
         }

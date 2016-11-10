@@ -147,19 +147,18 @@ if ($account->picture) {
                       } ?>">xem thêm <i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
                 <span class="store" data="<?php print $node->nid ?>"><i class="fa fa-shopping-cart"
                                                                         aria-hidden="true"></i>Mua hàng</span>
-                
+
             </div>
             <div class="share-item hidden"
                  id="share-button-<?php print $node->nid ?>">
-                <?php //print $fields['addtoany_link']->content; ?>
-                <?php print addtoany_create_node_buttons($node); ?>
-                <?php $javascript_load_early = "<script type=\"text/javascript\">\n"
-                    . "<!--//--><![CDATA[//><!--\n"
-                    . "if(window.da2a)da2a.script_load();\n"
-                    . "//--><!]]>\n"
-                    . "</script>";
-                print $javascript_load_early;
-                ?>
+                <span class="a2a_kit a2a_kit_size_40 a2a_target addtoany_list" style="line-height: 30px;">
+      <a data="<?php print $node->nid ?>" class="a2a_button_facebook" onClick="return popup(this, 'notes')" href="https://www.facebook.com/sharer/sharer.php?u=<?php print urlencode(url('node/'.$node->nid,array('absolute'=>true))) ?>&amp;src=sdkpreparse" rel="nofollow"><span class="a2a_svg a2a_s__default a2a_s_facebook"
+                                                                   style="width: 30px; line-height: 30px; height: 30px; background-size: 30px; border-radius: 6px;"></span></a>
+        <a data="<?php print $node->nid ?>" class="a2a_button_twitter" onClick="return popup(this, 'notes')" href="https://twitter.com/intent/tweet?text=<?php print $node->field_description[LANGUAGE_NONE][0]['value'].' '.url('node/'.$node->nid,array('absolute'=>true)) ?>" rel="nofollow"> <span class="a2a_svg a2a_s__default a2a_s_twitter"
+                                                                     style="width: 30px; line-height: 30px; height: 30px; background-size: 30px; border-radius: 6px;"></span></a>
+    <a data="<?php print $node->nid ?>" class="a2a_button_google_plus" onClick="return popup(this, 'notes')" href="https://plus.google.com/share?url=<?php print urlencode(url('node/'.$node->nid,array('absolute'=>true))) ?>" rel="nofollow"><span class="a2a_svg a2a_s__default a2a_s_google_plus"
+                                                                    style="width: 30px; line-height: 30px; height: 30px; background-size: 30px; border-radius: 6px;"></span></a>
+    </span>
             </div>
             <div class="article-comment post-comment-<?php print $node->nid ?>">
                 <?php print artline_conment_form($node->nid, $pid = 0) ?>

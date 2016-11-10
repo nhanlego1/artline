@@ -69,6 +69,16 @@
   <?php print $page_top; ?>
   <?php print $page; ?>
   <?php print $page_bottom; ?>
+  <script TYPE="text/javascript">
+    function popup(mylink, windowname) {
+      if (! window.focus)return true;
+      var href;
+      if (typeof(mylink) == 'string') href=mylink;
+      else href=mylink.href;
+      window.open(href, windowname, 'width=600,height=400,scrollbars=yes');
+      return false;
+    }
+  </script>
   <div id="fb-root"></div>
   <script>(function(d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
