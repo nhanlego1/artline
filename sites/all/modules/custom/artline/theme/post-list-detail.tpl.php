@@ -147,10 +147,7 @@ if ($account->picture) {
                       } ?>">xem thêm <i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
                 <span class="store" data="<?php print $node->nid ?>"><i class="fa fa-shopping-cart"
                                                                         aria-hidden="true"></i>Mua hàng</span>
-                <a class="store-<?php print $node->nid ?> ctools-use-modal "
-                   href="<?php print url('artline/store/' . $node->nid . '/nojs') ?>"
-                   style="display: none;">Mua
-                    hàng</a>
+                
             </div>
             <div class="share-item hidden"
                  id="share-button-<?php print $node->nid ?>">

@@ -261,7 +261,7 @@
             //store
             $(".more span.store").each(function () {
                 var nid_ = $(this).attr('data');
-                var class_ = '.store-' + nid_;
+                var class_ = '.ctools-use-modal-' + nid_;
                 $(this).click(function () {
                     $(class_).click();
                 });
@@ -763,7 +763,7 @@
         //store
         $(".more span.store").each(function () {
             var nid_ = $(this).attr('data');
-            var class_ = '.store-' + nid_;
+            var class_ = '.ctools-use-modal-' + nid_;
             $(this).click(function () {
                 $(class_).click();
             });

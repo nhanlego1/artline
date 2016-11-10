@@ -234,6 +234,12 @@ function artline_theme()
         'template' => 'post-list-pager',
     );
 
+    $items['100_post_store'] = array(
+        'render element' => 'element',
+        'path' => drupal_get_path('module', 'artline') . '/theme',
+        'template' => '100-post-store',
+    );
+
     return $items;
 }
 
@@ -631,6 +637,7 @@ function artline_block_info()
     $blocks['admin_dashboard'] = array('info' => t('Admin dashboard'));
     $blocks['artline_footer'] = array('info' => t('Artline footer'));
     $blocks['post_list'] = array('info' => t('Post List'));
+    $blocks['list_100_post_store'] = array('info' => t('List 100 post store'));
     return $blocks;
 }
 
@@ -644,6 +651,13 @@ function artline_block_view($delta = '')
             return array(
                 'subject' => t('Admin dashboard'),
                 'content' => artline_admin_dashboard(),
+            );
+
+            break;
+        case 'list_100_post_store':
+            return array(
+                'subject' => t('List 100 post store'),
+                'content' => artline_list_100_post_store(),
             );
 
             break;
