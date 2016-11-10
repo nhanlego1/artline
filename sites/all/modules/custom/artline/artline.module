@@ -1206,7 +1206,10 @@ function filter_bad_word($text)
         $filters = variable_get('filter_word');
         $filters = explode(',', $filters);
         foreach ($filters as $filter) {
-            $text = str_replace(' '.$filter.' ', ' *** ', $text);
+            $content = '';
+            $content .= trim($filter);
+            $content .= ' ';
+            $text = str_replace($content, ' *** ', $text);
         }
     }
     return $text;
