@@ -1159,6 +1159,10 @@ td .field-type-taxonomy-term-reference{
         margin-right: 5px!important;
 
     }
+    #content .col-md-12 .banner {
+        margin-right: 5px;
+        margin-top: 41px!important;
+    }
 }
 
 
