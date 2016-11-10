@@ -430,7 +430,7 @@
 
                                 }, 200);
 
-                                setTimeout(function(){isWorking=0},4000);
+                                setTimeout(function(){isWorking=0},5000);
 
                             }
                         }
@@ -470,7 +470,7 @@
 
                             }, 2000);
 
-                            setTimeout(function(){isWorking=0},4000);
+                            setTimeout(function(){isWorking=0},5000);
                         }
                     }
                 }
@@ -506,7 +506,7 @@
                                     });
 
                             }, 2000);
-                            setTimeout(function(){isWorking=0},4000);
+                            setTimeout(function(){isWorking=0},5000);
                         }
                     }
                 }
