@@ -53,11 +53,27 @@
                 }
             });
 
-            $(".comment-item").each(function () {
-                $(this).mouseover(function () {
-                    $("span.reply-form", this).toggle();
+
+            $(".name-store a").each(function () {
+
+                $(this).click(function () {
+                    //jQuery(".detail-store").hide();
+                    $(this).parent().next().toggle();
+                    return false;
                 });
             });
+
+            $('select#location-selector').niceSelect();
+
+            $("#location-selector").change(function () {
+                $("ul.store .location").hide();
+                var tid_ = $(this).val();
+                $("ul.store li.location-" + tid_).show();
+            });
+
+
+               $('#view-content-ajax').NewWaterfall();
+
 
         }
     };

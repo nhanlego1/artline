@@ -257,6 +257,7 @@ i.count-comment{
 .description{
     margin: 10px;
     padding-top: 15px;
+
 }
 div.error{
     background-image: none!important;
@@ -358,12 +359,12 @@ fieldset#edit-timezone{
 .avatar-comment{
     float: left;
     margin-right: 10px;
-    width: 6%;
+    min-width: 20%;
 }
 .comment-content{
     float: left;
     margin-top: 3px;
-    width: 88%;
+    max-width: 68%;
     font-size: 12px;
 }
 .article-comment{
@@ -380,14 +381,14 @@ fieldset#edit-timezone{
 }
 span.reply-form{
     float: left;
-    margin-right: 10px;
+    margin-right: 11px;
     color: #336699;
     font-size: 12px;
     cursor: pointer;
     position: relative;
     z-index: 10;
     margin-left: 36px;
-    display: none;
+    margin-top: -4px;
 }
 .comment-box input.submit-comment-reply{
     padding: 0 5px;
@@ -854,6 +855,10 @@ body.article-overview {
     right: -16px;
     top: -23px;
 }
+.name-comment-user{
+    color: #999;
+    font-size: 12px;
+}
 #content .col-md-12 .main .carousel-indicators li img, #content .col-lg-12 .main .carousel-indicators li img{
     width: 100%;
     height: auto!important;
@@ -880,7 +885,7 @@ body.article-overview {
     display: none;
 }
 .category ul.list, .location ul.list{
-    height: 155px;
+    height: 215px;
     overflow: scroll;
 }
 #content .col-md-12 .main .carousel-indicators, #content .col-lg-12 .main .carousel-indicators {
@@ -890,6 +895,50 @@ body.article-overview {
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.09);
 }
 
+div.post-form.pinto:nth-of-type(2){
+    display: none;
+}
+
+ul#view-content-ajax li{
+    list-style: none!important;
+}
+ul#view-content-ajax .col-md-12 {
+    margin: 10px 0;
+}
+footer{
+    margin-top: 30px;
+}
+
+span.close-form {
+    float: left;
+    margin-right: 11px;
+    color: #336699;
+    font-size: 12px;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    margin-left: 5px;
+    margin-top: -4px;
+}
+.hooks {
+    top: 47px!important;
+}
+.hooks .left-bar {
+    padding: 0px 0px 30px 0px!important;
+}
+.hooks .list-item a {
+    position: relative;
+    display: block;
+    padding: 6px 0 6px 45px!important;
+    color: #000;
+}
+#content .col-md-12 .main .carousel-indicators {
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+}
+.page-my-posts h1.title{
+    display: none;
+}
 
 @media only screen and (min-width: 768px){
     #content .col-md-12 .main .slide {
@@ -1062,6 +1111,26 @@ body.article-overview {
         transition: all .2s ease-in;
         font-size: 11px!important;
         color: #999;
+    }
+    #content .col-md-12 .main .more, #content .col-lg-12 .main .more{
+        padding-left: 5px!important;
+    }
+    span.share-post{
+        text-align: center;
+    }
+    #content .col-md-12 .main .more {
+        padding-bottom: 0px;
+        text-align: left!important;
+    }
+    span.comment{
+        text-align: center;
+    }
+    #content .col-md-12 .main .more span:last-of-type {
+        text-align: center;
+        font-size: 0!important;
+        width: 35px!important;
+        top: 13px!important;
+        margin-top: 0!important;
     }
 }
 

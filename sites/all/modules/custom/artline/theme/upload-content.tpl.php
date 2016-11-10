@@ -37,18 +37,18 @@ global $user;
                         <div class="clearfix"></div>
                         <div class="dropzone dz-clickable" id="dropzone-upload"></div>
                         <div class="clearfix"></div>
-                        <?php if ($images): ?>
-                            <?php foreach ($images as $key => $image): ?>
-                                <?php if ($image->type == 'image'): ?>
-                                    <div class="item-galary-warpper">
-                                        <?php print theme('image_style', array('path' => $image->uri, 'style_name' => 'media_thumbnail')) ?>
-                                        <input type="checkbox" name="image[]" class="choose-gallary"
-                                               value="<?php print $image->fid; ?>">
-                                    </div>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                        <div class="clearfix"></div>
+<!--                        --><?php //if ($images): ?>
+<!--                            --><?php //foreach ($images as $key => $image): ?>
+<!--                                --><?php //if ($image->type == 'image'): ?>
+<!--                                    <div class="item-galary-warpper">-->
+<!--                                        --><?php //print theme('image_style', array('path' => $image->uri, 'style_name' => 'media_thumbnail')) ?>
+<!--                                        <input type="checkbox" name="image[]" class="choose-gallary"-->
+<!--                                               value="--><?php //print $image->fid; ?><!--">-->
+<!--                                    </div>-->
+<!--                                --><?php //endif; ?>
+<!--                            --><?php //endforeach; ?>
+<!--                        --><?php //endif; ?>
+<!--                        <div class="clearfix"></div>-->
                         <input type="hidden" name="image_upload" value="1"/>
                         <input type="submit" value="Đăng bài" class="post-button"/>
                     </form>

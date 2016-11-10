@@ -117,7 +117,7 @@ class views_plugin_row_node_rss extends views_plugin_row {
       ),
       array(
         'key' => 'dc:creator',
-        'value' => format_username($node),
+        'value' => $node->name,
       ),
       array(
         'key' => 'guid',

@@ -18,7 +18,8 @@ stylesheets[all][] = css/style.css
 ;add js to theme
 scripts[] = js/bootstrap.min.js
 scripts[] = js/custom.js
-scripts[] = js/jquery.pinto.min.js
+;scripts[] = js/jquery.pinto.min.js
+;scripts[] = js/newWaterfall.js
 
 
 regions[header] = Header

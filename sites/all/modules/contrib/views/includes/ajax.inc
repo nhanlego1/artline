@@ -48,12 +48,12 @@ function views_ajax() {
 
       // Add all $_POST data, because AJAX is always a post and many things,
       // such as tablesorts, exposed filters and paging assume $_GET.
-      $_GET = $_POST + drupal_get_query_parameters($_GET, array('page'));
+      $_GET = $_POST + $_GET;
 
       // Overwrite the destination.
       // @see drupal_get_destination()
       $origin_destination = $path;
-      $query = drupal_http_build_query(drupal_get_query_parameters());
+      $query = drupal_http_build_query($_REQUEST);
       if ($query != '') {
         $origin_destination .= '?' . $query;
       }
@@ -169,16 +169,12 @@ function views_ajax_command_scroll_top($selector) {
 /**
  * Shows Save and Cancel buttons.
  *
- * @param bool $changed
- *   Whether of not the view has changed.
- *
  * @return
  *   An array suitable for use with the ajax_render() function.
  */
-function views_ajax_command_show_buttons($changed) {
+function views_ajax_command_show_buttons() {
   $command = array(
     'command' => 'viewsShowButtons',
-    'changed' => (bool) $changed,
   );
   return $command;
 }

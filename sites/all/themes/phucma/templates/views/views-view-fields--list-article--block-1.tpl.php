@@ -12,11 +12,11 @@ $node = node_load($fields['nid']->raw);
 if ($account->picture) {
     $avatar = theme('image_style', array('path' => $account->picture->uri, 'style_name' => 'avatar'));
 } else {
-    $avatar = '<img src="' . base_path() . path_to_theme("theme", "artline") . '/images/default-avatar.png">';
+    $avatar = '<img src="' . base_path() . path_to_theme("theme", "phucma") . '/images/default-avatar.png">';
 }
 ?>
 
-<div class="col-md-6 col-xs-12 product pinto post-<?php print $node->nid ?>">
+<div class="col-md-12 col-xs-12 product pinto post-<?php print $node->nid ?>">
     <div class="loading-post-post">
         <img
             src="<?php print base_path() . drupal_get_path('module', 'artline ') ?>/images/loading.gif"
@@ -34,7 +34,7 @@ if ($account->picture) {
             </p>
             <span class="datetime"><?php print format_date($node->created, 'custom', 'd/m/Y H:i:s') ?></span>
             <span class="share-link-button" data="<?php print $node->nid ?>"><img
-                    src="<?php print base_path() . drupal_get_path('theme', 'artline') ?>/images/ic.png"
+                    src="<?php print base_path() . drupal_get_path('theme', 'phucma') ?>/images/ic.png"
                     class="icon-link"></span>
             <input type="text" class="share-link hidden" id="share-link-<?php print $node->nid ?>"
                    value="<?php print artline_share_url_encode($node->nid) ?>"/>
@@ -50,7 +50,8 @@ if ($account->picture) {
         <?php endif; ?>
         <?php if (isset($node->field_image[LANGUAGE_NONE])): ?>
             <div class="slide">
-                <div id="<?php print $node->nid; ?>" class="carousel slide" data-ride="carousel" data-interval="false">
+                <div id="<?php print $node->nid; ?>" class="carousel slide" data-ride="carousel"
+                     data-interval="false">
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
                         <?php foreach ($node->field_image[LANGUAGE_NONE] as $key => $image): ?>
@@ -73,7 +74,8 @@ if ($account->picture) {
                     </div>
 
                     <!-- Controls -->
-                    <a class="left carousel-control" href="#<?php print $node->nid; ?>" role="button" data-slide="prev">
+                    <a class="left carousel-control" href="#<?php print $node->nid; ?>" role="button"
+                       data-slide="prev">
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="sr-only">Previous</span>
                     </a>
@@ -138,22 +140,26 @@ if ($account->picture) {
             <span class="readmore-article" data="<?php if (isset($node->field_category[LANGUAGE_NONE])) {
                 print url('taxonomy/term/' . $node->field_category[LANGUAGE_NONE][0]['tid']);
             } ?>">xem thêm <i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
-            <span class="store" data="<?php print $node->nid ?>"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Mua hàng</span>
+            <span class="store" data="<?php print $node->nid ?>"><i class="fa fa-shopping-cart"
+                                                                    aria-hidden="true"></i>Mua hàng</span>
             <a class="store-<?php print $node->nid ?> ctools-use-modal"
-               href="<?php print url('artline/store/' . $node->nid . '/nojs') ?>" style="display: none;">Mua hàng</a>
+               href="<?php print url('artline/store/' . $node->nid . '/nojs') ?>" style="display: none;">Mua
+                hàng</a>
         </div>
         <div class="share-item"
              id="share-button-<?php print $node->nid ?>">
             <span class="a2a_kit a2a_kit_size_40 a2a_target addtoany_list" id="" style="line-height: 30px;">
       <a class="a2a_button_facebook" onClick="return popup(this, 'notes')"
-         href="http://www.addtoany.com/add_to/facebook?linkurl=<?php print url('node/'.$node->nid,array('absolute'=>true)) ?>&amp;linkname=<?php print strip_tags($fields['field_description']->content) ?>&amp;linknote="
+         href="http://www.addtoany.com/add_to/facebook?linkurl=<?php print url('node/' . $node->nid, array('absolute' => true)) ?>&amp;linkname=<?php print strip_tags($fields['field_description']->content) ?>&amp;linknote="
          rel="nofollow"><span class="a2a_svg a2a_s__default a2a_s_facebook"
                               style="width: 30px; line-height: 30px; height: 30px; background-size: 30px; border-radius: 6px;"></span></a>
-<a class="a2a_button_twitter" onClick="return popup(this, 'notes')" href="http://www.addtoany.com/add_to/twitter?linkurl=<?php print url('node/'.$node->nid,array('absolute'=>true)) ?>&amp;linkname=<?php print strip_tags($fields['field_description']->content) ?>&amp;linknote=" rel="nofollow"><span
+<a class="a2a_button_twitter" onClick="return popup(this, 'notes')"
+   href="http://www.addtoany.com/add_to/twitter?linkurl=<?php print url('node/' . $node->nid, array('absolute' => true)) ?>&amp;linkname=<?php print strip_tags($fields['field_description']->content) ?>&amp;linknote="
+   rel="nofollow"><span
         class="a2a_svg a2a_s__default a2a_s_twitter"
         style="width: 30px; line-height: 30px; height: 30px; background-size: 30px; border-radius: 6px;"></span></a>
 <a class="a2a_button_google_plus" onClick="return popup(this, 'notes')"
-   href="http://www.addtoany.com/add_to/google_plus?linkurl=<?php print url('node/'.$node->nid,array('absolute'=>true)) ?>&amp;linkname=<?php print strip_tags($fields['field_description']->content) ?>&amp;linknote="
+   href="http://www.addtoany.com/add_to/google_plus?linkurl=<?php print url('node/' . $node->nid, array('absolute' => true)) ?>&amp;linkname=<?php print strip_tags($fields['field_description']->content) ?>&amp;linknote="
    rel="nofollow"><span class="a2a_svg a2a_s__default a2a_s_google_plus"
                         style="width: 30px; line-height: 30px; height: 30px; background-size: 30px; border-radius: 6px;"></span></a>
 
@@ -172,10 +178,10 @@ if ($account->picture) {
 
 <script TYPE="text/javascript">
     function popup(mylink, windowname) {
-        if (! window.focus)return true;
+        if (!window.focus)return true;
         var href;
-        if (typeof(mylink) == 'string') href=mylink;
-        else href=mylink.href;
+        if (typeof(mylink) == 'string') href = mylink;
+        else href = mylink.href;
         window.open(href, windowname, 'width=600,height=400,scrollbars=yes');
         return false;
     }

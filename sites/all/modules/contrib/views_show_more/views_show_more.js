@@ -124,5 +124,7 @@
     wrapper.removeClass(onceClass[0]);
     settings = response.settings || ajax.settings || Drupal.settings;
     Drupal.attachBehaviors(wrapper, settings);
+    //add custom js
+
   };
 })(jQuery);

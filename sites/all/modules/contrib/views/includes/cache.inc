@@ -67,11 +67,12 @@ function _views_fetch_data($table = NULL, $move = TRUE, $reset = FALSE) {
   }
   else {
     if (!$fully_loaded) {
-      if ($data = views_cache_get('views_data', TRUE)) {
+      $data = views_cache_get('views_data', TRUE);
+      if (!empty($data->data)) {
         $cache = $data->data;
       }
-      else {
-        // No cache entry, rebuild.
+
+      if (empty($cache)) {
         $cache = _views_fetch_data_build();
       }
       $fully_loaded = TRUE;
@@ -126,25 +127,12 @@ function _views_data_process_entity_types(&$data) {
 function _views_fetch_plugin_data($type = NULL, $plugin = NULL, $reset = FALSE) {
   static $cache = NULL;
   if (!isset($cache) || $reset) {
-    // Load necessary code once.
-    if (!isset($cache)) {
-      views_include('plugins');
-      views_include_handlers();
-    }
-    // Because plugin data contains translated strings, and as such can be
-    // expensive to build, the results are cached per language.
-    global $language;
-    $cache_key = 'views:plugin_data:' . $language->language;
-    if (!$reset) {
-      if ($cache = cache_get($cache_key)) {
-        $cache = $cache->data;
-      }
-    }
-    // If not available in the cache, build it and cache it.
-    if (!$cache || $reset) {
-      $cache = views_discover_plugins();
-      cache_set($cache_key, $cache);
-    }
+    $start = microtime(TRUE);
+    views_include('plugins');
+    views_include_handlers();
+
+    $cache = views_discover_plugins();
+
   }
 
   if (!$type && !$plugin) {

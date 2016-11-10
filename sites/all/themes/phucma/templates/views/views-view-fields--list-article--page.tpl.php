@@ -12,11 +12,11 @@ $node = node_load($fields['nid']->raw);
 if ($account->picture) {
     $avatar = theme('image_style', array('path' => $account->picture->uri, 'style_name' => 'avatar'));
 } else {
-    $avatar = '<img src="' . base_path() . path_to_theme("theme", "artline") . '/images/default-avatar.png">';
+    $avatar = '<img src="' . base_path() . path_to_theme("theme", "phucma") . '/images/default-avatar.png">';
 }
 ?>
 
-<div class="col-md-6 col-xs-12 product pinto post-<?php print $node->nid ?>">
+<div class="col-md-12 col-xs-12 product pinto post-<?php print $node->nid ?>">
     <div class="loading-post-post">
         <img
             src="<?php print base_path() . drupal_get_path('module', 'artline ') ?>/images/loading.gif"
@@ -34,7 +34,7 @@ if ($account->picture) {
             </p>
             <span class="datetime"><?php print format_date($node->created, 'custom', 'd/m/Y H:i:s') ?></span>
             <span class="share-link-button" data="<?php print $node->nid ?>"><img
-                    src="<?php print base_path() . drupal_get_path('theme', 'artline') ?>/images/ic.png"
+                    src="<?php print base_path() . drupal_get_path('theme', 'phucma') ?>/images/ic.png"
                     class="icon-link"></span>
             <input type="text" class="share-link hidden" id="share-link-<?php print $node->nid ?>"
                    value="<?php print artline_share_url_encode($node->nid) ?>"/>
@@ -50,7 +50,8 @@ if ($account->picture) {
         <?php endif; ?>
         <?php if (isset($node->field_image[LANGUAGE_NONE])): ?>
             <div class="slide">
-                <div id="<?php print $node->nid; ?>" class="carousel slide" data-ride="carousel" data-interval="false">
+                <div id="<?php print $node->nid; ?>" class="carousel slide" data-ride="carousel"
+                     data-interval="false">
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
                         <?php foreach ($node->field_image[LANGUAGE_NONE] as $key => $image): ?>
@@ -73,7 +74,8 @@ if ($account->picture) {
                     </div>
 
                     <!-- Controls -->
-                    <a class="left carousel-control" href="#<?php print $node->nid; ?>" role="button" data-slide="prev">
+                    <a class="left carousel-control" href="#<?php print $node->nid; ?>" role="button"
+                       data-slide="prev">
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="sr-only">Previous</span>
                     </a>
@@ -138,9 +140,11 @@ if ($account->picture) {
             <span class="readmore-article" data="<?php if (isset($node->field_category[LANGUAGE_NONE])) {
                 print url('taxonomy/term/' . $node->field_category[LANGUAGE_NONE][0]['tid']);
             } ?>">xem thêm <i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
-            <span class="store" data="<?php print $node->nid ?>"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Mua hàng</span>
+            <span class="store" data="<?php print $node->nid ?>"><i class="fa fa-shopping-cart"
+                                                                    aria-hidden="true"></i>Mua hàng</span>
             <a class="store-<?php print $node->nid ?> ctools-use-modal"
-               href="<?php print url('artline/store/' . $node->nid . '/nojs') ?>" style="display: none;">Mua hàng</a>
+               href="<?php print url('artline/store/' . $node->nid . '/nojs') ?>" style="display: none;">Mua
+                hàng</a>
         </div>
         <div class="share-item"
              id="share-button-<?php print $node->nid ?>">

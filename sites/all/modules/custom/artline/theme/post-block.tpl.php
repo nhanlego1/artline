@@ -14,7 +14,7 @@ if(isset($user->picture) && $user->picture > 0){
 }
 ?>
 <?php if($user->uid > 0): ?>
-        <div class="post-form col-md-6 col-xs-12 pinto ">
+        <div class="post-form col-md-12 col-xs-12 pinto ">
             <div class="news post-article-click">
                 <?php print $avatar ?>
                 <input type="text" disabled="disabled" name="news" style="background: #fff;" placeholder="Bạn đang nghĩ gì?">

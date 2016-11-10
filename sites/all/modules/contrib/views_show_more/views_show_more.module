@@ -137,9 +137,9 @@ function views_show_more_views_pre_render(&$view)
         return;
     }
     drupal_add_js(drupal_get_path('module', 'views_show_more') . '/views_show_more.js');
-    if(arg(0)!='admin'){
+   // if(arg(0)!='admin'){
         drupal_add_js(drupal_get_path('theme', 'phucma') . '/js/custom-load.js');
-    }
+    //}
 
 
 }

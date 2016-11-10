@@ -143,7 +143,7 @@ class views_plugin_query_default extends views_plugin_query {
     );
 
 /**
- * -- we no longer want the base field to appear automatically.
+ * -- we no longer want the base field to appear automatigically.
     if ($base_field) {
       $this->fields[$base_field] = array(
         'table' => $base_table,
@@ -888,7 +888,7 @@ class views_plugin_query_default extends views_plugin_query {
   /**
    * Add a complex WHERE clause to the query.
    *
-   * The caller is responsible for ensuring that all fields are fully qualified
+   * The caller is reponsible for ensuring that all fields are fully qualified
    * (TABLE.FIELD) and that the table already exists in the query.
    * Internally the dbtng method "where" is used.
    *
@@ -1322,10 +1322,6 @@ class views_plugin_query_default extends views_plugin_query {
     if (count($this->having)) {
       $this->has_aggregate = TRUE;
     }
-    elseif (!$this->has_aggregate) {
-      // Allow 'GROUP BY' even no aggregation function has been set.
-      $this->has_aggregate = $this->view->display_handler->get_option('group_by');
-    }
     if ($this->has_aggregate && (!empty($this->groupby) || !empty($non_aggregates))) {
       $groupby = array_unique(array_merge($this->groupby, $non_aggregates));
       foreach ($groupby as $field) {
@@ -1592,7 +1588,7 @@ class views_plugin_query_default extends views_plugin_query {
           'sort' => 'views_handler_sort_group_by_numeric',
         ),
       )
-    ) + views_fetch_plugin_data('query_aggregate');
+    );
   }
 
   /**
@@ -1620,8 +1616,7 @@ class views_plugin_query_default extends views_plugin_query {
     }
     $entity_type = $table_data['table']['entity type'];
     $info = entity_get_info($entity_type);
-    $is_revision = !empty($table_data['table']['revision']);
-    $id_alias = $this->get_field_alias($base_table_alias, $info['entity keys'][$is_revision ? 'revision' : 'id']);
+    $id_alias = $this->get_field_alias($base_table_alias, $info['entity keys']['id']);
 
     // Assemble the ids of the entities to load.
     $ids = array();
@@ -1631,34 +1626,12 @@ class views_plugin_query_default extends views_plugin_query {
       }
     }
 
-    if (!$is_revision) {
-      $entities = entity_load($entity_type, $ids);
-
-      // Re-key the array by row-index.
-      $result = array();
-      foreach ($ids as $key => $id) {
-        $result[$key] = isset($entities[$id]) ? $entities[$id] : FALSE;
-      }
+    $entities = entity_load($entity_type, $ids);
+    // Re-key the array by row-index.
+    $result = array();
+    foreach ($ids as $key => $id) {
+      $result[$key] = isset($entities[$id]) ? $entities[$id] : FALSE;
     }
-    else {
-      // There's no way in core to load revisions in bulk.
-      $result = array();
-      foreach ($ids as $key => $id) {
-        // Nodes can be dealt with in core.
-        if ($entity_type == 'node') {
-          $result[$key] = node_load(NULL, $id);
-        }
-        // Otherwise see if entity is enabled.
-        elseif (module_exists('entity')) {
-          $result[$key] = entity_revision_load($entity_type, $id);
-        }
-        else {
-          // Otherwise this isn't supported.
-          watchdog('views', 'Attempt to load a revision on an unsupported entity type @entity_type.', array('@entity_type' => $entity_type), WATCHDOG_WARNING);
-        }
-      }
-    }
-
     return array($entity_type, $result);
   }
 }

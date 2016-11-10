@@ -11,7 +11,7 @@ $current_tid = $tid;
 
 <div class="store-wrapper">
     <div class="location">
-        <select id="location-selector" class="chosen-select--">
+        <select id="location-selector">
             <option>Chọn khu vực bạn gần nhất</option>
             <?php foreach (get_location() as $tid => $name): ?>
                 <option value="<?php print $tid ?>"><?php print $name ?></option>
@@ -83,15 +83,3 @@ $current_tid = $tid;
     });
 </script>
 
-<!--<script type="text/javascript">-->
-<!--    var config = {-->
-<!--        '.chosen-select'           : {},-->
-<!--        '.chosen-select-deselect'  : {allow_single_deselect:true},-->
-<!--        '.chosen-select-no-single' : {disable_search_threshold:10},-->
-<!--        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},-->
-<!--        '.chosen-select-width'     : {width:"95%"}-->
-<!--    }-->
-<!--    for (var selector in config) {-->
-<!--        jQuery(selector).chosen(config[selector]);-->
-<!--    }-->
-<!--</script>-->

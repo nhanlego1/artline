@@ -44,7 +44,7 @@ global $user;
         <?php endif; ?>
         <?php endforeach; ?>
     <?php if($user->uid > 0): ?>
-   <li class="user active"><a href="<?php print url('article/user/'.$user->uid) ?>">Bài viết của tôi</a></li>
+   <li class="user active"><a href="<?php print url('my/posts') ?>">Bài viết của tôi</a></li>
     <?php endif;?>
 </ul>
 <div class="clearfix"></div>

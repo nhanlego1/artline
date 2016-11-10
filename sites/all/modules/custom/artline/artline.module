@@ -5,7 +5,7 @@
  * Date: 10/25/16
  * Time: 10:14 AM
  */
-
+module_load_include('inc','artline','artline.pages');
 /**
  * Implement hook_menu()
  */
@@ -93,6 +93,12 @@ function artline_menu()
         'type' => MENU_CALLBACK,
     );
 
+    $items['artline/raw/post'] = array(
+        'page callback' => 'artline_raw_post',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+
     $items['admin/config/content/artline'] = array(
         'title' => 'Artline ',
         'description' => 'Control config for artline.',
@@ -100,6 +106,37 @@ function artline_menu()
         'page arguments' => array('artline_admin'),
         'access arguments' => array('administer artline'),
         'file' => 'artline.admin.inc',
+    );
+
+    $items['posts/list'] = array(
+        'title' => 'Artline ',
+        'page callback' => 'artline_get_post',
+        'access callback' => TRUE,
+        'file' => 'artline.pages.inc',
+    );
+    $items['my/posts'] = array(
+        'title' => 'Bài viết của tôi ',
+        'page callback' => 'artline_get_my_post',
+        'access callback' => TRUE,
+        'file' => 'artline.pages.inc',
+    );
+    $items['posts/list/pager'] = array(
+        'title' => 'Artline ',
+        'page callback' => 'artline_get_post_pager',
+        'access callback' => TRUE,
+        'file' => 'artline.pages.inc',
+    );
+    $items['posts/my/pager'] = array(
+        'title' => 'Artline ',
+        'page callback' => 'artline_get_my_post_pager',
+        'access callback' => TRUE,
+        'file' => 'artline.pages.inc',
+    );
+    $items['posts/category/pager'] = array(
+        'title' => 'Artline ',
+        'page callback' => 'artline_get_post_pager_category',
+        'access callback' => TRUE,
+        'file' => 'artline.pages.inc',
     );
     return $items;
 }
@@ -181,6 +218,21 @@ function artline_theme()
         'path' => drupal_get_path('module', 'artline') . '/theme',
         'template' => 'footer',
     );
+    $items['post_list'] = array(
+        'render element' => 'element',
+        'path' => drupal_get_path('module', 'artline') . '/theme',
+        'template' => 'post-list',
+    );
+    $items['post_list_detail'] = array(
+        'render element' => 'element',
+        'path' => drupal_get_path('module', 'artline') . '/theme',
+        'template' => 'post-list-detail',
+    );
+    $items['post_list_pager'] = array(
+        'render element' => 'element',
+        'path' => drupal_get_path('module', 'artline') . '/theme',
+        'template' => 'post-list-pager',
+    );
 
     return $items;
 }
@@ -194,7 +246,8 @@ function artline_init()
     drupal_add_css(drupal_get_path('module', 'artline') . '/css/artline.css');
     ctools_include('modal');
     ctools_modal_add_js();
-   // drupal_add_js(drupal_get_path('module','artline').'/js/chosen.jquery.js');
+    drupal_add_js(drupal_get_path('module','artline').'/js/newWaterfall.js');
+    drupal_add_js(drupal_get_path('module','artline').'/js/artlineinit.js');
   //  drupal_add_css(drupal_get_path('module','artline').'/css/chosen.css');
 }
 
@@ -243,7 +296,7 @@ function artline_article_uploader_post()
                     $image = file_get_contents($filepath);
                     // Returns the new file object
 
-                    $filename = 'artline_' . str_replace(' ','',$entry);
+                    $filename = 'but-viet-artline-' . str_replace(' ','',$entry);
                     $file = file_save_data($image, 'public://' . $filename, FILE_EXISTS_RENAME);
                     $images[] = $file;
                     artline_article_uploader_remove($entry);
@@ -575,6 +628,7 @@ function artline_block_info()
     $blocks['user_block'] = array('info' => t('User Block'));
     $blocks['admin_dashboard'] = array('info' => t('Admin dashboard'));
     $blocks['artline_footer'] = array('info' => t('Artline footer'));
+    $blocks['post_list'] = array('info' => t('Post List'));
     return $blocks;
 }
 
@@ -602,6 +656,14 @@ function artline_block_view($delta = '')
             return array(
                 'subject' => t('Post article'),
                 'content' => artline_article_uploader(),
+            );
+
+            break;
+
+        case 'post_list':
+            return array(
+                'subject' => t('Post List'),
+                'content' => artline_get_post(),
             );
 
             break;
@@ -1215,3 +1277,12 @@ function artline_share_url_encode($nid)
     $url = url('article/link/' . $token, array('absolute' => true));
     return $url;
 }
+
+/**
+ * function
+ */
+function _post_block(){
+    return theme('artline_post_block');
+}
+
+

@@ -12,7 +12,7 @@ $account = user_load($node->uid);
 if ($account->picture) {
     $avatar = theme('image_style', array('path' => $account->picture->uri, 'style_name' => 'avatar'));
 } else {
-    $avatar = '<img src="' . base_path() . path_to_theme("theme", "artline") . '/images/default-avatar.png">';
+    $avatar = '<img src="' . base_path() . path_to_theme("theme", "phucma") . '/images/default-avatar.png">';
 }
 
 ?>
@@ -38,7 +38,7 @@ if ($account->picture) {
             </p>
             <span class="datetime"><?php print format_date($node->created, 'custom', 'd/m/Y H:i:s') ?></span>
             <span class="share-link-button" data="<?php print $node->nid ?>"><img
-                    src="<?php print base_path() . drupal_get_path('theme', 'artline') ?>/images/ic.png"
+                    src="<?php print base_path() . drupal_get_path('theme', 'phucma') ?>/images/ic.png"
                     class="icon-link"></span>
             <input type="text" class="share-link hidden" id="share-link-<?php print $node->nid ?>"
                    value="<?php print artline_share_url_encode($node->nid) ?>"/>

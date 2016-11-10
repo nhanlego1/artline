@@ -26,12 +26,13 @@ if($account2->picture){
                             <img
                                 src="<?php print base_path() . drupal_get_path('theme', 'phucma'); ?>/images/default-avatar.png">
                         <?php endif; ?>
+                        <span class="name-comment-user"><?php print $account->name; ?></span>
                     </div>
                     <div class="comment-content">
                         <?php print $comment->comment_body[LANGUAGE_NONE][0]['value']; ?>
                     </div>
                     <div class="clearfix"></div>
-                    <span class="reply-form" data="<?php print $comment->cid; ?>">Trả lời</span>
+                    <span class="reply-form" data="<?php print $comment->cid; ?>">Trả lời</span>  <span class="close-form close-form-<?php print $comment->cid; ?> hidden" data="<?php print $comment->cid; ?>">Đóng</span>
                     <div class="clearfix"></div>
                     <div class="artline-comment-reply artline-comment-reply-<?php print $comment->cid ?>">
                         <div class="loading-comment">
