@@ -279,7 +279,7 @@ function artline_article_uploader_post()
         $all_domain[$do['domain_id']] = $do['domain_id'];
     }
 
-    $storeFolder = DRUPAL_ROOT . '/'.variable_get('file_public_path');   //2
+    $storeFolder = DRUPAL_ROOT . '/uploads';   //2
     if (!empty($_FILES)) {
         $tempFile = $_FILES['file']['tmp_name'];          //3
         $filename_tmp = time().str_replace(' ','',$_FILES['file']['name']);
