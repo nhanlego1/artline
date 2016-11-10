@@ -12,7 +12,7 @@ if($user->uid > 0){
 ?>
 <ul class="nav navbar-nav navbar-right">
     <?php if($user->uid > 0): ?>
-        <li><a href="<?php print url('user/'.$user->uid.'/edit') ?>">Hi <?php isset($account->field_full_name[LANGUAGE_NONE]) ? print $account->field_full_name[LANGUAGE_NONE][0]['value'] : print $user->name ?></a></li>
+        <li><a href="<?php print url('user') ?>">Hi <?php isset($account->field_full_name[LANGUAGE_NONE]) ? print $account->field_full_name[LANGUAGE_NONE][0]['value'] : print $user->name ?></a></li>
         <li><a href="<?php print url('user/logout') ?>">Đăng xuất</a></li>
     <?php else: ?>
         <li><a href="<?php print url('user/register') ?>">Đăng ký</a></li>

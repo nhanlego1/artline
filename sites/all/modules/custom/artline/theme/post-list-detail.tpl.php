@@ -23,6 +23,7 @@ if ($account->picture) {
         </div>
         <div class="post">
             <div class="news">
+                <a href="<?php print _get_profile_link($node->uid); ?>">
                 <?php print $avatar ?>
                 <p class="name">
                     <?php if (isset($account->field_full_name[LANGUAGE_NONE])): ?>
@@ -31,6 +32,7 @@ if ($account->picture) {
                         <?php print $account->name ?>
                     <?php endif; ?>
                 </p>
+                </a>
                 <span
                     class="datetime"><?php print format_date($node->created, 'custom', 'd/m/Y H:i:s') ?></span>
                 <span class="share-link-button" data="<?php print $node->nid ?>"><img

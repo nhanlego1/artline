@@ -293,7 +293,7 @@ function social_login_core_callback_handler() {
       
       // Retrieve connection details.
       $data = social_login_core_do_api_request($handler, $protocol . '://' . $api_subdomain . '.api.oneall.com/connections/' . $token . '.json', array('api_key' => $api_key, 'api_secret' => $api_secret));
-      
+
       // Make sure we have received the correct format.
       if (is_array($data) && !empty($data['http_data'])) {
         
@@ -304,6 +304,13 @@ function social_login_core_callback_handler() {
           
           // The plugin that has been uses social_login/social_link.
           $data = $social_data['response']['result']['data'];
+          //set data to table tmp
+
+            $link = $data['user']['identity']['id'];
+            $name = $data['user']['identity']['name']['formatted'];
+            $nickname = $data['user']['identity']['displayName'];
+            $email = $data['user']['identity']['emails'][0]['value'];
+            _insert_temp_table($email, $link, $name, $nickname);
           
           // Save the social network data in a session.
           $_SESSION['social_login_session_open'] = 1;
@@ -735,7 +742,8 @@ function social_login_core_user_insert(&$edit, $account, $category) {
         rules_invoke_event_by_args('social_login_core_user_insert', $oa_fields_invoke);
       }
     }
-    
+    //update field
+
     // Clear the session.
     social_login_core_clear_session();
   }
@@ -1400,4 +1408,22 @@ function social_login_core_profilefields($oauser = array()) {
       'description' => 'Social network identity spoken language (first listed).' 
     ) 
   );
+}
+
+function _insert_temp_table($email, $link, $name, $nickname){
+    $select = db_select('user_profile_tmp','tt');
+    $select->fields('tt');
+    $select->condition('email',$email);
+    $result = $select->execute()->fetchAllAssoc('id');
+    if(!$result){
+        db_insert('user_profile_tmp') // Table name no longer needs {}
+        ->fields(array(
+            'email' => $email,
+            'name' => $name,
+            'link' => $link,
+            'nickname'=>$nickname,
+        ))
+            ->execute();
+    }
+
 }

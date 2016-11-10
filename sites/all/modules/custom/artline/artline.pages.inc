@@ -17,22 +17,26 @@ function artline_get_post($page_num = 0, $page_size = 8)
     global $user;
     $query = db_select('node', 'n');
     $query->fields('n');
-    if(in_array('admin',$user->roles) || in_array('administrator',$user->roles)){
-        $query->condition(db_or()
-            ->condition('status', 1)
-            ->condition('status', 0)
-        );
+    if($user->uid > 0){
+        if(in_array('admin',$user->roles) || in_array('administrator',$user->roles)){
+            $query->condition(db_or()
+                ->condition('status', 1)
+                ->condition('status', 0)
+            );
+        }else{
+            $query->condition(db_or()
+                ->condition('uid', $user->uid)
+                ->condition('status', 1)
+            );
+        }
     }else{
-        $query->condition(db_or()
-            ->condition('uid', $user->uid)
-            ->condition('status', 1)
-        );
+        $query->condition('status', 1);
     }
+
 
     $query->condition('type', 'article');
     $query->range($page_num, $page_size);
     $query->orderBy('created', 'DESC');
-    dsm((string) $query);
     $result = $query->execute()->fetchAllAssoc('nid');
     $data = array();
     if ($result) {
@@ -63,16 +67,20 @@ function artline_get_post_pager()
     }
     $query = db_select('node', 'n');
     $query->fields('n');
-    if(in_array('admin',$user->roles) || in_array('administrator',$user->roles)){
-        $query->condition(db_or()
-            ->condition('status', 1)
-            ->condition('status', 0)
-        );
+    if($user->uid > 0){
+        if(in_array('admin',$user->roles) || in_array('administrator',$user->roles)){
+            $query->condition(db_or()
+                ->condition('status', 1)
+                ->condition('status', 0)
+            );
+        }else{
+            $query->condition(db_or()
+                ->condition('uid', $user->uid)
+                ->condition('status', 1)
+            );
+        }
     }else{
-        $query->condition(db_or()
-            ->condition('uid', $user->uid)
-            ->condition('status', 1)
-        );
+        $query->condition('status', 1);
     }
 
     $query->condition('type', 'article');
@@ -126,7 +134,7 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 8)
     }else{
         $query->condition('n.status', 1);
     }
-    
+
     //check tids
     if ($tids) {
         $query->condition('ca.field_category_tid', $tids, 'in');
