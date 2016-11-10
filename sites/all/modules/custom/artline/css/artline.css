@@ -945,6 +945,22 @@ span.close-form {
 .gsc-tabHeader.gsc-tabhInactive {
     display: none;
 }
+td .field-type-taxonomy-term-reference{
+    width: 15%;
+    float: left;
+    margin-top: 10px;
+    margin-bottom: 0px!important;
+}
+.field-name-field-link{
+    width: 30%;
+    float: left;
+    margin-right: 127px;
+}
+.field-name-field-link-title{
+    width: 30%;
+    float: left;
+    margin-left: 5px;
+}
 
 @media only screen and (min-width: 768px){
     #content .col-md-12 .main .slide {
