@@ -939,6 +939,12 @@ span.close-form {
 .page-my-posts h1.title{
     display: none;
 }
+.gsc-tabhActive{
+    display: none!important;
+}
+.gsc-tabHeader.gsc-tabhInactive {
+    display: none;
+}
 
 @media only screen and (min-width: 768px){
     #content .col-md-12 .main .slide {
