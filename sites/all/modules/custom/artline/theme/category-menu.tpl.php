@@ -10,6 +10,9 @@ $class_child = '';
 global $user;
 ?>
 <ul class="list-item">
+    <?php if($user->uid > 0): ?>
+        <li class="user my-post active"><a href="<?php print url('my/posts') ?>">Bài viết của tôi</a></li>
+    <?php endif;?>
     <li class="<?php if(drupal_is_front_page()):?> active <?php endif; ?>" ><a href="<?php print url('<front>') ?>">Trang chủ</a></li>
     <?php foreach ($terms as $term): ?>
     <?php
@@ -43,9 +46,7 @@ global $user;
         <?php endif; ?>
         <?php endif; ?>
         <?php endforeach; ?>
-    <?php if($user->uid > 0): ?>
-   <li class="user active"><a href="<?php print url('my/posts') ?>">Bài viết của tôi</a></li>
-    <?php endif;?>
+
 </ul>
 <div class="clearfix"></div>
 <div class="sidebar-bottom">
