@@ -99,15 +99,14 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
-                            <span><img
-                                    src="<?php print base_path() . drupal_get_path('theme', 'artline') ?>/images/x.png"></span>
+                            <?php print artline_get_avatar();?>
                         </button>
                         <span class="hide-menu"><i class="fa fa-bars" aria-hidden="true"></i></span>
                         <?php if ($logo): ?>
                             <a class="navbar-brand" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>"
                                rel="home"
-                               id="logo">Artline.vn
-<!--                                <img src="--><?php //print $logo; ?><!--" alt="--><?php //print t('Home'); ?><!--"/>-->
+                               id="logo">
+                                <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>"/>
                             </a>
                         <?php endif; ?>
 

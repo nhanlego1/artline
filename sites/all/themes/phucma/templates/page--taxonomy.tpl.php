@@ -105,8 +105,8 @@
                         <span class="hide-menu"><i class="fa fa-bars" aria-hidden="true"></i></span>
                         <?php if ($logo): ?>
                             <a class="navbar-brand" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home"
-                               id="logo">Artline.vn
-<!--                                <img src="--><?php //print $logo; ?><!--" alt="--><?php //print t('Home'); ?><!--"/>-->
+                               id="logo">
+                                <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>"/>
                             </a>
                         <?php endif; ?>
 
