@@ -251,7 +251,8 @@ function artline_get_my_post($page_num = 0, $page_size = 8)
         }
         return theme('post_list', array('nodes' => $data));
     } else {
-        return false;
+        drupal_set_message('Bạn vẫn chưa đăng bài viết.','status');
+        drupal_goto('<front>');
     }
 }
 
