@@ -206,6 +206,9 @@ span.notice{
 .video-article iframe{
     width: 400px!important;
 }
+li.my-post a{
+    font-weight: bolder;
+}
 .pink{
     display: block!important;
     font-size: 31px!important;
