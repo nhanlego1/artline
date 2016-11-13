@@ -1,0 +1,2 @@
+D:\artline\sites\all\themes\phucma\templates\html.tpl
+Them code google tag o trong file tren
