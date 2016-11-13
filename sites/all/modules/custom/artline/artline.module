@@ -615,7 +615,7 @@ function artline_load_collection($node)
     $data = array();
     if (isset($node->field_store_link[LANGUAGE_NONE])) {
         foreach($node->field_store_link[LANGUAGE_NONE] as $collect){
-            $data[] = entity_load('field_collection_item', array($node->field_store_link[LANGUAGE_NONE][0]['value']));
+            $data[] = entity_load('field_collection_item', array($collect['value']));
         }
 
         return $data;
