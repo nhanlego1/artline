@@ -455,6 +455,68 @@
 
         });
 
+        $(".action-link .public-post").each(function () {
+            var nid_ = $(this).attr('data');
+            $(this).click(function (event) {
+                event.preventDefault();
+                $(".post-" + nid_ + ' .loading-post-post').show();
+
+                setTimeout(function () {
+                    $.post("/artline/public/post", {nid: nid_})
+                        .done(function (data) {
+                            if (data == 'ok') {
+
+                            }
+                        })
+                        .fail(function () {
+                            //alert( "error" );
+                        });
+                }, 1000);
+                setTimeout(function () {
+                    $(".post-" + nid_ + ' .loading-post-post').hide();
+                    $(".public-"+nid_).html('Khoá bài viết');
+                    $(".public-"+nid_).removeClass('public-post');
+
+                    $(".public-"+nid_).addClass('unpublic-post');
+                    $(".public-"+nid_).addClass('unpublic-'+nid_);
+                    $(".public-"+nid_).removeClass('public-'+nid_);
+
+                }, 2000);
+            });
+
+        });
+        $(".action-link .unpublic-post").each(function () {
+            var nid_ = $(this).attr('data');
+            $(this).click(function (event) {
+                event.preventDefault();
+                $(".post-" + nid_ + ' .loading-post-post').show();
+
+                setTimeout(function () {
+                    $.post("/artline/unpublic/post", {nid: nid_})
+                        .done(function (data) {
+                            if (data == 'ok') {
+
+                            }
+                        })
+                        .fail(function () {
+                            //alert( "error" );
+                        });
+                }, 1000);
+                setTimeout(function () {
+                    $(".post-" + nid_ + ' .loading-post-post').hide();
+                    $(".unpublic-"+nid_).html('Xuất bản');
+                    $(".unpublic-"+nid_).removeClass('unpublic-post');
+
+                    $(".unpublic-"+nid_).addClass('public-post');
+                    $(".unpublic-"+nid_).addClass('public-'+nid_);
+                    $(".unpublic-"+nid_).removeClass('unpublic-'+nid_);
+
+
+                }, 2000);
+            });
+
+        });
+
         //edit article
         $(".action-link .edit-post").each(function () {
             var nid_ = $(this).attr('data');

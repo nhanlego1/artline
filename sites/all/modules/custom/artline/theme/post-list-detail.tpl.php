@@ -99,6 +99,16 @@ if ($account->picture) {
                     <?php if ($node->uid == $user->uid || in_array('admin', $user->roles) || in_array('administrator', $user->roles)): ?>
                         <div class="edit-content">
                     <span class="action-link action-link-<?php print $node->nid ?>">
+                        <?php if (in_array('admin', $user->roles) || in_array('administrator', $user->roles)): ?>
+                   <?php if($node->status==0): ?>
+                  <a class="public-post public-<?php print $node->nid ?>" data="<?php print $node->nid ?>"
+                     href="#">Xuất bản</a> |
+                  <?php else: ?>
+                                <a class="unpublic-post unpublic-<?php print $node->nid ?>" data="<?php print $node->nid ?>"
+                                   href="#">Khoá bài viết</a> |
+
+                  <?php endif; ?>
+                        <?php endif; ?>
                  <a class="edit-post edit-<?php print $node->nid ?>" data="<?php print $node->nid ?>"
                     href="#">Sửa</a> |
                  <a class="delete-post delete-<?php print $node->nid ?>" data="<?php print $node->nid ?>"

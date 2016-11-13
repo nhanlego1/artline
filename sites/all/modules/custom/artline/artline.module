@@ -87,6 +87,16 @@ function artline_menu()
         'access callback' => TRUE,
         'type' => MENU_CALLBACK,
     );
+    $items['artline/public/post'] = array(
+        'page callback' => 'artline_public_post',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    $items['artline/unpublic/post'] = array(
+        'page callback' => 'artline_unpublic_post',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
     $items['artline/delete/post'] = array(
         'page callback' => 'artline_delete_post',
         'access callback' => TRUE,
@@ -1335,6 +1345,30 @@ function _get_profile_link($uid){
         $link = url('user/'.$uid);
     }
     return $link;
+}
+
+/**
+ * public post
+ */
+function artline_public_post(){
+    $nid = $_POST['nid'];
+    $node = node_load($nid);
+    $node->status = 1;
+    node_save($node);
+    print 'ok';
+    drupal_exit();
+}
+
+/**
+ * public post
+ */
+function artline_unpublic_post(){
+    $nid = $_POST['nid'];
+    $node = node_load($nid);
+    $node->status = 0;
+    node_save($node);
+    print 'ok';
+    drupal_exit();
 }
 
 

@@ -112,7 +112,7 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 8)
         }
 
     }
-    
+
     $parents = taxonomy_get_parents($tid);
     if($parents){
         foreach ($parents as $parent) {
