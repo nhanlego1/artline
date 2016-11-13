@@ -23,20 +23,23 @@ $current_tid = $tid;
     <ul class="store">
         <?php if ($nodes): ?>
             <?php foreach ($nodes as $node): ?>
-                <?php if ($col1 = artline_load_collection($node)): $col1 = reset($col1); ?>
-                    <?php if ($col1->field_category[LANGUAGE_NONE][0]['tid'] == $current_tid): ?>
-                        <li class=" location
+                <?php if ($col1 = artline_load_collection($node)): ?>
+                    <?php foreach ($col1 as $colect1): $colect1 = reset($colect1); ?>
+                        <?php if ($colect1->field_category[LANGUAGE_NONE][0]['tid'] == $current_tid): ?>
+                            <li class=" location
                     <?php foreach ($node->field_location[LANGUAGE_NONE] as $location): ?>
-                    location-<?php print $location['tid'] ?> 
+                    location-<?php print $location['tid'] ?>
+
                     <?php endforeach; ?>
                     ">
-                            <div class="name-store"><a href="javascript:;">> <?php print $node->title; ?></a></div>
-                            <span class="detail-store">
+                                <div class="name-store"><a href="javascript:;">> <?php print $node->title; ?></a></div>
+                                <span class="detail-store">
                             <p><?php print $node->body[LANGUAGE_NONE][0]['value'] ?></p>
-                            <p><?php print l($col1->field_link_title[LANGUAGE_NONE][0]['value'], $col1->field_link[LANGUAGE_NONE]['0']['value'], array('attributes' => array('target' => '_blank'))) ?></p>
+                            <p><?php print l($colect1->field_link_title[LANGUAGE_NONE][0]['value'], $colect1->field_link[LANGUAGE_NONE]['0']['value'], array('attributes' => array('target' => '_blank'))) ?></p>
                         </span>
-                        </li>
-                    <?php endif; ?>
+                            </li>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
                 <?php endif; ?>
             <?php endforeach; ?>
         <?php else: ?>
@@ -45,18 +48,20 @@ $current_tid = $tid;
         <?php if ($tqs = get_store_toanquoc()): ?>
             <h2>Bán trên toàn quốc</h2>
             <?php foreach ($tqs as $ts): ?>
-                <?php if ($col = artline_load_collection($ts)): $col = reset($col); ?>
 
-                    <?php if ($col->field_category[LANGUAGE_NONE][0]['tid'] == $current_tid): ?>
+                <?php if ($col = artline_load_collection($ts)): ?>
+                    <?php foreach ($col as $collect): $collect = reset($collect); ?>
+                        <?php if ($collect->field_category[LANGUAGE_NONE][0]['tid'] == $current_tid): ?>
 
-                        <li>
-                            <div class="name-store"><a href="javascript:;">> <?php print $ts->title; ?></a></div>
-                            <span class="detail-store">
+                            <li>
+                                <div class="name-store"><a href="javascript:;">> <?php print $ts->title; ?></a></div>
+                                <span class="detail-store">
                             <p><?php print $ts->body[LANGUAGE_NONE][0]['value'] ?></p>
-                            <p><?php print l($col->field_link_title[LANGUAGE_NONE][0]['value'], $col->field_link[LANGUAGE_NONE]['0']['value'], array('attributes' => array('target' => '_blank'))) ?></p>
+                            <p><?php print l($collect->field_link_title[LANGUAGE_NONE][0]['value'], $collect->field_link[LANGUAGE_NONE]['0']['value'], array('attributes' => array('target' => '_blank'))) ?></p>
                         </span>
-                        </li>
-                    <?php endif; ?>
+                            </li>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
                 <?php endif; ?>
             <?php endforeach; ?>
         <?php endif; ?>
