@@ -112,6 +112,20 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 8)
         }
 
     }
+    
+    $parents = taxonomy_get_parents($tid);
+    if($parents){
+        foreach ($parents as $parent) {
+            $tids[] = $parent->tid;
+            $children = taxonomy_get_children($parent->tid);
+            if ($children) {
+                foreach ($children as $child) {
+                    $tids[] = $child->tid;
+                }
+
+            }
+        }
+    }
     $query = db_select('node', 'n');
     $query->fields('n');
     $query->innerJoin('field_data_field_category', 'ca', 'n.nid = ca.entity_id');
