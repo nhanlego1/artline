@@ -128,6 +128,7 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 8)
             $db_or = db_or();
             $db_or->condition('n.uid', $user->uid);
             $db_or->condition('n.status', 0);
+            $db_or->condition('n.status', 1);
             //check tids
             $query->condition($db_or);
         }
