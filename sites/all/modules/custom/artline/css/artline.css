@@ -864,7 +864,7 @@ body.article-overview {
 }
 #content .col-md-12 .main .carousel-indicators li img, #content .col-lg-12 .main .carousel-indicators li img{
     width: 100%;
-    height: auto!important;
+    height: 40px!important;
 }
 #content .col-md-12 .main .carousel-indicators li {
     width: 12% !important;
