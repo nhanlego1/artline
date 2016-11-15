@@ -553,7 +553,7 @@ function artline_store_post($node, $ajax)
  */
 function artline_xu_post($node, $ajax)
 {
-    $output = t('<p>Chức ngăn đang được xây dựng.</p>');
+    $output = t('<p>Chức năng đang được xây dựng.</p>');
 
     if ($ajax) {
         ctools_include('ajax');
