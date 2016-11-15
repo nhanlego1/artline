@@ -5,6 +5,7 @@
  * Date: 10/31/16
  * Time: 5:37 PM
  */
+global $user;
 $current_tid = $tid;
 ?>
 
@@ -32,8 +33,8 @@ $current_tid = $tid;
 
                     <?php endforeach; ?>
                     ">
-                                <div class="name-store"><a href="javascript:;">> <?php print $node->title; ?></a></div>
-                                <span class="detail-store">
+                                <div class="name-store"><a data="<?php print  $node->nid?>" href="javascript:;">> <?php print $node->title; ?></a></div>
+                                <span class="detail-store detail-store-<?php print  $node->nid?>">
                             <p><?php print $node->body[LANGUAGE_NONE][0]['value'] ?></p>
                             <p><?php print l($colect1->field_link_title[LANGUAGE_NONE][0]['value'], $colect1->field_link[LANGUAGE_NONE]['0']['value'], array('attributes' => array('target' => '_blank'))) ?></p>
                         </span>
@@ -46,7 +47,7 @@ $current_tid = $tid;
             <p>Không có cửa hàng nào bán sản phẩm này.</p>
         <?php endif; ?>
         <?php if ($tqs = get_store_toanquoc()): ?>
-            <h2>Bán trên toàn quốc</h2>
+
             <?php foreach ($tqs as $ts): ?>
 
                 <?php if ($col = artline_load_collection($ts)): ?>
@@ -54,8 +55,8 @@ $current_tid = $tid;
                         <?php if ($collect->field_category[LANGUAGE_NONE][0]['tid'] == $current_tid): ?>
 
                             <li>
-                                <div class="name-store"><a href="javascript:;">> <?php print $ts->title; ?></a></div>
-                                <span class="detail-store">
+                                <div class="name-store"><a data="<?php print  $ts->nid?>" href="javascript:;">> <?php print $ts->title; ?></a></div>
+                                <span class="detail-store detail-store-<?php print  $ts->nid?>">
                             <p><?php print $ts->body[LANGUAGE_NONE][0]['value'] ?></p>
                             <p><?php print l($collect->field_link_title[LANGUAGE_NONE][0]['value'], $collect->field_link[LANGUAGE_NONE]['0']['value'], array('attributes' => array('target' => '_blank'))) ?></p>
                         </span>
@@ -69,19 +70,8 @@ $current_tid = $tid;
 
 
 </div>
-
 <script>
     jQuery(document).ready(function () {
-        //Examples of how to assign the Colorbox event to elements
-        jQuery(".name-store a").each(function () {
-
-            jQuery(this).click(function () {
-                //jQuery(".detail-store").hide();
-                jQuery(this).parent().next().toggle();
-                return false;
-            });
-        });
-
         jQuery('select#location-selector').niceSelect();
 
         jQuery("#location-selector").change(function () {
@@ -91,4 +81,34 @@ $current_tid = $tid;
         });
     });
 </script>
+<?php if($user->uid > 0): ?>
+<script>
+    jQuery(document).ready(function () {
+        //Examples of how to assign the Colorbox event to elements
+        jQuery(".name-store a").each(function () {
+            var nid = jQuery(this).attr('data');
+            jQuery(this).click(function () {
 
+                //jQuery(".detail-store").hide();
+                jQuery(".detail-store-"+nid).toggle();
+                return false;
+            });
+        });
+    });
+</script>
+<?php else: ?>
+    <script>
+        jQuery(document).ready(function () {
+            //Examples of how to assign the Colorbox event to elements
+            jQuery(".name-store a").each(function () {
+                var nid = jQuery(this).attr('data');
+                jQuery(this).click(function () {
+
+                    //jQuery(".detail-store").hide();
+                    jQuery(".detail-store-"+nid).removeClass('hidden');
+                    return false;
+                });
+            });
+        });
+    </script>
+<?php endif; ?>
