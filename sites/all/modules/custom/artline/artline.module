@@ -69,19 +69,19 @@ function artline_menu()
         'access callback' => TRUE,
         'type' => MENU_CALLBACK,
     );
-    $items['artline/share/%node/%ctools_js'] = array(
-        'page callback' => 'artline_share_post',
+    $items['artline/xu/%node/%ctools_js'] = array(
+        'page callback' => 'artline_xu_post',
         'page arguments' => array(2, 3),
         'access callback' => TRUE,
         'type' => MENU_CALLBACK,
     );
 
-    $items['artline/share/%node/%ctools_js'] = array(
-        'page callback' => 'artline_share_post',
-        'page arguments' => array(2, 3),
-        'access callback' => TRUE,
-        'type' => MENU_CALLBACK,
-    );
+//    $items['artline/share/%node/%ctools_js'] = array(
+//        'page callback' => 'artline_share_post',
+//        'page arguments' => array(2, 3),
+//        'access callback' => TRUE,
+//        'type' => MENU_CALLBACK,
+//    );
     $items['artline/edit/post'] = array(
         'page callback' => 'artline_edit_post',
         'access callback' => TRUE,
@@ -551,14 +551,14 @@ function artline_store_post($node, $ajax)
 /**
  * Implement ctools
  */
-function artline_share_post($node, $ajax)
+function artline_xu_post($node, $ajax)
 {
-    $output = addtoany_create_node_buttons($node);
+    $output = t('<p>Chức ngăn đang được xây dựng.</p>');
 
     if ($ajax) {
         ctools_include('ajax');
         $commands = array();
-        $commands[] = ctools_modal_command_display('Share post', $output);
+        $commands[] = ctools_modal_command_display('Đổi xu', $output);
         print ajax_render($commands);
         drupal_exit();
     } else {

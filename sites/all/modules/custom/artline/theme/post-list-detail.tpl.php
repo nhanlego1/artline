@@ -24,14 +24,14 @@ if ($account->picture) {
         <div class="post">
             <div class="news">
                 <a href="<?php print _get_profile_link($node->uid); ?>">
-                <?php print $avatar ?>
-                <p class="name">
-                    <?php if (isset($account->field_full_name[LANGUAGE_NONE])): ?>
-                        <?php print $account->field_full_name[LANGUAGE_NONE][0]['value'] ?>
-                    <?php else: ?>
-                        <?php print $account->name ?>
-                    <?php endif; ?>
-                </p>
+                    <?php print $avatar ?>
+                    <p class="name">
+                        <?php if (isset($account->field_full_name[LANGUAGE_NONE])): ?>
+                            <?php print $account->field_full_name[LANGUAGE_NONE][0]['value'] ?>
+                        <?php else: ?>
+                            <?php print $account->name ?>
+                        <?php endif; ?>
+                    </p>
                 </a>
                 <span
                     class="datetime"><?php print format_date($node->created, 'custom', 'd/m/Y H:i:s') ?></span>
@@ -76,12 +76,14 @@ if ($account->picture) {
                         </div>
 
                         <!-- Controls -->
-                        <a class="left carousel-control carousel-control-<?php print $node->nid ?>" href="#<?php print $node->nid; ?>" role="button"
+                        <a class="left carousel-control carousel-control-<?php print $node->nid ?>"
+                           href="#<?php print $node->nid; ?>" role="button"
                            data-slide="prev">
                             <i class="fa fa-angle-left" aria-hidden="true"></i>
                             <span class="sr-only">Previous</span>
                         </a>
-                        <a class="right carousel-control carousel-control-<?php print $node->nid ?>" href="#<?php print $node->nid; ?>" role="button"
+                        <a class="right carousel-control carousel-control-<?php print $node->nid ?>"
+                           href="#<?php print $node->nid; ?>" role="button"
                            data-slide="next">
                             <i class="fa fa-angle-right" aria-hidden="true"></i>
                             <span class="sr-only">Next</span>
@@ -91,7 +93,7 @@ if ($account->picture) {
             <?php endif; ?>
             <?php if (isset($node->field_video[LANGUAGE_NONE])): ?>
                 <div class="video-article">
-                    <?php print render(field_view_field('node',$node,'field_video')); ?>
+                    <?php print render(field_view_field('node', $node, 'field_video')); ?>
                 </div>
             <?php endif; ?>
             <?php if (isset($node->field_description[LANGUAGE_NONE])): ?>
@@ -100,17 +102,18 @@ if ($account->picture) {
                         <div class="edit-content">
                     <span class="action-link action-link-<?php print $node->nid ?>">
                         <?php if (in_array('admin', $user->roles) || in_array('administrator', $user->roles)): ?>
-                   <?php if($node->status==0): ?>
-                  <a class="public-post public-<?php print $node->nid ?>" data="<?php print $node->nid ?>"
-                     href="#">Xuất bản</a> |
-                  <?php else: ?>
-                                <a class="unpublic-post unpublic-<?php print $node->nid ?>" data="<?php print $node->nid ?>"
+                            <?php if ($node->status == 0): ?>
+                                <a class="public-post public-<?php print $node->nid ?>" data="<?php print $node->nid ?>"
+                                   href="#">Xuất bản</a> |
+                            <?php else: ?>
+                                <a class="unpublic-post unpublic-<?php print $node->nid ?>"
+                                   data="<?php print $node->nid ?>"
                                    href="#">Khoá bài viết</a> |
 
-                  <?php endif; ?>
+                            <?php endif; ?>
                         <?php endif; ?>
-                 <a class="edit-post edit-<?php print $node->nid ?>" data="<?php print $node->nid ?>"
-                    href="#">Sửa</a> |
+                        <a class="edit-post edit-<?php print $node->nid ?>" data="<?php print $node->nid ?>"
+                           href="#">Sửa</a> |
                  <a class="delete-post delete-<?php print $node->nid ?>" data="<?php print $node->nid ?>"
                     href="#">Xoá</a>
              </span>
@@ -162,18 +165,29 @@ if ($account->picture) {
             <div class="share-item hidden"
                  id="share-button-<?php print $node->nid ?>">
                 <span class="a2a_kit a2a_kit_size_40 a2a_target addtoany_list" style="line-height: 30px;">
-      <a data="<?php print $node->nid ?>" class="a2a_button_facebook" onClick="return popup(this, 'notes')" href="https://www.facebook.com/sharer/sharer.php?u=<?php print urlencode(url('node/'.$node->nid,array('absolute'=>true))) ?>&amp;src=sdkpreparse" rel="nofollow"><span class="a2a_svg a2a_s__default a2a_s_facebook"
-                                                                   style="width: 30px; line-height: 30px; height: 30px; background-size: 30px; border-radius: 6px;"></span></a>
-        <a data="<?php print $node->nid ?>" class="a2a_button_twitter" onClick="return popup(this, 'notes')" href="https://twitter.com/intent/tweet?text=<?php print $node->field_description[LANGUAGE_NONE][0]['value'].' '.url('node/'.$node->nid,array('absolute'=>true)) ?>" rel="nofollow"> <span class="a2a_svg a2a_s__default a2a_s_twitter"
-                                                                     style="width: 30px; line-height: 30px; height: 30px; background-size: 30px; border-radius: 6px;"></span></a>
-    <a data="<?php print $node->nid ?>" class="a2a_button_google_plus" onClick="return popup(this, 'notes')" href="https://plus.google.com/share?url=<?php print urlencode(url('node/'.$node->nid,array('absolute'=>true))) ?>" rel="nofollow"><span class="a2a_svg a2a_s__default a2a_s_google_plus"
-                                                                    style="width: 30px; line-height: 30px; height: 30px; background-size: 30px; border-radius: 6px;"></span></a>
+      <a data="<?php print $node->nid ?>" class="a2a_button_facebook" onClick="return popup(this, 'notes')"
+         href="https://www.facebook.com/sharer/sharer.php?u=<?php print urlencode(url('node/' . $node->nid, array('absolute' => true))) ?>&amp;src=sdkpreparse"
+         rel="nofollow"><span class="a2a_svg a2a_s__default a2a_s_facebook"
+                              style="width: 30px; line-height: 30px; height: 30px; background-size: 30px; border-radius: 6px;"></span></a>
+        <a data="<?php print $node->nid ?>" class="a2a_button_twitter" onClick="return popup(this, 'notes')"
+           href="https://twitter.com/intent/tweet?text=<?php print $node->field_description[LANGUAGE_NONE][0]['value'] . ' ' . url('node/' . $node->nid, array('absolute' => true)) ?>"
+           rel="nofollow"> <span class="a2a_svg a2a_s__default a2a_s_twitter"
+                                 style="width: 30px; line-height: 30px; height: 30px; background-size: 30px; border-radius: 6px;"></span></a>
+    <a data="<?php print $node->nid ?>" class="a2a_button_google_plus" onClick="return popup(this, 'notes')"
+       href="https://plus.google.com/share?url=<?php print urlencode(url('node/' . $node->nid, array('absolute' => true))) ?>"
+       rel="nofollow"><span class="a2a_svg a2a_s__default a2a_s_google_plus"
+                            style="width: 30px; line-height: 30px; height: 30px; background-size: 30px; border-radius: 6px;"></span></a>
     </span>
             </div>
             <div class="article-comment post-comment-<?php print $node->nid ?>">
                 <?php print artline_conment_form($node->nid, $pid = 0) ?>
             </div>
 
+            <!--doi xu lay but-->
+            <div class="xu xu-<?php print $node->nid ?>">
+                <a data="<?php print $node->nid ?>" href="#">Đổi xu lấy bút miễn phí</a>
+            </div>
         </div>
+
     </div>
 </li>

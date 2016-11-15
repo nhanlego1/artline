@@ -379,6 +379,17 @@
             });
         });
 
+        //store
+        $(".xu a").each(function () {
+            var nid_ = $(this).attr('data');
+            var class_ = '.xu-ctools-use-modal-' + nid_;
+            $(this).click(function () {
+                $(class_).click();
+                return false;
+            });
+
+        });
+
         //share
         $("span.share-post").each(function () {
             var nid_ = $(this).attr('data');

@@ -965,6 +965,22 @@ td .field-type-taxonomy-term-reference{
     float: left;
     margin-left: 5px;
 }
+.xu{
+    margin-top: 10px;
+    padding: 5px;
+    background: #1b88c1;
+    width: 90%;
+    margin-left: 5%;
+    text-align: center;
+}
+.xu a{
+    color: #fff;
+    text-decoration: none;
+}
+.xu a:hover{
+    color: #fff;
+    text-decoration: none;
+}
 
 @media only screen and (min-width: 768px){
     #content .col-md-12 .main .slide {
