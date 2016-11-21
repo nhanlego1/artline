@@ -106,6 +106,7 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 8)
     global $user;
     $children = taxonomy_get_children($tid);
     $tids = array();
+    $tids[] = $tid;
     if ($children) {
         foreach ($children as $child) {
             $tids[] = $child->tid;
@@ -117,10 +118,10 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 8)
     if($parents){
         foreach ($parents as $parent) {
             $tids[] = $parent->tid;
-            $children = taxonomy_get_children($parent->tid);
-            if ($children) {
-                foreach ($children as $child) {
-                    $tids[] = $child->tid;
+            $children_ = taxonomy_get_children($parent->tid);
+            if ($children_) {
+                foreach ($children_ as $child_) {
+                    $tids[] = $child_->tid;
                 }
 
             }
@@ -151,11 +152,8 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 8)
     }
 
     //check tids
-    if ($tids) {
+
         $query->condition('ca.field_category_tid', $tids, 'in');
-    } else {
-        $query->condition('ca.field_category_tid', $tid, '=');
-    }
     $query->condition('n.type', 'article');
     $query->range($page_num, $page_size);
     $query->orderBy('n.created', 'DESC');
