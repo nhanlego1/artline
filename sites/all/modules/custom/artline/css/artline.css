@@ -731,8 +731,8 @@ ul.store h2{
 }
 .description input[type="submit"]{
     float: right;
-    margin-right: 14px;
     margin-top: 10px;
+    padding: 3px;
 }
 .post-edit-article{
     display: none;
