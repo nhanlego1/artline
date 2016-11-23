@@ -165,13 +165,18 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 8)
         $query->condition('ca.field_category_tid', $tid, '=');
 
     }else{
-        $query->condition('ca.field_category_tid', $tids, 'in');
+        if($tids){
+            $query->condition('ca.field_category_tid', $tids, 'in');
+        }else{
+            $query->condition('ca.field_category_tid', $tid, '=');
+        }
+
 
     }
 
     $query->condition('n.type', 'article');
-    $query->range($page_num, $page_size);
     $query->orderBy('n.created', 'DESC');
+    $query->range($page_num, $page_size);
 
     $result = $query->execute()->fetchAllAssoc('nid');
     $data = array();
