@@ -74,6 +74,12 @@
 
                $('#view-content-ajax').NewWaterfall();
 
+            $("#block-artline-artline-category ul li ul li").each(function(){
+               if($(this).hasClass('active')){
+                   $(this).parent().parent().addClass('active');
+               }
+            });
+
 
         }
     };

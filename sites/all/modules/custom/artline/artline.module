@@ -524,8 +524,6 @@ function get_category()
     foreach ($terms as $term) {
         if (taxonomy_get_children($term->tid)) {
             $data[$term->tid] = $term->name;
-        } else {
-            $data[$term->tid] = '&nbsp;&nbsp; ' . $term->name;
         }
     }
     return $data;
