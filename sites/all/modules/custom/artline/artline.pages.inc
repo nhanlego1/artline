@@ -326,7 +326,10 @@ function artline_get_post_pager_category()
         }
 
     }
-    $data += artline_get_post_cate_other($tids, $page_num, $page_size);
+    if($parents){
+        $data += artline_get_post_cate_other($tids, $page_num, $page_size);
+    }
+
     print (render(theme('post_list_pager', array('nodes' => $data))));
     drupal_exit();
 }
