@@ -5,6 +5,7 @@
  * Date: 10/25/16
  * Time: 10:14 AM
  */
+define('TIDSUKIEN', 108);
 module_load_include('inc','artline','artline.pages');
 /**
  * Implement hook_menu()
@@ -84,6 +85,12 @@ function artline_menu()
 //    );
     $items['artline/edit/post'] = array(
         'page callback' => 'artline_edit_post',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    $items['artline/uptop/%node'] = array(
+        'page callback' => 'artline_uptop',
+        'page arguments' => array(2),
         'access callback' => TRUE,
         'type' => MENU_CALLBACK,
     );
@@ -1367,6 +1374,16 @@ function artline_unpublic_post(){
     node_save($node);
     print 'ok';
     drupal_exit();
+}
+
+/**
+ * function
+ */
+
+function artline_uptop($node){
+    $node->created = time();
+    node_save($node);
+    drupal_goto($_GET['destination']);
 }
 
 

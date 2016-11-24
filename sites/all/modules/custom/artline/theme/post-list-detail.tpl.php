@@ -97,40 +97,42 @@ if ($account->picture) {
                 </div>
             <?php endif; ?>
             <?php if (isset($node->field_description[LANGUAGE_NONE])): ?>
-                <div class="description">
-                    <?php if ($node->uid == $user->uid || in_array('admin', $user->roles) || in_array('administrator', $user->roles)): ?>
-                        <div class="edit-content">
+            <div class="description">
+                <?php if ($node->uid == $user->uid || in_array('admin', $user->roles) || in_array('administrator', $user->roles)): ?>
+                <div class="edit-content">
                     <span class="action-link action-link-<?php print $node->nid ?>">
                         <?php if (in_array('admin', $user->roles) || in_array('administrator', $user->roles)): ?>
+                            <a class="uptotop-post uptop-<?php print $node->nid ?>"
+                               href="<?php print url('artline/uptop/' . $node->nid, array('query' => array('destination' => $_GET['q']))) ?>">Up to top</a> |
                             <?php if ($node->status == 0): ?>
                                 <a class="public-post public-<?php print $node->nid ?>" data="<?php print $node->nid ?>"
                                    href="#">Xuất bản</a> |
                             <?php else: ?>
-                                <a class="unpublic-post unpublic-<?php print $node->nid ?>"
-                                   data="<?php print $node->nid ?>"
-                                   href="#">Khoá bài viết</a> |
+                            <a class="unpublic-post unpublic-<?php print $node->nid ?>"
+                               data="<?php print $node->nid ?>"
+                               href="#">Khoá bài viết</a> |
 
-                            <?php endif; ?>
+                        <?php endif; ?>
                         <?php endif; ?>
                         <a class="edit-post edit-<?php print $node->nid ?>" data="<?php print $node->nid ?>"
                            href="#">Sửa</a> |
                  <a class="delete-post delete-<?php print $node->nid ?>" data="<?php print $node->nid ?>"
                     href="#">Xoá</a>
              </span>
-                        </div>
-                    <?php endif; ?>
-                    <div
-                        class="content-desc content-desc-<?php print $node->nid ?>"><?php print $node->field_description[LANGUAGE_NONE][0]['value']; ?>
-                    </div>
-                    <form data="<?php print $node->nid ?>" class="post-edit-article"
-                          name="post_edit_<?php print $node->nid ?>"
-                          id="post-edit-<?php print $node->nid ?>">
+                </div>
+                <?php endif; ?>
+                <div
+                    class="content-desc content-desc-<?php print $node->nid ?>"><?php print $node->field_description[LANGUAGE_NONE][0]['value']; ?>
+                </div>
+                <form data="<?php print $node->nid ?>" class="post-edit-article"
+                      name="post_edit_<?php print $node->nid ?>"
+                      id="post-edit-<?php print $node->nid ?>">
                     <textarea name="post_<?php print $node->nid ?>" id="edit-post-<?php print $node->nid ?>" cols="40"
                               rows="2"
                               style="padding: 5px"><?php print strip_tags($node->field_description[LANGUAGE_NONE][0]['value']); ?></textarea>
-                        <input type="submit" id="submit-post-<?php print $node->nid ?>" value="Cập nhật"/>
-                    </form>
-                </div>
+                    <input type="submit" id="submit-post-<?php print $node->nid ?>" value="Cập nhật"/>
+                </form>
+            </div>
             <?php endif; ?>
             <div class="more">
             <span class="like-article article-<?php print $node->nid; ?>"
@@ -158,8 +160,10 @@ if ($account->picture) {
                       data="<?php if (isset($node->field_category[LANGUAGE_NONE])) {
                           print url('taxonomy/term/' . $node->field_category[LANGUAGE_NONE][0]['tid']);
                       } ?>">xem thêm <i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
-                <span class="store" data="<?php print $node->nid ?>"><i class="fa fa-shopping-cart"
-                                                                        aria-hidden="true"></i>Mua hàng</span>
+                <?php if ($node->field_category[LANGUAGE_NONE][0]['tid'] != TIDSUKIEN): ?>
+                    <span class="store" data="<?php print $node->nid ?>"><i class="fa fa-shopping-cart"
+                                                                            aria-hidden="true"></i>Mua hàng</span>
+                <?php endif; ?>
 
             </div>
             <div class="share-item hidden"
@@ -182,11 +186,12 @@ if ($account->picture) {
             <div class="article-comment post-comment-<?php print $node->nid ?>">
                 <?php print artline_conment_form($node->nid, $pid = 0) ?>
             </div>
-
-            <!--doi xu lay but-->
-            <div class="xu xu-<?php print $node->nid ?>">
-                <a data="<?php print $node->nid ?>" href="#">Đổi xu lấy bút miễn phí</a>
-            </div>
+            <?php if ($node->field_category[LANGUAGE_NONE][0]['tid'] != TIDSUKIEN): ?>
+                <!--doi xu lay but-->
+                <div class="xu xu-<?php print $node->nid ?>">
+                    <a data="<?php print $node->nid ?>" href="#">Đổi xu lấy bút miễn phí</a>
+                </div>
+            <?php endif; ?>
         </div>
 
     </div>
