@@ -988,7 +988,13 @@ td .field-type-taxonomy-term-reference{
 footer .info {
     padding: 9px 0 2px!important;
 }
-
+#content .col-md-12 .main .more span.readmore-article, #content .col-lg-12 .main .more span.readmore-article {
+    width: initial;
+    height: initial;
+    border-radius: 0px;
+    padding: 3px 5px;
+    background: #e8e8e8;
+}
 footer .social-icon a {
     width: 50px;
     height: 50px;

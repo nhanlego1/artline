@@ -88,7 +88,7 @@
                                                     $("#view-content-ajax").append(data);
                                                     _loadinitjs();
 
-                                                }, 2000);
+                                                }, 4000);
                                             } else {
                                                 $(".loading-view").remove();
                                             }
@@ -98,7 +98,7 @@
                                             //alert( "error" );
                                         });
 
-                                }, 200);
+                                }, 2000);
 
                                 setTimeout(function () {
                                     isWorking = 0;
@@ -129,7 +129,7 @@
 
                                                 $("#view-content-ajax").append(data);
                                                 _loadinitjs();
-                                            }, 2000);
+                                            }, 4000);
                                         } else {
                                             $(".loading-view").remove();
                                         }
@@ -164,7 +164,7 @@
 
                                                 $("#view-content-ajax").append(data);
                                                 _loadinitjs();
-                                            }, 2000);
+                                            }, 4000);
                                         } else {
                                             $(".loading-view").remove();
                                         }
