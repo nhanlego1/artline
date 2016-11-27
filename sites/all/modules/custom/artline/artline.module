@@ -562,7 +562,8 @@ function artline_store_post($node, $ajax)
  */
 function artline_xu_post($node, $ajax)
 {
-    $output = t('<p>Chức năng đang được xây dựng.</p>');
+    $output = t('<p>Chức năng đang được xây dựng.</p><p>Bạn hãy đăng ký thành viên để được các khuyến mãi khi tính năng này xây dựng xong
+</p><p><a href="/user/register">Đăng ký thành viên tại đây</a></p>');
 
     if ($ajax) {
         ctools_include('ajax');
