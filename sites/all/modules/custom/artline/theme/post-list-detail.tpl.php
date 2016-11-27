@@ -160,10 +160,10 @@ if ($account->picture) {
                       data="<?php if (isset($node->field_category[LANGUAGE_NONE])) {
                           print url('taxonomy/term/' . $node->field_category[LANGUAGE_NONE][0]['tid']);
                       } ?>">xem thêm <i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
-                <?php if ($node->field_category[LANGUAGE_NONE][0]['tid'] != TIDSUKIEN): ?>
-                    <span class="store" data="<?php print $node->nid ?>"><i class="fa fa-shopping-cart"
+
+                    <span <?php if ($node->field_category[LANGUAGE_NONE][0]['tid'] != TIDSUKIEN): ?> style="display: none;" <?php endif; ?> class="store" data="<?php print $node->nid ?>"><i class="fa fa-shopping-cart"
                                                                             aria-hidden="true"></i>Mua hàng</span>
-                <?php endif; ?>
+
 
             </div>
             <div class="share-item hidden"
