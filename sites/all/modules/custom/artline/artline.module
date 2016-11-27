@@ -269,8 +269,12 @@ function artline_init()
     drupal_add_css(drupal_get_path('module', 'artline') . '/css/artline.css');
     ctools_include('modal');
     ctools_modal_add_js();
+    //nice select
+    drupal_add_js(drupal_get_path('module', 'artline') . '/js/jquery.nice-select.js');
+    drupal_add_css(drupal_get_path('module', 'artline') . '/css/nice-select.css');
     drupal_add_js(drupal_get_path('module','artline').'/js/newWaterfall.js');
     drupal_add_js(drupal_get_path('module','artline').'/js/artlineinit.js');
+
   //  drupal_add_css(drupal_get_path('module','artline').'/css/chosen.css');
 }
 
@@ -729,9 +733,7 @@ function artline_block_view($delta = '')
 
         case 'artline_upload_content':
             global $user;
-            //nice select
-            drupal_add_js(drupal_get_path('module', 'artline') . '/js/jquery.nice-select.js');
-            drupal_add_css(drupal_get_path('module', 'artline') . '/css/nice-select.css');
+
             //checkbox library
             drupal_add_js(drupal_get_path('module', 'artline') . '/lib/icheck/icheck.js');
             drupal_add_css(drupal_get_path('module', 'artline') . '/lib/icheck/skins/all.css');
