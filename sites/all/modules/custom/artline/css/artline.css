@@ -1015,6 +1015,10 @@ footer .social-icon {
     padding: 5px 0!important;
 }
 
+.node-type-article .video-article iframe {
+    width: 100%!important;
+}
+
 @media only screen and (min-width: 768px){
     #content .col-md-12 .main .slide {
         margin-bottom: 50px!important;
