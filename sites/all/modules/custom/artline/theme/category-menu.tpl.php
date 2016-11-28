@@ -19,7 +19,7 @@ global $user;
 
     <?php if (!taxonomy_get_parents($term->tid)): ?>
     <?php
-    print_r($_GET['q']);
+    print_r($_GET['q']);die;
     if ($_GET['q'] == 'taxonomy/term/' . $term->tid) {
         $class = 'active';
     } else {
