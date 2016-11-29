@@ -281,7 +281,7 @@ function artline_init()
     drupal_add_css(drupal_get_path('module', 'artline') . '/lib/dropzone/dist/dropzone.css');
     drupal_add_js(drupal_get_path('module','artline').'/js/newWaterfall.js');
     drupal_add_js(drupal_get_path('module','artline').'/js/artlineinit.js');
-    drupal_add_js(drupal_get_path('module', 'artline') . '/js/artline.js');
+  //  drupal_add_js(drupal_get_path('module', 'artline') . '/js/artline.js');
 
   //  drupal_add_css(drupal_get_path('module','artline').'/css/chosen.css');
 }

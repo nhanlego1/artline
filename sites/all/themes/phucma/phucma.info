@@ -19,7 +19,7 @@ stylesheets[all][] = css/style.css
 scripts[] = js/bootstrap.min.js
 scripts[] = js/custom.js
 ;scripts[] = js/jquery.pinto.min.js
-;scripts[] = js/newWaterfall.js
+scripts[] = js/artline.js
 
 
 regions[header] = Header
