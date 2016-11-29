@@ -20,6 +20,7 @@ scripts[] = js/bootstrap.min.js
 scripts[] = js/custom.js
 ;scripts[] = js/jquery.pinto.min.js
 scripts[] = js/artline.js
+scripts[] = js/prototype.js
 
 
 regions[header] = Header
