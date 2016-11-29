@@ -950,20 +950,30 @@ span.close-form {
     display: none;
 }
 td .field-type-taxonomy-term-reference{
-    width: 15%;
+    width: 25%;
     float: left;
     margin-top: 10px;
     margin-bottom: 0px!important;
 }
 .field-name-field-link{
-    width: 30%;
+    width: 33%;
     float: left;
-    margin-right: 127px;
+}
+.field-name-field-link input{
+    width: 300px;
 }
 .field-name-field-link-title{
     width: 30%;
     float: left;
     margin-left: 5px;
+}
+.field-name-field-link-title input{
+    width: 300px;
+}
+#field-store-link-values .form-submit{
+    float: left;
+    margin-top: 41px;
+    margin-left: 30px;
 }
 .xu{
     margin-top: 10px;
