@@ -12,7 +12,7 @@
  * @param int $page_size
  * @return bool|string
  */
-function artline_get_post($page_num = 0, $page_size = 8)
+function artline_get_post($page_num = 0, $page_size = 12)
 {
     global $user;
     $query = db_select('node', 'n');
@@ -59,7 +59,7 @@ function artline_get_post_pager()
 {
 
     $page_num = 0;
-    $page_size = 8;
+    $page_size = 12;
     global $user;
     if ($_POST['page_num']) {
 
@@ -107,7 +107,7 @@ function artline_get_post_pager()
  * @param int $page_size
  * @return bool|string
  */
-function artline_get_post_cate($tid, $page_num = 0, $page_size = 8)
+function artline_get_post_cate($tid, $page_num = 0, $page_size = 12)
 {
     global $user;
     $data = array();
@@ -197,7 +197,7 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 8)
  * @param int $page_size
  * @return bool|string
  */
-function artline_get_post_cate_other($tids, $page_num = 0, $page_size = 8)
+function artline_get_post_cate_other($tids, $page_num = 0, $page_size = 12)
 {
     global $user;
     $data = array();
@@ -257,7 +257,7 @@ function artline_get_post_pager_category()
 {
 
     $page_num = 0;
-    $page_size = 8;
+    $page_size = 12;
     global $user;
     if ($_POST['page_num']) {
 
@@ -344,7 +344,7 @@ function artline_get_post_pager_category()
  * @param int $page_size
  * @return bool|string
  */
-function artline_get_my_post($page_num = 0, $page_size = 8)
+function artline_get_my_post($page_num = 0, $page_size = 12)
 {
     global $user;
     $query = db_select('node', 'n');
@@ -374,7 +374,7 @@ function artline_get_my_post($page_num = 0, $page_size = 8)
 function artline_get_my_post_pager()
 {
     $page_num = 0;
-    $page_size = 8;
+    $page_size = 12;
     global $user;
     if ($_POST['page_num']) {
         $page_num = $page_size * $_POST['page_num'];
@@ -417,7 +417,7 @@ function artline_list_100_post_store(){
     $query = db_select('node','n');
     $query->fields('n');
     $query->condition('type','article');
-    $query->range(0,200);
+    $query->range(0,200000);
     $query->orderBy('created','DESC');
     $result = $query->execute()->fetchAllAssoc('nid');
     $data = array();

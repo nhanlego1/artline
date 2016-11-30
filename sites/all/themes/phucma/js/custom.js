@@ -1,21 +1,21 @@
 (function ($) {
     Drupal.behaviors.initArtline = {
         attach: function (context, settings) {
-
+            $('.hooks').hide();
             var hooks = $('.hooks');
             var hookWidth = hooks.outerWidth();
             var winWidth = $(window).outerWidth();
             if (winWidth > 767) {
-                $('.change').css({'left': '120px'});
+               // $('.change').css({'left': '120px'});
                 $('.hide-menu').click(function () {
-                    hooks.toggleClass('hides');
+                    hooks.toggle();
                     if (hooks.hasClass('hides')) {
                         $('.hides').css({'left': -hookWidth});
                         $('.change').css({'left': '0'});
                     } else {
                         hooks.css({'left': 0});
                         var rowWidth = $('.change').outerWidth();
-                        $('.change').css({'left': '120px'});
+                     //   $('.change').css({'left': '120px'});
                     }
                 });
             }
@@ -47,7 +47,7 @@
                                 $('.change').css({'left': '0'});
                             } else {
                                 hooks.css({'left': 0});
-                                $('.change').css({'left': '120px'});
+                               // $('.change').css({'left': '120px'});
                             }
                         });
                     } else {
@@ -75,7 +75,7 @@
                             if ($(window).scrollTop() > $(".front footer .container").offset().top - 800) {
                                 isWorking = 1;
                                 var number_li = $("#view-content-ajax li.post-item").length;
-                                var num = number_li / 8;
+                                var num = number_li / 12;
                                 var data_ = $(".loading-view").attr('data');
                                 $(".loading-view").show()
 
@@ -117,7 +117,7 @@
                         if ($(window).scrollTop() > $(".page-taxonomy .taxonomy").offset().top - 800) {
                             isWorking = 1;
                             var number_li = $("#view-content-ajax li.post-item").length;
-                            var num = number_li / 8;
+                            var num = number_li / 12;
                             var data_ = $(".loading-view").attr('data');
                             $(".loading-view").show()
                             setTimeout(function () {
@@ -152,7 +152,7 @@
                         if ($(window).scrollTop() > $(".page-my-posts footer .container").offset().top - 800) {
                             isWorking = 1;
                             var number_li = $("#view-content-ajax li.post-item").length;
-                            var num = number_li / 8;
+                            var num = number_li / 12;
                             var data_ = $(".loading-view").attr('data');
                             $(".loading-view").show()
                             setTimeout(function () {
