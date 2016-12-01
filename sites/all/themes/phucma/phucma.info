@@ -17,10 +17,12 @@ stylesheets[all][] = css/style.css
 
 ;add js to theme
 scripts[] = js/bootstrap.min.js
-scripts[] = js/custom.js
+;scripts[] = js/custom.js
 ;scripts[] = js/jquery.pinto.min.js
 scripts[] = js/artline.js
 scripts[] = js/prototype.js
+scripts[] = js/waypoint.js
+scripts[] = js/jquery.waypoints.js
 
 
 regions[header] = Header

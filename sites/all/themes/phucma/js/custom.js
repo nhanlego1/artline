@@ -1,4 +1,6 @@
 (function ($) {
+    var timerScrollfront, timerScrolltaxonomy, timerScrolluser;
+
     Drupal.behaviors.initArtline = {
         attach: function (context, settings) {
             $('.hooks').hide();
@@ -6,7 +8,7 @@
             var hookWidth = hooks.outerWidth();
             var winWidth = $(window).outerWidth();
             if (winWidth > 767) {
-               // $('.change').css({'left': '120px'});
+                // $('.change').css({'left': '120px'});
                 $('.hide-menu').click(function () {
                     hooks.toggle();
                     if (hooks.hasClass('hides')) {
@@ -15,7 +17,7 @@
                     } else {
                         hooks.css({'left': 0});
                         var rowWidth = $('.change').outerWidth();
-                     //   $('.change').css({'left': '120px'});
+                        //   $('.change').css({'left': '120px'});
                     }
                 });
             }
@@ -47,7 +49,7 @@
                                 $('.change').css({'left': '0'});
                             } else {
                                 hooks.css({'left': 0});
-                               // $('.change').css({'left': '120px'});
+                                // $('.change').css({'left': '120px'});
                             }
                         });
                     } else {
@@ -62,130 +64,124 @@
         }
     };
 
-
-
-    Drupal.behaviors.ArtlineLoadmorePager = {
+    Drupal.behaviors.ArtlineLoadmorePagerFront = {
         attach: function (context, settings) {
-            var isWorking = 0;
-            $(window).scroll(function () {
-
-                    if (isWorking == 0) {
-
-                        if ($(".front footer .container").length > 0) {
+            var isWorking = false;
+            $(window).on('scroll', function () {
+                clearTimeout(timerScrollfront);
+                $(".loading-view").show();
+                timerScrollfront = setTimeout(function () {
+                    if ($(".front footer .container").length > 0) {
+                        if (!isWorking) {
                             if ($(window).scrollTop() > $(".front footer .container").offset().top - 800) {
-                                isWorking = 1;
+                                isWorking = true;
                                 var number_li = $("#view-content-ajax li.post-item").length;
                                 var num = number_li / 12;
                                 var data_ = $(".loading-view").attr('data');
-                                $(".loading-view").show()
+                                $.post('/posts/list/pager', {page_num: num})
+                                    .done(function (data) {
+                                        if (data != 'ko') {
+                                                $(".loading-view").hide();
+                                                $("#view-content-ajax").append(data);
+                                                _loadinitjs();
 
-                                setTimeout(function () {
-                                    $.post('/posts/list/pager', {page_num: num})
-                                        .done(function (data) {
-                                            if (data != 'ko') {
-                                                setTimeout(function () {
-                                                    $(".loading-view").hide();
-                                                    $("#view-content-ajax").append(data);
-                                                    _loadinitjs();
-
-                                                }, 4000);
-                                            } else {
-                                                $(".loading-view").remove();
-                                            }
-
-                                        })
-                                        .fail(function () {
-                                            //alert( "error" );
-                                        });
-
-                                }, 2000);
-
-                                setTimeout(function () {
-                                    isWorking = 0;
-
-                                }, 5000);
-
+                                        } else {
+                                            $(".loading-view").remove();
+                                        }
+                                        isWorking = false;
+                                    })
+                                    .fail(function () {
+                                        //alert( "error" );
+                                    });
                             }
                         }
                     }
-                }
-            );
+                }, 2000);
+            });
+        }
+    };
 
-            $(window).scroll(function () {
-                if ($(".page-taxonomy .taxonomy").length > 0) {
-                    if (isWorking == 0) {
-                        if ($(window).scrollTop() > $(".page-taxonomy .taxonomy").offset().top - 800) {
-                            isWorking = 1;
-                            var number_li = $("#view-content-ajax li.post-item").length;
-                            var num = number_li / 12;
-                            var data_ = $(".loading-view").attr('data');
-                            $(".loading-view").show()
-                            setTimeout(function () {
+    Drupal.behaviors.ArtlineLoadmorePagerTaxonomy = {
+        attach: function (context, settings) {
+            var isWorking = false;
+            $(window).on('scroll', function () {
+                clearTimeout(timerScrolltaxonomy);
+                $(".loading-view").show();
+                timerScrolltaxonomy = setTimeout(function () {
+                    if ($(".page-taxonomy .taxonomy").length > 0) {
+                        if (!isWorking) {
+                            if ($(window).scrollTop() > $(".page-taxonomy footer .container").offset().top - 800) {
+                                isWorking = true;
+                                var number_li = $("#view-content-ajax li.post-item").length;
+                                var num = number_li / 12;
+                                var data_ = $(".loading-view").attr('data');
                                 $.post('/posts/category/pager', {page_num: num, tid: data_})
                                     .done(function (data) {
                                         if (data != 'ko') {
-                                            setTimeout(function () {
-                                                $(".loading-view").hide();
+                                            $(".loading-view").hide();
+                                            $("#view-content-ajax").append(data);
+                                            _loadinitjs();
 
-                                                $("#view-content-ajax").append(data);
-                                                _loadinitjs();
-                                            }, 4000);
                                         } else {
                                             $(".loading-view").remove();
                                         }
+                                        isWorking = false;
                                     })
                                     .fail(function () {
                                         //alert( "error" );
                                     });
-                            }, 2000);
-                            setTimeout(function () {
-                                isWorking = 0
-                            }, 5000);
+                            }
                         }
                     }
-                }
+                }, 2000);
             });
+        }
+    };
 
-            $(window).scroll(function () {
-                if ($(".page-my-posts footer .container").length > 0) {
-                    if (isWorking == 0) {
-                        if ($(window).scrollTop() > $(".page-my-posts footer .container").offset().top - 800) {
-                            isWorking = 1;
-                            var number_li = $("#view-content-ajax li.post-item").length;
-                            var num = number_li / 12;
-                            var data_ = $(".loading-view").attr('data');
-                            $(".loading-view").show()
-                            setTimeout(function () {
+    Drupal.behaviors.ArtlineLoadmorePagerUser = {
+        attach: function (context, settings) {
+            var isWorking = false;
+            $(window).on('scroll', function () {
+                clearTimeout(timerScrolluser);
+                $(".loading-view").show();
+                timerScrolluser = setTimeout(function () {
+                    if ($(".page-my-posts footer .container").length > 0) {
+                        if (!isWorking) {
+                            if ($(window).scrollTop() > $(".page-my-posts footer .container").offset().top - 800) {
+                                isWorking = true;
+                                var number_li = $("#view-content-ajax li.post-item").length;
+                                var num = number_li / 12;
+                                var data_ = $(".loading-view").attr('data');
                                 $.post('/posts/my/pager', {page_num: num})
                                     .done(function (data) {
                                         if (data != 'ko') {
-                                            setTimeout(function () {
-                                                $(".loading-view").hide();
+                                            $(".loading-view").hide();
+                                            $("#view-content-ajax").append(data);
+                                            _loadinitjs();
 
-                                                $("#view-content-ajax").append(data);
-                                                _loadinitjs();
-                                            }, 4000);
                                         } else {
                                             $(".loading-view").remove();
                                         }
+                                        isWorking = false;
                                     })
                                     .fail(function () {
                                         //alert( "error" );
                                     });
-                            }, 2000);
-                            setTimeout(function () {
-                                isWorking = 0
-                            }, 5000);
+                            }
                         }
                     }
-                }
+                }, 2000);
             });
-
         }
-    }
-    ;
+    };
+
 
     function _loadinitjs() {
+
+        $(".auto-loadmore").click(function () {
+            console.log('nhan');
+            processing = false;
+        });
 
         $(".reply-comment-child span.reply-form").hide();
         $(".readmore-article").each(function () {
@@ -485,12 +481,12 @@
                 }, 1000);
                 setTimeout(function () {
                     $(".post-" + nid_ + ' .loading-post-post').hide();
-                    $(".public-"+nid_).html('Khoá bài viết');
-                    $(".public-"+nid_).removeClass('public-post');
+                    $(".public-" + nid_).html('Khoá bài viết');
+                    $(".public-" + nid_).removeClass('public-post');
 
-                    $(".public-"+nid_).addClass('unpublic-post');
-                    $(".public-"+nid_).addClass('unpublic-'+nid_);
-                    $(".public-"+nid_).removeClass('public-'+nid_);
+                    $(".public-" + nid_).addClass('unpublic-post');
+                    $(".public-" + nid_).addClass('unpublic-' + nid_);
+                    $(".public-" + nid_).removeClass('public-' + nid_);
 
                 }, 2000);
             });
@@ -515,12 +511,12 @@
                 }, 1000);
                 setTimeout(function () {
                     $(".post-" + nid_ + ' .loading-post-post').hide();
-                    $(".unpublic-"+nid_).html('Xuất bản');
-                    $(".unpublic-"+nid_).removeClass('unpublic-post');
+                    $(".unpublic-" + nid_).html('Xuất bản');
+                    $(".unpublic-" + nid_).removeClass('unpublic-post');
 
-                    $(".unpublic-"+nid_).addClass('public-post');
-                    $(".unpublic-"+nid_).addClass('public-'+nid_);
-                    $(".unpublic-"+nid_).removeClass('unpublic-'+nid_);
+                    $(".unpublic-" + nid_).addClass('public-post');
+                    $(".unpublic-" + nid_).addClass('public-' + nid_);
+                    $(".unpublic-" + nid_).removeClass('unpublic-' + nid_);
 
 
                 }, 2000);
@@ -627,6 +623,20 @@
                 $("#" + nid_ + ".slide").attr("style", "margin-bottom:13px!important");
                 $("#" + nid_ + ".slide").parent().attr("style", "margin-bottom:13px!important");
             }
+        });
+
+        //share social get point
+        $(".share-item a").each(function(){
+           var _nid = $(this).attr('data');
+            var _uid = $(this).attr('data-uid');
+            $(this).click(function(){
+                $.post("/posts/share/social", {nid: _nid, uid: _uid})
+                    .done(function (data) {
+                    })
+                    .fail(function () {
+                        //alert( "error" );
+                    });
+            });
         });
 
 

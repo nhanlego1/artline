@@ -17,19 +17,19 @@ function artline_get_post($page_num = 0, $page_size = 12)
     global $user;
     $query = db_select('node', 'n');
     $query->fields('n');
-    if($user->uid > 0){
-        if(in_array('admin',$user->roles) || in_array('administrator',$user->roles)){
+    if ($user->uid > 0) {
+        if (in_array('admin', $user->roles) || in_array('administrator', $user->roles)) {
             $query->condition(db_or()
                 ->condition('status', 1)
                 ->condition('status', 0)
             );
-        }else{
+        } else {
             $query->condition(db_or()
                 ->condition('uid', $user->uid)
                 ->condition('status', 1)
             );
         }
-    }else{
+    } else {
         $query->condition('status', 1);
     }
 
@@ -67,19 +67,19 @@ function artline_get_post_pager()
     }
     $query = db_select('node', 'n');
     $query->fields('n');
-    if($user->uid > 0){
-        if(in_array('admin',$user->roles) || in_array('administrator',$user->roles)){
+    if ($user->uid > 0) {
+        if (in_array('admin', $user->roles) || in_array('administrator', $user->roles)) {
             $query->condition(db_or()
                 ->condition('status', 1)
                 ->condition('status', 0)
             );
-        }else{
+        } else {
             $query->condition(db_or()
                 ->condition('uid', $user->uid)
                 ->condition('status', 1)
             );
         }
-    }else{
+    } else {
         $query->condition('status', 1);
     }
 
@@ -115,7 +115,7 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 12)
     $tids = array();
     if ($children) {
         foreach ($children as $child) {
-            if($child->tid != $tid){
+            if ($child->tid != $tid) {
                 $tids[] = $child->tid;
             }
         }
@@ -123,32 +123,32 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 12)
     }
 
     $parents = taxonomy_get_parents($tid);
-    if($parents){
+    if ($parents) {
         $parent = reset($parents);
-            $tids[] = $parent->tid;
-            $children_ = taxonomy_get_children($parent->tid);
-            if ($children_) {
-                foreach ($children_ as $child_) {
-                    if($child_->tid != $tid){
-                        $tids[] = $child_->tid;
-                    }
+        $tids[] = $parent->tid;
+        $children_ = taxonomy_get_children($parent->tid);
+        if ($children_) {
+            foreach ($children_ as $child_) {
+                if ($child_->tid != $tid) {
+                    $tids[] = $child_->tid;
                 }
-
             }
+
+        }
     }
     $query = db_select('node', 'n');
     $query->fields('n');
     $query->innerJoin('field_data_field_category', 'ca', 'n.nid = ca.entity_id');
 
     //add or
-    if($user->uid > 0){
-        if(in_array('admin',$user->roles) || in_array('administrator',$user->roles)){
+    if ($user->uid > 0) {
+        if (in_array('admin', $user->roles) || in_array('administrator', $user->roles)) {
             $db_or = db_or();
             $db_or->condition('n.status', 0);
             $db_or->condition('n.status', 1);
             //check tids
             $query->condition($db_or);
-        }else{
+        } else {
             $db_or = db_or();
             $db_or->condition('n.uid', $user->uid);
             $db_or->condition('n.status', 0);
@@ -156,18 +156,18 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 12)
             //check tids
             $query->condition($db_or);
         }
-    }else{
+    } else {
         $query->condition('n.status', 1);
     }
 
     //check tids
-    if($parents){
+    if ($parents) {
         $query->condition('ca.field_category_tid', $tid, '=');
 
-    }else{
-        if($tids){
+    } else {
+        if ($tids) {
             $query->condition('ca.field_category_tid', $tids, 'in');
-        }else{
+        } else {
             $query->condition('ca.field_category_tid', $tid, '=');
         }
 
@@ -176,7 +176,7 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 12)
 
     $query->condition('n.type', 'article');
     $query->orderBy('n.created', 'DESC');
-   // $query->range($page_num, $page_size);
+    // $query->range($page_num, $page_size);
 
     $result = $query->execute()->fetchAllAssoc('nid');
     $data = array();
@@ -185,7 +185,7 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 12)
             $data[] = node_load($n->nid);
         }
     }
-    if($parents){
+    if ($parents) {
         $data += artline_get_post_cate_other($tids);
     }
     return theme('post_list', array('nodes' => $data));
@@ -207,14 +207,14 @@ function artline_get_post_cate_other($tids, $page_num = 0, $page_size = 12)
     $query->innerJoin('field_data_field_category', 'ca', 'n.nid = ca.entity_id');
 
     //add or
-    if($user->uid > 0){
-        if(in_array('admin',$user->roles) || in_array('administrator',$user->roles)){
+    if ($user->uid > 0) {
+        if (in_array('admin', $user->roles) || in_array('administrator', $user->roles)) {
             $db_or = db_or();
             $db_or->condition('n.status', 0);
             $db_or->condition('n.status', 1);
             //check tids
             $query->condition($db_or);
-        }else{
+        } else {
             $db_or = db_or();
             $db_or->condition('n.uid', $user->uid);
             $db_or->condition('n.status', 0);
@@ -222,13 +222,13 @@ function artline_get_post_cate_other($tids, $page_num = 0, $page_size = 12)
             //check tids
             $query->condition($db_or);
         }
-    }else{
+    } else {
         $query->condition('n.status', 1);
     }
 
     //check tids
-        $query->condition('ca.field_category_tid', $tids, 'in');
-        $query->orderBy('n.created', 'DESC');
+    $query->condition('ca.field_category_tid', $tids, 'in');
+    $query->orderBy('n.created', 'DESC');
 
     $query->condition('n.type', 'article');
     //$query->range($page_num, $page_size);
@@ -244,7 +244,6 @@ function artline_get_post_cate_other($tids, $page_num = 0, $page_size = 12)
         return false;
     }
 }
-
 
 
 /**
@@ -268,7 +267,7 @@ function artline_get_post_pager_category()
     $tids = array();
     if ($children) {
         foreach ($children as $child) {
-            if($child->tid != $tid){
+            if ($child->tid != $tid) {
                 $tids[] = $child->tid;
             }
         }
@@ -279,14 +278,14 @@ function artline_get_post_pager_category()
     $query->innerJoin('field_data_field_category', 'ca', 'n.nid = ca.entity_id');
 
     //add or
-    if($user->uid > 0){
-        if(in_array('admin',$user->roles) || in_array('administrator',$user->roles)){
+    if ($user->uid > 0) {
+        if (in_array('admin', $user->roles) || in_array('administrator', $user->roles)) {
             $db_or = db_or();
             $db_or->condition('n.status', 0);
             $db_or->condition('n.status', 1);
             //check tids
             $query->condition($db_or);
-        }else{
+        } else {
             $db_or = db_or();
             $db_or->condition('n.uid', $user->uid);
             $db_or->condition('n.status', 0);
@@ -294,18 +293,18 @@ function artline_get_post_pager_category()
             //check tids
             $query->condition($db_or);
         }
-    }else{
+    } else {
         $query->condition('n.status', 1);
     }
 
     $parents = taxonomy_get_parents($tid);
-    if($parents){
+    if ($parents) {
         $parent = reset($parents);
         $tids[] = $parent->tid;
         $children_ = taxonomy_get_children($parent->tid);
         if ($children_) {
             foreach ($children_ as $child_) {
-                if($child_->tid != $tid){
+                if ($child_->tid != $tid) {
                     $tids[] = $child_->tid;
                 }
             }
@@ -331,7 +330,7 @@ function artline_get_post_pager_category()
         }
 
     }
-    if($parents){
+    if ($parents) {
         $data += artline_get_post_cate_other($tids, $page_num, $page_size);
     }
 
@@ -362,7 +361,7 @@ function artline_get_my_post($page_num = 0, $page_size = 12)
         }
         return theme('post_list', array('nodes' => $data));
     } else {
-        drupal_set_message('Bạn vẫn chưa đăng bài viết.','status');
+        drupal_set_message('Bạn vẫn chưa đăng bài viết.', 'status');
         drupal_goto('<front>');
     }
 }
@@ -413,20 +412,33 @@ function _post_list_detail($node)
 /**
  * get 100 list store
  */
-function artline_list_100_post_store(){
-    $query = db_select('node','n');
+function artline_list_100_post_store()
+{
+    $query = db_select('node', 'n');
     $query->fields('n');
-    $query->condition('type','article');
-    $query->range(0,200000);
-    $query->orderBy('created','DESC');
+    $query->condition('type', 'article');
+    $query->range(0, 200000);
+    $query->orderBy('created', 'DESC');
     $result = $query->execute()->fetchAllAssoc('nid');
     $data = array();
-    if($result){
-        foreach($result as $n){
+    if ($result) {
+        foreach ($result as $n) {
             $data[] = node_load($n->nid);
         }
-        return theme('100_post_store',array('nodes'=>$data));
-    }else{
+        return theme('100_post_store', array('nodes' => $data));
+    } else {
         return false;
     }
+}
+
+/**
+ * share social
+ */
+function artline_share_social()
+{
+    global $user;
+    $nid = $_POST['nid'];
+    $uid = $_POST['uid'];
+    //add xu
+    _update_xu_user($user->uid, _type_of_xu('share_social'));
 }

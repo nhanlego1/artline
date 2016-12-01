@@ -241,7 +241,7 @@
             </div> <!-- /#triptych, /#triptych-wrapper -->
         <?php endif; ?>
 
-        <footer>
+        <footer id="footer">
             <div class="container">
                 <div class="row change">
                     <?php print render($page['footer']); ?>
