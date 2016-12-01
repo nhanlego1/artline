@@ -50,8 +50,8 @@ global $user;
 
 </ul>
 <div class="clearfix"></div>
-<div class="sidebar-bottom">
-    <div class="logo-chungnhan"><?php $file = file_load(variable_get('logo_cndk'));?> <?php if($file): ?> <?php print theme('image_style',array('path'=>$file->uri,'style_name'=>'cndk')); ?><?php endif; ?></div>
-    <div class="fb-page" data-width="225px" data-href="<?php print variable_get('facebook_fanpage'); ?>" data-small-header="true" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true"></div>
-
-</div>
+<!--<div class="sidebar-bottom">-->
+<!--    <div class="logo-chungnhan">--><?php //$file = file_load(variable_get('logo_cndk'));?><!-- --><?php //if($file): ?><!-- --><?php //print theme('image_style',array('path'=>$file->uri,'style_name'=>'cndk')); ?><!----><?php //endif; ?><!--</div>-->
+<!--    <div class="fb-page" data-width="225px" data-href="--><?php //print variable_get('facebook_fanpage'); ?><!--" data-small-header="true" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true"></div>-->
+<!---->
+<!--</div>-->
