@@ -8,7 +8,7 @@
 	{
 		// 参数
 		var defaults = {
-			width: 360,
+			width: 375,
 			delay: 60,
 			repeatShow: false
 		};
