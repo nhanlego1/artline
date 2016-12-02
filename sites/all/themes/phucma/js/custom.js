@@ -110,7 +110,7 @@
             var isWorking = false;
             $(window).on('scroll', function () {
                 clearTimeout(timerScrolltaxonomy);
-                $(".loading-view").show();
+                //$(".loading-view").show();
                 timerScrolltaxonomy = setTimeout(function () {
                     if ($(".page-taxonomy .taxonomy").length > 0) {
                         if (!isWorking) {
