@@ -81,12 +81,13 @@
     }
   </script>
   <div id="fb-root"></div>
-<!--  <script>(function(d, s, id) {-->
-<!--      var js, fjs = d.getElementsByTagName(s)[0];-->
-<!--      if (d.getElementById(id)) return;-->
-<!--      js = d.createElement(s); js.id = id;-->
-<!--      js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.8&appId=1519883851593966";-->
-<!--      fjs.parentNode.insertBefore(js, fjs);-->
-<!--    }(document, 'script', 'facebook-jssdk'));</script>-->
+
+
+    <div class="xu-alert-info like-xu">+<?php print variable_get('xu_like', "10") ?></div>
+    <div class="xu-alert-info like-post">+<?php print variable_get('xu_post', "20") ?></div>
+    <div class="xu-alert-info like-share-social">+<?php print variable_get('xu_share_social', "20") ?></div>
+    <div class="xu-alert-info like-comment">+<?php print variable_get('xu_comment', "20") ?></div>
+    <div class="xu-alert-info like-click">+<?php print variable_get('xu_click', "10") ?></div>
+
 </body>
 </html>

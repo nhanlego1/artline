@@ -169,15 +169,15 @@ if ($account->picture) {
             <div class="share-item hidden"
                  id="share-button-<?php print $node->nid ?>">
                 <span class="a2a_kit a2a_kit_size_40 a2a_target addtoany_list" style="line-height: 30px;">
-      <a data="<?php print $node->nid ?>" data-uid="<?php print $node->uid ?>" class="a2a_button_facebook" onClick="return popup(this, 'notes')"
+      <a data="<?php print $node->nid ?>" data-uid="<?php print $user->uid ?>" class="a2a_button_facebook" onClick="return popup(this, 'notes')"
          href="https://www.facebook.com/sharer/sharer.php?u=<?php print urlencode(url('node/' . $node->nid, array('absolute' => true))) ?>&amp;src=sdkpreparse"
          rel="nofollow"><span class="a2a_svg a2a_s__default a2a_s_facebook"
                               style="width: 30px; line-height: 30px; height: 30px; background-size: 30px; border-radius: 6px;"></span></a>
-        <a data="<?php print $node->nid ?>" data-uid="<?php print $node->uid ?>" class="a2a_button_twitter" onClick="return popup(this, 'notes')"
+        <a data="<?php print $node->nid ?>" data-uid="<?php print $user->uid ?>" class="a2a_button_twitter" onClick="return popup(this, 'notes')"
            href="https://twitter.com/intent/tweet?text=<?php print $node->field_description[LANGUAGE_NONE][0]['value'] . ' ' . url('node/' . $node->nid, array('absolute' => true)) ?>"
            rel="nofollow"> <span class="a2a_svg a2a_s__default a2a_s_twitter"
                                  style="width: 30px; line-height: 30px; height: 30px; background-size: 30px; border-radius: 6px;"></span></a>
-    <a data="<?php print $node->nid ?>" class="a2a_button_google_plus" data-uid="<?php print $node->uid ?>" onClick="return popup(this, 'notes')"
+    <a data="<?php print $node->nid ?>" class="a2a_button_google_plus" data-uid="<?php print $user->uid ?>" onClick="return popup(this, 'notes')"
        href="https://plus.google.com/share?url=<?php print urlencode(url('node/' . $node->nid, array('absolute' => true))) ?>"
        rel="nofollow"><span class="a2a_svg a2a_s__default a2a_s_google_plus"
                             style="width: 30px; line-height: 30px; height: 30px; background-size: 30px; border-radius: 6px;"></span></a>

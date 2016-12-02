@@ -161,6 +161,11 @@ function artline_menu()
         'access callback' => TRUE,
         'file' => 'artline.pages.inc',
     );
+
+    $items['xu/update/action'] = array(
+        'page callback' => 'xu_update_action',
+        'access callback' => TRUE,
+    );
     return $items;
 }
 
@@ -1512,5 +1517,22 @@ function _update_xu_user_first(){
             ->execute();
     }
 
+}
+
+/**
+ * xu update
+ */
+function xu_update_action(){
+    $uid = $_POST['uid'];
+    $query = db_select('artline_xu','xu');
+    $query->fields('xu');
+    $query->condition('uid',$uid);
+    $result = $query->execute()->fetchObject();
+    $xu = 0;
+    if($result){
+        $xu = $result->xu;
+    }
+    print $xu;
+    drupal_exit();
 }
 

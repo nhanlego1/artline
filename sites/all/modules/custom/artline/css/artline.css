@@ -129,7 +129,7 @@ display: block;
 textarea.comment-comment{
     height: 35px;
     padding: 5px;
-    width: 80%;
+    width: 78%;
 }
 #cboxLoadedContent #colorbox_inline{
     display: block;
@@ -1263,9 +1263,27 @@ label {
 }
 
 .xu-point{
-    color: #b9151b;
+    color: red;
     margin-right: 6px;
     margin-left: 5px;
 }
+.xu-alert-info{
+    font-size: 70px;
+    font-weight: bold;
+    color: red;
+    position: absolute;
+    top: -50%;
+    z-index: 99999;
+}
+
+.xu-alert-info-run{
+    font-size: 70px;
+    font-weight: bold;
+    color: red;
+    position: absolute;
+    z-index: 99999;
+    left:47%;
+}
+
 
 

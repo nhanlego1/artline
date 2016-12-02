@@ -61,7 +61,11 @@
             });
             //initial js
             _loadinitjs();
+
+
         }
+
+
     };
 
     Drupal.behaviors.ArtlineLoadmorePagerFront = {
@@ -96,7 +100,7 @@
                             }
                         }
                     }
-                }, 2000);
+                }, 500);
             });
         }
     };
@@ -133,7 +137,7 @@
                             }
                         }
                     }
-                }, 2000);
+                }, 500);
             });
         }
     };
@@ -170,7 +174,7 @@
                             }
                         }
                     }
-                }, 2000);
+                }, 500);
             });
         }
     };
@@ -194,6 +198,25 @@
         });
         $(".more .like-article").each(function () {
             $(this).click(function () {
+                //load animation alert
+                var offsets = $(this).offset();
+                var top = offsets.top;
+                    var timeoutlike, cleartimeoutlike;
+                    clearTimeout(timeoutlike);
+                    timeoutlike = setTimeout(function () {
+                        $(".like-xu").removeClass("xu-alert-info");
+                        $(".like-xu").toggleClass("xu-alert-info-run");
+                        $(".like-xu").css({'top':top+'px'});
+                    },2000);
+
+                    clearTimeout(cleartimeoutlike);
+                    cleartimeoutlike = setTimeout(function () {
+                        $(".like-xu").removeClass("xu-alert-info-run");
+                        $(".like-xu").toggleClass("xu-alert-info");
+                        $(".like-xu").css({'top':'-50%'});
+                    },4000);
+               //end alert
+
                 var uid = $(this).attr('data-uid');
                 var nid = $(this).attr('data-nid');
                 var class_ = '.article-' + nid;
@@ -205,6 +228,7 @@
                         url: '/artline/like/' + uid + '/' + nid,
                         data: nid,
                         success: function (data) {
+
                         }
                     });
 
@@ -219,6 +243,13 @@
                             $(class_).html('<i class="fa fa-heart pink" aria-hidden="true"></i><i class="count-like">' + data + '</i>');
                         }
                     );
+
+                    var cleartimeoutUpdate;
+                    clearTimeout(cleartimeoutUpdate);
+                    cleartimeoutUpdate = setTimeout(function(){
+                        _updateXu(uid);
+                    },4000);
+
                 }
 
             });
@@ -227,6 +258,24 @@
         //post comment
         $(".artline-comment form").each(function () {
             $(this).submit(function () {
+                //load animation alert
+                var offsets = $(this).offset();
+                var top = offsets.top;
+                var timeoutlike, cleartimeoutlike;
+                clearTimeout(timeoutlike);
+                timeoutlike = setTimeout(function () {
+                    $(".like-comment").removeClass("xu-alert-info");
+                    $(".like-comment").toggleClass("xu-alert-info-run");
+                    $(".like-comment").css({'top':top+'px'});
+                },2000);
+
+                clearTimeout(cleartimeoutlike);
+                cleartimeoutlike = setTimeout(function () {
+                    $(".like-comment").removeClass("xu-alert-info-run");
+                    $(".like-comment").toggleClass("xu-alert-info");
+                    $(".like-comment").css({'top':'-50%'});
+                },4000);
+                //end alert
                 var nid_ = $(this).attr('data');
                 var class_ = '.artline-comment-' + nid_;
                 var uid_ = $(class_ + " .user-comment").val();
@@ -277,6 +326,12 @@
                         });
                 }, 1000);
 
+                var cleartimeoutUpdate;
+                clearTimeout(cleartimeoutUpdate);
+                cleartimeoutUpdate = setTimeout(function(){
+                    _updateXu(uid_);
+                },4000);
+
                 return false;
             });
         });
@@ -285,6 +340,26 @@
         //post comment
         $(".artline-comment-reply form").each(function () {
             $(this).submit(function () {
+                //load animation alert
+                var offsets = $(this).offset();
+                var top = offsets.top;
+                var timeoutlike, cleartimeoutlike;
+                clearTimeout(timeoutlike);
+                timeoutlike = setTimeout(function () {
+                    $(".like-comment").removeClass("xu-alert-info");
+                    $(".like-comment").toggleClass("xu-alert-info-run");
+                    $(".like-comment").css({'top':top+'px'});
+                },2000);
+
+                clearTimeout(cleartimeoutlike);
+                cleartimeoutlike = setTimeout(function () {
+                    $(".like-comment").removeClass("xu-alert-info-run");
+                    $(".like-comment").toggleClass("xu-alert-info");
+                    $(".like-comment").css({'top':'-50%'});
+                },4000);
+
+
+                //end alert
                 var cid_ = $(this).attr('data');
                 var class_ = '.artline-comment-reply-' + cid_;
                 var uid_ = $(class_ + " .user-comment-reply").val();
@@ -331,6 +406,11 @@
                         });
                 }, 1000);
 
+                var cleartimeoutUpdate;
+                clearTimeout(cleartimeoutUpdate);
+                cleartimeoutUpdate = setTimeout(function(){
+                    _updateXu(uid_);
+                },4000);
 
                 return false;
             });
@@ -630,16 +710,50 @@
            var _nid = $(this).attr('data');
             var _uid = $(this).attr('data-uid');
             $(this).click(function(){
+                //load animation alert
+                var offsets = $(this).offset();
+                var top = offsets.top;
+                var timeoutlike, cleartimeoutlike;
+                clearTimeout(timeoutlike);
+                timeoutlike = setTimeout(function () {
+                    $(".like-share-social").removeClass("xu-alert-info");
+                    $(".like-share-social").toggleClass("xu-alert-info-run");
+                    $(".like-share-social").css({'top':top+'px'});
+                },5000);
+
+                clearTimeout(cleartimeoutlike);
+                cleartimeoutlike = setTimeout(function () {
+                    $(".like-share-social").removeClass("xu-alert-info-run");
+                    $(".like-share-social").toggleClass("xu-alert-info");
+                    $(".like-share-social").css({'top':'-50%'});
+                },7000);
                 $.post("/posts/share/social", {nid: _nid, uid: _uid})
                     .done(function (data) {
+
+                        var cleartimeoutUpdate;
+                        clearTimeout(cleartimeoutUpdate);
+                        cleartimeoutUpdate = setTimeout(function(){
+                            _updateXu(_uid);
+                        },4000);
+
                     })
                     .fail(function () {
                         //alert( "error" );
                     });
+
             });
         });
 
-
+    }
+    //update xu
+    function _updateXu(uid){
+        $.post("/xu/update/action", {uid: uid})
+            .done(function (data) {
+              $(".xu-point").text(data);
+            })
+            .fail(function () {
+                //alert( "error" );
+            });
     }
 
 })
