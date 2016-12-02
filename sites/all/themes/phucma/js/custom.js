@@ -110,11 +110,12 @@
             var isWorking = false;
             $(window).on('scroll', function () {
                 clearTimeout(timerScrolltaxonomy);
-                //$(".loading-view").show();
+
                 timerScrolltaxonomy = setTimeout(function () {
                     if ($(".page-taxonomy .taxonomy").length > 0) {
                         if (!isWorking) {
                             if ($(window).scrollTop() > $(".page-taxonomy footer .container").offset().top - 800) {
+                                $(".loading-view").hide();
                                 isWorking = true;
                                 var number_li = $("#view-content-ajax li.post-item").length;
                                 var num = number_li / 12;
