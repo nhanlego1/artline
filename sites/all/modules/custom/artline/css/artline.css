@@ -411,6 +411,10 @@ span.reply-form{
 .nav.navbar-nav.navbar-right{
     padding-top: 8px;
 }
+.not-logged-in .nav.navbar-nav.navbar-right{
+    padding-top: 8px;
+    width: 220px;
+}
 .navbar-right span img {
     width: 30px!important;
     height: 30px!important;
