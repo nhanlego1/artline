@@ -73,9 +73,10 @@
             var isWorking = false;
             $(window).on('scroll', function () {
                 clearTimeout(timerScrollfront);
-                $(".loading-view").show();
+
                 timerScrollfront = setTimeout(function () {
                     if ($(".front footer .container").length > 0) {
+                        $(".loading-view").show();
                         if (!isWorking) {
                             if ($(window).scrollTop() > $(".front footer .container").offset().top - 800) {
                                 isWorking = true;
@@ -148,9 +149,10 @@
             var isWorking = false;
             $(window).on('scroll', function () {
                 clearTimeout(timerScrolluser);
-                $(".loading-view").show();
+
                 timerScrolluser = setTimeout(function () {
                     if ($(".page-my-posts footer .container").length > 0) {
+                        $(".loading-view").show();
                         if (!isWorking) {
                             if ($(window).scrollTop() > $(".page-my-posts footer .container").offset().top - 800) {
                                 isWorking = true;
