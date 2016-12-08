@@ -84,6 +84,8 @@
  * @see bartik_process_page()
  * @see html.tpl.php
  */
+
+global $user;
 ?>
 <div id="wrapper">
     <div id="page">
@@ -144,6 +146,17 @@
                                 <?php endif; ?>
 
                             </div> <!-- /#name-and-slogan -->
+                        <?php endif; ?>
+
+                        <?php if ($user->uid > 0): ?>
+                            <div class="info-point">
+                                <span class="xu-point-alert"><img
+                                        src="<?php print base_path() . drupal_get_path('theme', 'phucma') ?>/images/action.gif"/>
+                                </span>
+                                <span class="xu-point">
+                                    <?php print _user_get_xu($user->uid) ?>
+                                </span>
+                            </div>
                         <?php endif; ?>
                     </div>
 
