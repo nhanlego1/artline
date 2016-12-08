@@ -84,6 +84,7 @@
  * @see bartik_process_page()
  * @see html.tpl.php
  */
+global $user;
 ?>
 <div id="wrapper">
     <div id="page">
@@ -99,52 +100,77 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
-                            <?php print artline_get_avatar();?>
+                            <?php print artline_get_avatar(); ?>
 
                         </button>
                         <span class="hide-menu"><i class="fa fa-bars" aria-hidden="true"></i></span>
                         <?php if ($logo): ?>
-                            <a class="navbar-brand" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home"
+                            <a class="navbar-brand" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>"
+                               rel="home"
                                id="logo">
                                 <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>"/>
                             </a>
                         <?php endif; ?>
 
                         <?php if ($site_name || $site_slogan): ?>
-                            <div id="name-and-slogan"<?php if ($hide_site_name && $hide_site_slogan) { print ' class="element-invisible"'; } ?>>
+                            <div id="name-and-slogan"<?php if ($hide_site_name && $hide_site_slogan) {
+                                print ' class="element-invisible"';
+                            } ?>>
 
                                 <?php if ($site_name): ?>
                                     <?php if ($title): ?>
-                                        <div id="site-name"<?php if ($hide_site_name) { print ' class="element-invisible"'; } ?>>
+                                        <div id="site-name"<?php if ($hide_site_name) {
+                                            print ' class="element-invisible"';
+                                        } ?>>
                                             <strong>
-                                                <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home"><span><?php print $site_name; ?></span></a>
+                                                <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>"
+                                                   rel="home"><span><?php print $site_name; ?></span></a>
                                             </strong>
                                         </div>
                                     <?php else: /* Use h1 when the content title is empty */ ?>
-                                        <h1 id="site-name"<?php if ($hide_site_name) { print ' class="element-invisible"'; } ?>>
-                                            <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home"><span><?php print $site_name; ?></span></a>
+                                        <h1 id="site-name"<?php if ($hide_site_name) {
+                                            print ' class="element-invisible"';
+                                        } ?>>
+                                            <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>"
+                                               rel="home"><span><?php print $site_name; ?></span></a>
                                         </h1>
                                     <?php endif; ?>
                                 <?php endif; ?>
 
                                 <?php if ($site_slogan): ?>
-                                    <div id="site-slogan"<?php if ($hide_site_slogan) { print ' class="element-invisible"'; } ?>>
+                                    <div id="site-slogan"<?php if ($hide_site_slogan) {
+                                        print ' class="element-invisible"';
+                                    } ?>>
                                         <?php print $site_slogan; ?>
                                     </div>
                                 <?php endif; ?>
 
                             </div> <!-- /#name-and-slogan -->
                         <?php endif; ?>
+
+                        <?php if ($user->uid > 0): ?>
+                            <div class="info-point">
+                                <span class="xu-point-alert"><img
+                                        src="<?php print base_path() . drupal_get_path('theme', 'phucma') ?>/images/action.gif"/>
+                                </span>
+                                <span class="xu-point">
+                                    <?php print _user_get_xu($user->uid) ?>
+                                </span>
+                            </div>
+                        <?php endif; ?>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <form class="navbar-form navbar-left" name="search_google" action="/artline/search" method="post">
+                        <form class="navbar-form navbar-left" name="search_google" action="/artline/search"
+                              method="post">
                             <div class="form-group">
                                 <input type="text" class="form-control" name="keyword" placeholder="Search">
                             </div>
-                            <button type="submit" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            <button type="submit" class="btn btn-default"><i class="fa fa-search"
+                                                                             aria-hidden="true"></i></button>
                         </form>
+
                         <?php print render($page['header']); ?>
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->

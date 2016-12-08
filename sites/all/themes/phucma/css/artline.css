@@ -1065,6 +1065,7 @@ label {
     padding-top: 12px;
     color: #e9c418;
     font-size: 12px;
+    padding-left: 20px;
 }
 .xu-alert-info{
     font-size: 70px;
@@ -1084,14 +1085,8 @@ label {
     left:47%;
 }
 
-.not-logged-in .navbar-right li:nth-child(1) {
-    border-right: 1px solid #fff;
-}
-.logged-in .navbar-right li:nth-child(2) {
-    border-right: 1px solid #fff;
-}
 .navbar-right li:first-child {
-    border-right: 0 !important;
+    border-right: 1px solid #fff;
     text-align: center;
 }
 .form-actions.form-wrapper{
@@ -1217,11 +1212,19 @@ div.ctools-modal-content .form-item label {
     width: auto!important;
     height: auto!important;
 }
+div.info-point {
+    float: left;
+    position: fixed;
+    top: 3px;
+    z-index: 1999;
+    right: 21%;
+}
 
 @media only screen and (min-width: 768px){
     #content .col-md-12 .main .slide {
         margin-bottom: 50px!important;
     }
+
 }
 
 @media only screen and (min-width: 1200px){
@@ -1271,6 +1274,13 @@ div.ctools-modal-content .form-item label {
         width: 35px!important;
         top: 13px!important;
         margin-top: 0!important;
+    }
+    div.info-point {
+        float: left;
+        position: fixed;
+        top: 3px;
+        z-index: 1999;
+        right: 30%;
     }
 }
 /*mobile*/
@@ -1426,7 +1436,42 @@ div.ctools-modal-content .form-item label {
         margin-right: 5px;
         margin-top: 41px!important;
     }
+
+        .navbar-right li:last-of-type {
+            display: inline-block!important;
+        }
+    .navbar-right span {
+        display: none;
+    }
+    .navbar-default .navbar-form .form-control {
+        width: 100%;
+        background: #1b88c1;
+        border: none;
+        height: 45px;
+        color: #fff;
+        padding-left: 25px;
+    }
+    .navbar-default .btn-default {
+        left: 9px;
+    }
+    div.info-point span.xu-point{
+       display: block;
+    }
+    div.info-point {
+        float: left;
+        position: fixed;
+        top: 5px;
+        z-index: 1999;
+        right: 65px;
+    }
+    div.info-point{
+        float: left;
+    }
 }
 
+
+.navbar-nav.navbar-right li:first-child {
+   border-right: 1px solid #fff;
+}
 
 

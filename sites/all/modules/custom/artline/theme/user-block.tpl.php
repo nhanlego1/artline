@@ -10,14 +10,11 @@ if ($user->uid > 0) {
 }
 
 ?>
+
+
 <ul class="nav navbar-nav navbar-right">
     <?php if ($user->uid > 0): ?>
-        <li>
-            <span class="xu-point-alert"><img src="<?php print base_path().drupal_get_path('theme','phucma') ?>/images/action.gif"/></span>
-        <span class="xu-point">
-            <?php print _user_get_xu($user->uid) ?>
-        </span>
-        </li>
+
         <li>
             <a href="<?php print url('user') ?>">Hi <?php isset($account->field_full_name[LANGUAGE_NONE]) ? print $account->field_full_name[LANGUAGE_NONE][0]['value'] : print $user->name ?></a>
         </li>
