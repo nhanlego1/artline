@@ -297,7 +297,7 @@ function artline_theme()
         'path' => drupal_get_path('module', 'artline') . '/theme',
         'template' => 'no-product',
     );
-    $items['admin_dashboard'] = array(
+    $items['admins_dashboard'] = array(
         'render element' => 'element',
         'path' => drupal_get_path('module', 'booking') . '/theme',
         'template' => 'admin-dashboard',
@@ -1996,8 +1996,8 @@ function artline_node_update($node){
  */
 function artline_admins_dashboard()
 {
-    drupal_add_css(drupal_get_path('module', 'booking') . '/assets/admin_panel/admin-panel.css');
-    return theme('admin_dashboard');
+    drupal_add_css(drupal_get_path('module', 'artline') . '/lib/admin_panel/admin-panel.css');
+    return theme('admins_dashboard');
 }
 
 
