@@ -169,6 +169,12 @@ function artline_menu()
         'access callback' => TRUE,
         'file' => 'artline.pages.inc',
     );
+    $items['gift/confirm/%'] = array(
+        'page callback' => 'gift_confirm_update',
+        'page arguments' => array(2),
+        'access callback' => TRUE,
+        'file' => 'artline.pages.inc',
+    );
 
     $items['xu/update/action'] = array(
         'page callback' => 'xu_update_action',
@@ -1578,10 +1584,11 @@ function _update_xu_user_first()
  */
 function xu_update_action()
 {
+    global $user;
     $uid = $_POST['uid'];
     $query = db_select('artline_xu', 'xu');
     $query->fields('xu');
-    $query->condition('uid', $uid);
+    $query->condition('uid', $user->uid);
     $result = $query->execute()->fetchObject();
     $xu = 0;
     if ($result) {
@@ -1674,18 +1681,42 @@ function artline_product_gif_change($form, &$form_state)
                 );
                 //check xu before load form
                 if ($product->field_xu[LANGUAGE_NONE][0]['value'] <= $xu) {
-                    $form['color'] = array(
-                        '#type' => 'select',
-                        '#options' => $colors,
-                        '#title' => t('Chọn màu sản phẩm.')
-                    );
+                    if (isset($product->field_color[LANGUAGE_NONE])) {
+                        foreach ($product->field_color[LANGUAGE_NONE] as $t) {
+                            $terms = taxonomy_term_load($t['tid']);
+                            $form['color_name_'.$terms->tid] = array(
+                                '#markup'=>'<div class="product-color"><span class="color"style="background: '.$terms->field_color_code[LANGUAGE_NONE][0]['value'].'">&nbsp;</span></div>',
+                                '#prefix'=>'<div class="color-qty">',
+                            );
+                            $form['color_' . $terms->tid] = array(
+                                '#type' => 'select',
+                                '#options' => array(
+                                    0 => 0,
+                                    1 => 1,
+                                    2 => 2,
+                                    3 => 3,
+                                    4 => 4,
+                                    5 => 5,
+                                    6 => 6,
+                                    7 => 7,
+                                    8 => 8,
+                                    9 => 9,
+                                    10 => 10
+
+                                ),
+                                '#suffix'=>'</div>'
+                            );
+                        }
+                    }
+
                     $form['address_info'] = array(
                         '#type' => 'select',
                         '#options' => array(
                             0 => t('Sử dụng thông tin nhận quà của bạn.'),
                             1 => t('Nhập thông tin nhận quà mới.'),
                         ),
-                        '#title' => t('Địa chỉ nhận quà.')
+                        '#title' => t('Địa chỉ nhận quà.'),
+                        '#prefix'=>'<div class="clearfix"></div>',
                     );
                     $form['xu'] = array(
                         '#type' => 'hidden',
@@ -1747,6 +1778,23 @@ function artline_product_gif_change($form, &$form_state)
  */
 function artline_product_gif_change_validate($form, &$form_state)
 {
+    global $user;
+    $product = $form_state['product'];
+    $qty = 0;
+    if (isset($product->field_color[LANGUAGE_NONE])) {
+        foreach ($product->field_color[LANGUAGE_NONE] as $t) {
+          $qty += $form_state['values']['color_'.$t['tid']];
+        }
+    }
+    $xu = _user_get_xu($user->uid);
+    $total = $product->field_xu[LANGUAGE_NONE][0]['value'] * $qty;
+    if($total > $xu){
+        form_set_error('xu', t('Số điểm hiện nay bạn không đủ để đổi sản phẩm, bạn có thể bớt, thay đổi sản phẩm khác.'));
+    }
+    if($qty==0){
+        form_set_error('xu', t('Vui lòng chọn màu sắc.'));
+    }
+
     if ($form_state['values']['address_info'] == 1) {
         if (empty($form_state['values']['name'])) {
             form_set_error('name', t('Vui lòng nhập họ và tên.'));
@@ -1771,6 +1819,17 @@ function artline_product_gif_change_submit($form, &$form_state)
     $article = $form_state['node'];
     $data = $form_state['values'];
     $product = $form_state['product'];
+    $qty = 0;
+    $color = '';
+    if (isset($product->field_color[LANGUAGE_NONE])) {
+        foreach ($product->field_color[LANGUAGE_NONE] as $t) {
+            $term = taxonomy_term_load($t['tid']);
+            if($form_state['values']['color_'.$t['tid']] > 0){
+                $color .=  $term->name.'('.$form_state['values']['color_'.$t['tid']].') ';
+            }
+            $qty += $form_state['values']['color_'.$t['tid']];
+        }
+    }
     if (isset($data['name']) && !empty($data['name'])) {
         $name = $data['name'];
     } else {
@@ -1799,15 +1858,16 @@ function artline_product_gif_change_submit($form, &$form_state)
     $node->field_gif_email[LANGUAGE_NONE][0]['value'] = $user->mail;
     $node->field_product_id[LANGUAGE_NONE][0]['target_id'] = $product->nid;
     $node->field_author[LANGUAGE_NONE][0]['target_id'] = $article->uid;
-    $node->field_gif_xu[LANGUAGE_NONE][0]['value'] = $product->field_xu[LANGUAGE_NONE][0]['value'];
-    $node->field_gif_color[LANGUAGE_NONE][0]['value'] = $data['color'];
+    $node->field_gif_xu[LANGUAGE_NONE][0]['value'] = $product->field_xu[LANGUAGE_NONE][0]['value'] * $qty;
+    $node->field_gif_color[LANGUAGE_NONE][0]['value'] = $color;
+    $node->field_qty[LANGUAGE_NONE][0]['value'] = $qty;
     if (!empty($data['notice'])) {
         $node->body[LANGUAGE_NONE][0]['value'] = $data['notice'];
     }
     $node->field_status[LANGUAGE_NONE][0]['value'] = 'pending';
     node_save($node);
     //update down xu of client
-    _update_downxu_user($user->uid, $product->field_xu[LANGUAGE_NONE][0]['value']);
+    _update_downxu_user($user->uid, $qty * $product->field_xu[LANGUAGE_NONE][0]['value']);
     //send email to admin
     drupal_set_message(t('Bạn vừa đổi quà thành công. Chúng tôi sẽ kiểm tra và gửi đến bạn trong thời gian sớm nhất.'));
     $form_state['ajax_commands'][] = ctools_ajax_command_reload();
@@ -1933,57 +1993,57 @@ function artline_mail($key, &$message, $params)
  *
  */
 
-function artline_node_update($node){
-    if($node->type=='gif'){
-      if($node->field_status[LANGUAGE_NONE][0]['value']=='processing'){
-          //hash content before
-          $time = time();
-          $email  = $node->field_gif_email[LANGUAGE_NONE][0]['value'];
-          $hashtoken = $time.'|'.$email.'|'.$node->nid;
-          $token = base64_encode($hashtoken);
-          //load content
-          $product = node_load($node->field_product_id[LANGUAGE_NONE][0]['target_id']);
-          $params = array();
-          $to = $email;
-          $params['subject'] = 'Xác nhận thông tin nhận quà.';
-          $info = '';
-          $info .='<p><strong>Họ và tên:</strong> '.$node->field_your_name[LANGUAGE_NONE][0]['value'].'</p>';
-          $info .='<p><strong>Email:</strong> '.$node->field_gif_email[LANGUAGE_NONE][0]['value'].'</p>';
-          $info .='<p><strong>Địa chỉ:</strong> '.$node->field_gif_address[LANGUAGE_NONE][0]['value'].'</p>';
-          $info .='<p><strong>Điện thoại:</strong> '.$node->field_gif_phone[LANGUAGE_NONE][0]['value'].'</p>';
-
-          $info .='<p><strong>Quà tặng:</strong> '.$product->title.'</p>';
-          $info .='<p><strong>Màu sắc:</strong> '.$node->field_gif_color[LANGUAGE_NONE][0]['value'].'</p>';
-
-          if(isset($node->body[LANGUAGE_NONE]) && !empty($node->body[LANGUAGE_NONE][0]['value'])){
-              $info .='<p><strong>Lời nhắn:</strong> '.$node->body[LANGUAGE_NONE][0]['value'].'</p>';
-          }
-
-          $info .='<p> Để xác nhận thông tin trước khi giao hàng, bạn vui lòng click vào link bên dưới. </p>';
-          $info .='<p> <a href="'.url('gift/confirm/'.$token,array('absolute'=>true)).'">'.url('gift/confirm/'.$token,array('absolute'=>true)).'</a> </p>';
-
-          // Add an associative array about this desired attachment.
-          drupal_mail('artline', 'doiqua', $to, language_default(), $params, 'no-reply@butvietnhatban.vn', TRUE);
-      }
-
-        if($node->field_status[LANGUAGE_NONE][0]['value']=='completed'){
+function artline_node_update($node)
+{
+    if ($node->type == 'gif') {
+        if ($node->field_status[LANGUAGE_NONE][0]['value'] == 'processing') {
             //hash content before
-            $email  = $node->field_gif_email[LANGUAGE_NONE][0]['value'];
+            $time = time();
+            $email = $node->field_gif_email[LANGUAGE_NONE][0]['value'];
+            $hashtoken = $time . '|' . $email . '|' . $node->nid;
+            $token = base64_encode($hashtoken);
             //load content
             $product = node_load($node->field_product_id[LANGUAGE_NONE][0]['target_id']);
             $params = array();
             $to = $email;
-            $params['subject'] = 'Giao quà thành công.';
-            $info = '';
-            $info .='<p><strong>Quà tặng:</strong> '.$product->title.'</p>';
-            $info .='<p><strong>Màu sắc:</strong> '.$node->field_gif_color[LANGUAGE_NONE][0]['value'].'</p>';
-            $info .='<p>Đã được giao thành công theo thông tin bên dưới:</p>';
-            $info .='<p><strong>Họ và tên:</strong> '.$node->field_your_name[LANGUAGE_NONE][0]['value'].'</p>';
-            $info .='<p><strong>Email:</strong> '.$node->field_gif_email[LANGUAGE_NONE][0]['value'].'</p>';
-            $info .='<p><strong>Địa chỉ:</strong> '.$node->field_gif_address[LANGUAGE_NONE][0]['value'].'</p>';
-            $info .='<p><strong>Điện thoại:</strong> '.$node->field_gif_phone[LANGUAGE_NONE][0]['value'].'</p>';
-            $info .='<p> Cám ơn bạn đã tham gia chương trình. </p>';
-            $info .='<p> Đến với Butvietnhatban.vn và nhận những món quà đặc biệt và hấp dẫn. </p>';
+            $params['subject'] = '[Buvietnhatban.vn] - Xác nhận thông tin nhận quà.';
+            $link= '<a href="' . url('gift/confirm/' . $token, array('absolute' => true)) . '">' . url('gift/confirm/' . $token, array('absolute' => true)) . '</a>';
+            $info = variable_get('email_processcing');
+            $info = str_replace('[name]',$node->field_your_name[LANGUAGE_NONE][0]['value'], $info);
+            $info = str_replace('[address]', $node->field_gif_address[LANGUAGE_NONE][0]['value'],$info);
+            $info = str_replace('[phone]', $node->field_gif_phone[LANGUAGE_NONE][0]['value'],$info);
+
+            // Add an associative array about this desired attachment.
+            drupal_mail('artline', 'doiqua', $to, language_default(), $params, 'no-reply@butvietnhatban.vn', TRUE);
+        }
+
+        if ($node->field_status[LANGUAGE_NONE][0]['value'] == 'completed') {
+            //hash content before
+            $email = $node->field_gif_email[LANGUAGE_NONE][0]['value'];
+            //load content
+            $product = node_load($node->field_product_id[LANGUAGE_NONE][0]['target_id']);
+            $params = array();
+            $to = $email;
+            $params['subject'] = '[Butvietnhatban.vn] - Giao quà thành công.';
+            $link= '<a href="' . url('gift/confirm/' . $token, array('absolute' => true)) . '">' . url('gift/confirm/' . $token, array('absolute' => true)) . '</a>';
+            $info = variable_get('email_compeleted');
+            $info = str_replace('[name]',$node->field_your_name[LANGUAGE_NONE][0]['value'], $info);
+
+            // Add an associative array about this desired attachment.
+            drupal_mail('artline', 'doiqua', $to, language_default(), $params, 'no-reply@butvietnhatban.vn', TRUE);
+        }
+
+        if ($node->field_status[LANGUAGE_NONE][0]['value'] == 'cancel') {
+            //hash content before
+            $email = $node->field_gif_email[LANGUAGE_NONE][0]['value'];
+            //load content
+            $product = node_load($node->field_product_id[LANGUAGE_NONE][0]['target_id']);
+            $params = array();
+            $to = $email;
+            $params['subject'] = '[Butvietnhatban.vn] - Huỷ giao quà.';
+            $link= '<a href="' . url('gift/confirm/' . $token, array('absolute' => true)) . '">' . url('gift/confirm/' . $token, array('absolute' => true)) . '</a>';
+            $info = variable_get('email_cancel');
+            $info = str_replace('[name]',$node->field_your_name[LANGUAGE_NONE][0]['value'], $info);
 
             // Add an associative array about this desired attachment.
             drupal_mail('artline', 'doiqua', $to, language_default(), $params, 'no-reply@butvietnhatban.vn', TRUE);
@@ -1996,7 +2056,7 @@ function artline_node_update($node){
  */
 function artline_admins_dashboard()
 {
-    drupal_add_css(drupal_get_path('module', 'artline') . '/lib/admin_panel/admin-panel.css');
+   // drupal_add_css(drupal_get_path('module', 'artline') . '/lib/admin_panel/admin-panel.css');
     return theme('admins_dashboard');
 }
 

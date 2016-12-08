@@ -35,11 +35,6 @@
                 <?php print $product->field_xu[LANGUAGE_NONE][0]['value'] ?> điểm
             </div>
         <?php endif; ?>
-        <?php if (isset($product->body[LANGUAGE_NONE])) : ?>
-            <div class="product-info">
-                <?php print $product->body[LANGUAGE_NONE][0]['value'] ?>
-            </div>
-        <?php endif; ?>
     </div>
     <div class="clearfix"></div>
     <div class="notice-alert col-md-12">
@@ -54,9 +49,6 @@
     jQuery(document).ready(function(){
         jQuery('select').niceSelect();
 
-        jQuery('#artline-product-gif-change .form-item-name').hide();
-        jQuery('#artline-product-gif-change .form-item-address').hide();
-        jQuery('#artline-product-gif-change .form-item-telephone').hide();
         jQuery('#artline-product-gif-change #edit-address-info').change(function(){
             if(jQuery(this).val() == 1){
                 jQuery('#artline-product-gif-change .form-item-name').show();

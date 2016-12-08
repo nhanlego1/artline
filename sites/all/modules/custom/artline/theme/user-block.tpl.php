@@ -13,6 +13,7 @@ if ($user->uid > 0) {
 <ul class="nav navbar-nav navbar-right">
     <?php if ($user->uid > 0): ?>
         <li>
+            <span class="xu-point-alert"><img src="<?php print base_path().drupal_get_path('theme','phucma') ?>/images/action.gif"/></span>
         <span class="xu-point">
             <?php print _user_get_xu($user->uid) ?>
         </span>

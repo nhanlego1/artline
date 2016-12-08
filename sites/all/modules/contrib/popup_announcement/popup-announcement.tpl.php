@@ -10,7 +10,7 @@
 <div style="display:none" id="popup-announcement-overlay"></div>
 <div style="display:none" id="popup-announcement-wrap">
   <div id="popup-announcement">
-    <?php print $announcement_text; ?>
+    <?php print variable_get('popup_info'); ?>
   </div>
   <div id="popup-announcement-close"></div>
 </div>

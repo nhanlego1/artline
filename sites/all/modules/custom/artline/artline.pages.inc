@@ -445,3 +445,16 @@ function artline_share_social()
     _update_xu_user($node->uid, _type_of_xu('owner_post'));
 }
 
+/**
+ * function
+ */
+function gift_confirm_update($token)
+{
+    $hash = base64_decode($token);
+    $hash = explode('|', $hash);
+    $node = node_load($hash[2]);
+    $node->field_status[LANGUAGE_NONE][0]['value'] = 'confirm';
+    node_save($node);
+    drupal_set_message('Bạn đã xác nhận thành công.');
+    drupal_goto('<front>');
+}

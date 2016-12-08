@@ -148,15 +148,25 @@ function artline_admin($form, &$form_state){
         '#title'=>'Thể lệ và nội quy',
         '#default_value'=> variable_get('rule_game')
     );
+    $form['setting']['popup_info'] = array(
+        '#type'=>'text_format',
+        '#title'=>'Quảng cáo game',
+        '#default_value'=> variable_get('popup_info')
+    );
     $form['setting']['email_processcing'] = array(
         '#type'=>'text_format',
-        '#title'=>'',
+        '#title'=>'Email template xác nhận thông tin nhận quà. ',
         '#default_value'=> variable_get('email_processcing')
     );
     $form['setting']['email_compeleted'] = array(
         '#type'=>'text_format',
-        '#title'=>'',
+        '#title'=>'Email template hoàn thành nhận quà.',
         '#default_value'=> variable_get('email_compeleted')
+    );
+    $form['setting']['email_cancel'] = array(
+        '#type'=>'text_format',
+        '#title'=>'Email template Cancel giao quà.',
+        '#default_value'=> variable_get('email_cancel')
     );
     $form['submit'] = array(
         '#type'=>'submit',
@@ -188,4 +198,8 @@ function artline_admin_submit($form, &$form_state){
     variable_set('xu_friend', $data['xu_friend']);
     variable_set('owner_post', $data['owner_post']);
     variable_set('rule_game', $data['rule_game']['value']);
+    variable_set('popup_info', $data['popup_info']['value']);
+    variable_set('email_processcing', $data['email_processcing']['value']);
+    variable_set('email_compeleted', $data['email_compeleted']['value']);
+    variable_set('email_cancel', $data['email_cancel']['value']);
 }

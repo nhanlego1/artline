@@ -86,9 +86,9 @@
                                 $.post('/posts/list/pager', {page_num: num})
                                     .done(function (data) {
                                         if (data != 'ko') {
-                                                $(".loading-view").hide();
-                                                $("#view-content-ajax").append(data);
-                                                _loadinitjs();
+                                            $(".loading-view").hide();
+                                            $("#view-content-ajax").append(data);
+                                            _loadinitjs();
 
                                         } else {
                                             $(".loading-view").remove();
@@ -204,23 +204,7 @@
                 if (uid == 0) {
                     $("#block-artline-artline-post a.inline").click();
                 } else {
-                    //load animation alert
-                    var offsets = $(this).offset();
-                    var top = offsets.top;
-                    var left = offsets.left;
-                    var timeoutlike, cleartimeoutlike;
-                    clearTimeout(timeoutlike);
-                    timeoutlike = setTimeout(function () {
-                        $(".like-xu").removeClass("xu-alert-info");
-                        $(".like-xu").toggleClass("xu-alert-info-run");
-                        $(".like-xu").css({'top':top+'px','left':left +'px'});
-                    },2000);
 
-                    var clearSlide;
-                    clearTimeout(clearSlide);
-                    clearSlide = setTimeout(function(){
-                        beeConner($(".like-xu"));
-                    },3000);
                     //end alert
                     $.ajax({
                         type: "POST",
@@ -245,9 +229,9 @@
 
                     var cleartimeoutUpdate;
                     clearTimeout(cleartimeoutUpdate);
-                    cleartimeoutUpdate = setTimeout(function(){
+                    cleartimeoutUpdate = setTimeout(function () {
                         _updateXu(uid);
-                    },4000);
+                    }, 4000);
 
                 }
 
@@ -257,22 +241,7 @@
         //post comment
         $(".artline-comment form").each(function () {
             $(this).submit(function () {
-                //load animation alert
-                var offsets = $(this).offset();
-                var top = offsets.top;
-                var timeoutlike, cleartimeoutlike;
-                clearTimeout(timeoutlike);
-                timeoutlike = setTimeout(function () {
-                    $(".like-comment").removeClass("xu-alert-info");
-                    $(".like-comment").toggleClass("xu-alert-info-run");
-                    $(".like-comment").css({'top':top+'px','left':left +'px'});
-                },2000);
 
-                var clearSlide;
-                clearTimeout(clearSlide);
-                clearSlide = setTimeout(function(){
-                    beeConner($(".like-comment"));
-                },3000);
                 //end alert
                 var nid_ = $(this).attr('data');
                 var class_ = '.artline-comment-' + nid_;
@@ -295,7 +264,15 @@
                 var avatar_ = $(class_ + " .user-comment-avatar").val();
                 var classApen_ = '.article-comment-parent-' + nid_;
 
-                setTimeout(function () {
+                var cleartimeoutUpdate;
+                clearTimeout(cleartimeoutUpdate);
+                cleartimeoutUpdate = setTimeout(function () {
+                    _updateXu(uid_);
+                }, 4000);
+
+                var PostComment;
+                clearTimeout(PostComment);
+                PostComment = setTimeout(function () {
                     $.post("/artline/post/comment", {
                         nid: nid_,
                         uid: uid_,
@@ -309,7 +286,9 @@
                             $(class_ + " .name-comment").removeClass('error');
                             $(class_ + " .submit-comment").removeAttr('disabled');
                             $(class_ + " .loading-comment").hide();
-                            setTimeout(function () {
+                            var timeComment;
+                            clearTimeout(timeComment);
+                            timeComment = setTimeout(function () {
                                 if ($(classApen_).length > 0) {
                                     $(classApen_).append('<div class="comment-item"><div class="avatar-comment"><img typeof="foaf:Image" src="' + avatar_ + '" width="40" height="40" alt="" /><span class="name-comment-user">' + name_ + '</span></div><div class="comment-content">' + comment_ + '</div><div class="clearfix"></div><span class="reply-form" data="58" style="display: none;">Trả lời</span><div class="clearfix"></div><div class="reply-comment-child"></div></div>');
                                 } else {
@@ -317,18 +296,13 @@
                                     $(classApendN_).append('<div class="comment-page-wrapper"><div class="comment-item"><div class="avatar-comment"><img typeof="foaf:Image" src="' + avatar_ + '" width="40" height="40" alt="" /><span class="name-comment-user">' + name_ + '</span></div><div class="comment-content">' + data + '</div><div class="clearfix"></div><span class="reply-form" data="58" style="display: none;">Trả lời</span><div class="clearfix"></div><div class="reply-comment-child"></div></div></div>');
                                 }
 
-                            }, 2000);
+                            }, 500);
+
                         })
                         .fail(function () {
                             //alert( "error" );
                         });
                 }, 1000);
-
-                var cleartimeoutUpdate;
-                clearTimeout(cleartimeoutUpdate);
-                cleartimeoutUpdate = setTimeout(function(){
-                    _updateXu(uid_);
-                },4000);
 
                 return false;
             });
@@ -338,24 +312,6 @@
         //post comment
         $(".artline-comment-reply form").each(function () {
             $(this).submit(function () {
-                //load animation alert
-                var offsets = $(this).offset();
-                var top = offsets.top;
-                var left = offsets.left;
-                var timeoutlike, cleartimeoutlike;
-                clearTimeout(timeoutlike);
-                timeoutlike = setTimeout(function () {
-                    $(".like-comment").removeClass("xu-alert-info");
-                    $(".like-comment").toggleClass("xu-alert-info-run");
-                    $(".like-comment").css({'top':top+'px','left':left + 'px'});
-                },2000);
-
-                var clearSlide;
-                clearTimeout(clearSlide);
-                clearSlide = setTimeout(function(){
-                    beeConner($(".like-comment"));
-                },3000);
-
 
                 //end alert
                 var cid_ = $(this).attr('data');
@@ -375,7 +331,15 @@
                 var avatar_ = $(class_ + " .user-comment-avatar-reply").val();
                 var classApen_ = '.reply-comment-child-' + cid_;
 
-                setTimeout(function () {
+                var cleartimeoutUpdate;
+                clearTimeout(cleartimeoutUpdate);
+                cleartimeoutUpdate = setTimeout(function () {
+                    _updateXu(uid_);
+                }, 4000);
+
+                var PostComment;
+                clearTimeout(PostComment);
+                PostComment = setTimeout(function () {
                     $.post("/artline/post/comment", {
                         nid: nid_,
                         uid: uid_,
@@ -389,7 +353,9 @@
                             $(class_ + " .name-comment-reply").removeClass('error');
                             $(class_ + " .submit-comment-reply").removeAttr('disabled');
                             $(class_ + " .loading-comment").hide();
-                            setTimeout(function () {
+                            var clearReplyComment;
+                            clearTimeout(clearReplyComment);
+                            clearReplyComment = setTimeout(function () {
                                 if ($(classApen_ + " .comment-page-wrapper").length > 0) {
                                     $(classApen_ + " .comment-page-wrapper").append('<div class="article-comment-' + nid_ + '"><div class="comment-item"><div class="avatar-comment"><img typeof="foaf:Image" src="' + avatar_ + '" width="40" height="40" alt="" /><span class="name-comment-user">' + name_ + '</span></div><div class="comment-content">' + comment_ + '</div><div class="clearfix"></div><span class="reply-form" data="58" style="display: none;">Trả lời</span><div class="clearfix"></div><div class="reply-comment-child"></div></div></div>');
                                 } else {
@@ -397,18 +363,13 @@
                                     $(classApendN_).append('<div class="comment-page-wrapper"><div class="article-comment-' + nid_ + '"><div class="comment-item"><div class="avatar-comment"><img typeof="foaf:Image" src="' + avatar_ + '" width="40" height="40" alt="" /><span class="name-comment-user">' + name_ + '</span></div><div class="comment-content">' + data + '</div><div class="clearfix"></div><span class="reply-form" data="58" style="display: none;">Trả lời</span><div class="clearfix"></div><div class="reply-comment-child"></div></div></div></div>');
                                 }
 
-                            }, 2000);
+                            }, 500);
+
                         })
                         .fail(function () {
                             //alert( "error" );
                         });
                 }, 1000);
-
-                var cleartimeoutUpdate;
-                clearTimeout(cleartimeoutUpdate);
-                cleartimeoutUpdate = setTimeout(function(){
-                    _updateXu(uid_);
-                },4000);
 
                 return false;
             });
@@ -704,42 +665,25 @@
         });
 
         //share social get point
-        $(".share-item a").each(function(){
-           var _nid = $(this).attr('data');
+        $(".share-item a").each(function () {
+            var _nid = $(this).attr('data');
             var _uid = $(this).attr('data-uid');
-            $(this).click(function(){
-                if(_uid > 0){
-                    //load animation alert
-                    var offsets = $(this).offset();
-                    var top = offsets.top;
-                    var left = offsets.left;
-                    var timeoutlike, cleartimeoutlike;
-                    clearTimeout(timeoutlike);
-                    timeoutlike = setTimeout(function () {
-                        $(".like-share-social").removeClass("xu-alert-info");
-                        $(".like-share-social").toggleClass("xu-alert-info-run");
-                        $(".like-share-social").css({'top':top+'px','left':left+'px'});
-                    },2000);
-
-                    var clearSlide;
-                    clearTimeout(clearSlide);
-                    clearSlide = setTimeout(function(){
-                        beeConner($(".like-share-social"));
-                    },3000);
+            $(this).click(function () {
+                if (_uid > 0) {
                     $.post("/posts/share/social", {nid: _nid, uid: _uid})
                         .done(function (data) {
 
                             var cleartimeoutUpdate;
                             clearTimeout(cleartimeoutUpdate);
-                            cleartimeoutUpdate = setTimeout(function(){
+                            cleartimeoutUpdate = setTimeout(function () {
                                 _updateXu(_uid);
-                            },4000);
+                            }, 4000);
 
                         })
                         .fail(function () {
                             //alert( "error" );
                         });
-                }else{
+                } else {
                     $.post("/posts/share/social", {nid: _nid, uid: _uid})
                         .done(function (data) {
 
@@ -754,20 +698,27 @@
         });
 
         //form update product
-        $("a.product-post").each(function(){
-           var nid_ = $(this).attr('data');
-            $(this).click(function(event){
+        $("a.product-post").each(function () {
+            var nid_ = $(this).attr('data');
+            $(this).click(function (event) {
                 event.preventDefault();
-                $(".product-ctools-use-modal-"+nid_).click();
+                $(".product-ctools-use-modal-" + nid_).click();
             });
         });
 
     }
+
     //update xu
-    function _updateXu(uid){
+    function _updateXu(uid) {
         $.post("/xu/update/action", {uid: uid})
             .done(function (data) {
-              $(".xu-point").text(data);
+                $(".xu-point").text(data);
+                $(".xu-point-alert").show();
+                var timeoutAlert;
+                clearTimeout(timeoutAlert);
+                timeoutAlert = setTimeout(function(){
+                    $(".xu-point-alert").hide();
+                },5000);
             })
             .fail(function () {
                 //alert( "error" );
@@ -780,12 +731,12 @@
         var top = offsets.top;
         var left = offsets.left;
 
-        e.animate({top: (top - 40)+'px',left: left+'px'}, 1000);
+        e.animate({top: (top - 40) + 'px', left: left + 'px'}, 1000);
         var clear;
         clearTimeout(clear);
-        clear = setTimeout(function(){
-            e.css({"top":"-50%"});
-        },2000);
+        clear = setTimeout(function () {
+            e.css({"top": "-50%"});
+        }, 2000);
     }
 
 
