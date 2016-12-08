@@ -177,7 +177,7 @@ function artline_menu()
     $items['admin/dashboard'] = array(
         'title' => 'Admin Dashboard ',
         'description' => 'Control config for artline.',
-        'page callback' => 'booking_admin_dashboard',
+        'page callback' => 'artline_admins_dashboard',
         'access arguments' => array('administer artline'),
     );
     return $items;
@@ -1989,6 +1989,15 @@ function artline_node_update($node){
             drupal_mail('artline', 'doiqua', $to, language_default(), $params, 'no-reply@butvietnhatban.vn', TRUE);
         }
     }
+}
+
+/**
+ * admin dashboard
+ */
+function artline_admins_dashboard()
+{
+    drupal_add_css(drupal_get_path('module', 'booking') . '/assets/admin_panel/admin-panel.css');
+    return theme('admin_dashboard');
 }
 
 
