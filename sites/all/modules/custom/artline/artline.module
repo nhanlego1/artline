@@ -1858,7 +1858,7 @@ function artline_product_gif_change_submit($form, &$form_state)
     $node->field_gif_email[LANGUAGE_NONE][0]['value'] = $user->mail;
     $node->field_product_id[LANGUAGE_NONE][0]['target_id'] = $product->nid;
     $node->field_author[LANGUAGE_NONE][0]['target_id'] = $article->uid;
-    $node->field_gif_xu[LANGUAGE_NONE][0]['value'] = $product->field_xu[LANGUAGE_NONE][0]['value'] * $qty;
+    $node->field_gif_xu[LANGUAGE_NONE][0]['value'] = ($product->field_xu[LANGUAGE_NONE][0]['value'] * $qty);
     $node->field_gif_color[LANGUAGE_NONE][0]['value'] = $color;
     $node->field_qty[LANGUAGE_NONE][0]['value'] = $qty;
     if (!empty($data['notice'])) {
