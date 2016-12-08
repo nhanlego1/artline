@@ -13,6 +13,11 @@ if ($user->uid > 0) {
 <ul class="nav navbar-nav navbar-right">
     <?php if ($user->uid > 0): ?>
         <li>
+        <span class="xu-point">
+            <?php print _user_get_xu($user->uid) ?>
+        </span>
+        </li>
+        <li>
             <a href="<?php print url('user') ?>">Hi <?php isset($account->field_full_name[LANGUAGE_NONE]) ? print $account->field_full_name[LANGUAGE_NONE][0]['value'] : print $user->name ?></a>
         </li>
         <li><a href="<?php print url('user/logout') ?>">Đăng xuất</a></li>
@@ -22,9 +27,6 @@ if ($user->uid > 0) {
     <?php endif; ?>
     <?php if ($user->uid > 0): ?>
         <li>
-        <span class="xu-point">
-            <?php print _user_get_xu($user->uid) ?>
-        </span>
         <?php if ($account->picture): ?>
             <span><img src="<?php print image_style_url('avatar', $account->picture->uri) ?>"></span>
         <?php else: ?>

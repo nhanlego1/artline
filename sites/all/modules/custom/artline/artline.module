@@ -6,6 +6,8 @@
  * Time: 10:14 AM
  */
 define('TIDSUKIEN', 108);
+define('ONLINE', 170);
+define('OFFLINE', 171);
 module_load_include('inc', 'artline', 'artline.pages');
 /**
  * Implement hook_menu()
@@ -70,8 +72,14 @@ function artline_menu()
         'access callback' => TRUE,
         'type' => MENU_CALLBACK,
     );
+    $items['artline/product/%node/%ctools_js'] = array(
+        'page callback' => 'artline_product_post',
+        'page arguments' => array(2, 3),
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
     $items['artline/xu/%node/%ctools_js'] = array(
-        'page callback' => 'artline_xu_post',
+        'page callback' => 'artline_product_gif',
         'page arguments' => array(2, 3),
         'access callback' => TRUE,
         'type' => MENU_CALLBACK,
@@ -165,6 +173,12 @@ function artline_menu()
     $items['xu/update/action'] = array(
         'page callback' => 'xu_update_action',
         'access callback' => TRUE,
+    );
+    $items['admin/dashboard'] = array(
+        'title' => 'Admin Dashboard ',
+        'description' => 'Control config for artline.',
+        'page callback' => 'booking_admin_dashboard',
+        'access arguments' => array('administer artline'),
     );
     return $items;
 }
@@ -267,6 +281,27 @@ function artline_theme()
         'path' => drupal_get_path('module', 'artline') . '/theme',
         'template' => '100-post-store',
     );
+    $items['product_info'] = array(
+        'render element' => 'element',
+        'path' => drupal_get_path('module', 'artline') . '/theme',
+        'template' => 'product-info',
+    );
+    $items['no_condition'] = array(
+        'render element' => 'element',
+        'path' => drupal_get_path('module', 'artline') . '/theme',
+        'template' => 'no-condition',
+    );
+
+    $items['no_product'] = array(
+        'render element' => 'element',
+        'path' => drupal_get_path('module', 'artline') . '/theme',
+        'template' => 'no-product',
+    );
+    $items['admin_dashboard'] = array(
+        'render element' => 'element',
+        'path' => drupal_get_path('module', 'booking') . '/theme',
+        'template' => 'admin-dashboard',
+    );
 
     return $items;
 }
@@ -277,24 +312,14 @@ function artline_theme()
 function artline_init()
 {
     drupal_add_js(drupal_get_path('module', 'artline') . '/js/dropzone.js');
-    drupal_add_css(drupal_get_path('module', 'artline') . '/css/artline.css');
     ctools_include('modal');
     ctools_modal_add_js();
-    //nice select
-    drupal_add_js(drupal_get_path('module', 'artline') . '/js/jquery.nice-select.js');
-    drupal_add_css(drupal_get_path('module', 'artline') . '/css/nice-select.css');
+    ctools_add_js('ajax-responder');
 
-    //checkbox library
-    drupal_add_js(drupal_get_path('module', 'artline') . '/lib/icheck/icheck.js');
-    drupal_add_css(drupal_get_path('module', 'artline') . '/lib/icheck/skins/all.css');
     //dropzone library
-    //  drupal_add_js(drupal_get_path('module', 'artline') . '/js/prototype.js');
-    drupal_add_css(drupal_get_path('module', 'artline') . '/lib/dropzone/dist/dropzone.css');
     drupal_add_js(drupal_get_path('module', 'artline') . '/js/newWaterfall.js');
     drupal_add_js(drupal_get_path('module', 'artline') . '/js/artlineinit.js');
-    //  drupal_add_js(drupal_get_path('module', 'artline') . '/js/artline.js');
 
-    //  drupal_add_css(drupal_get_path('module','artline').'/css/chosen.css');
 }
 
 /**
@@ -324,34 +349,31 @@ function artline_article_uploader_post()
     foreach ($domains as $key => $do) {
         $all_domain[$do['domain_id']] = $do['domain_id'];
     }
-
     $storeFolder = DRUPAL_ROOT . '/uploads';   //2
     if (!empty($_FILES)) {
         $tempFile = $_FILES['file']['tmp_name'];          //3
-        $filename_tmp = time() . str_replace(' ', '', $_FILES['file']['name']);
+        $filename_tmp = str_replace(' ', '', $_FILES['file']['name']);
+
         $targetFile = $storeFolder . '/' . $filename_tmp;  //5
         move_uploaded_file($tempFile, $targetFile); //6
     }
+
     //get list files
     if (isset($_POST['image_upload']) && $_POST['image_upload'] == 1) {
-        if ($handle = opendir($storeFolder)) {
+        if (isset($_POST['upload'])) {
             $images = array();
-            while (false !== ($entry = readdir($handle))) {
-                $entry1 = strtolower($entry);
-                if (strpos($entry1, '.jpg') !== false || strpos($entry1, '.png') !== false || strpos($entry1, '.jpeg') !== false || strpos($entry1, '.gif') !== false) {
-                    $filepath = drupal_realpath($storeFolder . '/' . $entry);
-                    // Create managed File object and associate with Image field.
-                    $image = file_get_contents($filepath);
-                    // Returns the new file object
+            foreach ($_POST['upload'] as $entry) {
+                $image_name = str_replace(' ', '', $entry);
+                $filepath = drupal_realpath($storeFolder . '/' . $image_name);
+                // Create managed File object and associate with Image field.
+                $image = file_get_contents($filepath);
+                // Returns the new file object
 
-                    $filename = 'but-viet-artline-' . $entry;
-                    $file = file_save_data($image, 'public://' . $filename, FILE_EXISTS_RENAME);
-                    $images[] = $file;
-                    artline_article_uploader_remove($entry);
-                }
+                $filename = 'but-viet-artline-' . $image_name;
+                $file = file_save_data($image, 'public://' . $filename, FILE_EXISTS_RENAME);
+                $images[] = $file;
+                artline_article_uploader_remove($image_name);
             }
-
-            closedir($handle);
         }
 
         if (isset($_POST['image'])) {
@@ -581,6 +603,7 @@ function artline_store_post($node, $ajax)
     }
 }
 
+
 /**
  * Implement ctools
  */
@@ -800,7 +823,9 @@ function artline_like_article($uid, $nid)
             ->execute();
 
         //add xu
+        $node = node_load($nid);
         _update_xu_user($uid, _type_of_xu('like'));
+        _update_xu_user($node->uid, _type_of_xu('owner'));
         return 'oke';
     }
     return 'oke';
@@ -880,6 +905,7 @@ function get_category_menu()
  */
 function artline_conment_form($nid, $pid = 0)
 {
+
     return theme('artline_comment', array('nid' => $nid, 'pid' => $pid));
 }
 
@@ -888,11 +914,12 @@ function artline_conment_form($nid, $pid = 0)
  */
 function artline_post_comment()
 {
+    global $user;
     $data = $_POST;
     $comment = new stdClass();
     $comment->nid = $data['nid']; // nid of a node you want to attach a comment to
     $comment->pid = $data['cid']; // parent comment id, 0 if none
-    $comment->uid = $data['uid']; // user's id, who left the comment
+    $comment->uid = $user->uid; // user's id, who left the comment
     //  $comment->mail = 'email@example.com'; // user's email
     $comment->name = $data['name']; // If user is authenticated you can omit this field, it will be auto-populated, if the user is anonymous and you want to name him somehow, input his name here
     $comment->thread = '01/'; // OPTIONAL. If you need comments to be threaded you can fill this value. Otherwise omit it.
@@ -908,7 +935,8 @@ function artline_post_comment()
         comment_submit($comment); // saving a comment
         comment_save($comment);
         //add xu
-        _update_xu_user($data['uid'], _type_of_xu('comment'));
+        _update_xu_user($user->uid, _type_of_xu('comment'));
+        _update_xu_user($data['uid'], _type_of_xu('owner'));
         $return = 'ok';
     } catch (Exception $ex) {
         $return = 'ko';
@@ -1295,6 +1323,7 @@ function artline_article_shared($token)
 
                 //add xu
                 _update_xu_user($uid, _type_of_xu('click'));
+                _update_xu_user($node->uid, _type_of_xu('owner'));
             }
             $account = user_load($node->uid);
             if (in_array('partner', $account->roles) || in_array('store', $account->roles)) {
@@ -1311,6 +1340,7 @@ function artline_article_shared($token)
                         ->execute();
 
                     _update_xu_user($uid, _type_of_xu('click'));
+                    _update_xu_user($node->uid, _type_of_xu('owner'));
                 }
             }
 
@@ -1328,6 +1358,7 @@ function artline_article_shared($token)
                         ->execute();
 
                     _update_xu_user($uid, _type_of_xu('click'));
+                    _update_xu_user($node->uid, _type_of_xu('owner'));
                 }
             }
         }
@@ -1445,6 +1476,24 @@ function _update_xu_user($uid, $xu)
 
 
 /**
+ * update xu for user
+ */
+
+function _update_downxu_user($uid, $xu)
+{
+    try {
+        db_update('artline_xu')// Table name no longer needs {}
+        ->fields(array('uid' => $uid))
+            ->expression('xu', 'xu - :xu', array(':xu' => $xu))
+            ->condition('uid', $uid, '=')
+            ->execute();
+    } catch (Exception $e) {
+        return $e->getMessage();
+    }
+
+}
+
+/**
  * xu type of user
  */
 function _type_of_xu($type)
@@ -1466,6 +1515,9 @@ function _type_of_xu($type)
         case 'click':
             $xu = variable_get('xu_click', 10);
             break;
+        case 'owner':
+            $xu = variable_get('owner_post', 2);
+            break;
     }
     return $xu;
 }
@@ -1481,7 +1533,7 @@ function artline_user_insert(&$edit, $account, $category)
     db_insert('artline_xu')// Table name no longer needs {}
     ->fields(array(
         'uid' => $account->uid,
-        'xu' => 0,
+        'xu' => variable_get('xu_register', 20),
     ))
         ->execute();
 }
@@ -1489,13 +1541,14 @@ function artline_user_insert(&$edit, $account, $category)
 /**
  * User get xu
  */
-function _user_get_xu($uid){
-    $query = db_select('artline_xu','xu');
+function _user_get_xu($uid)
+{
+    $query = db_select('artline_xu', 'xu');
     $query->fields('xu');
-    $query->condition('uid',$uid);
+    $query->condition('uid', $uid);
     $result = $query->execute()->fetchObject();
     $xu = 0;
-    if($result){
+    if ($result) {
         $xu = $result->xu;
     }
     return $xu;
@@ -1504,15 +1557,16 @@ function _user_get_xu($uid){
 /**
  * update xu to user
  */
-function _update_xu_user_first(){
-    $query = db_select('users','u');
+function _update_xu_user_first()
+{
+    $query = db_select('users', 'u');
     $query->fields('u');
     $result = $query->execute()->fetchAll();
-    foreach($result as $u){
+    foreach ($result as $u) {
         db_insert('artline_xu')// Table name no longer needs {}
         ->fields(array(
             'uid' => $u->uid,
-            'xu' => 0,
+            'xu' => variable_get('xu_register', 20),
         ))
             ->execute();
     }
@@ -1522,17 +1576,419 @@ function _update_xu_user_first(){
 /**
  * xu update
  */
-function xu_update_action(){
+function xu_update_action()
+{
     $uid = $_POST['uid'];
-    $query = db_select('artline_xu','xu');
+    $query = db_select('artline_xu', 'xu');
     $query->fields('xu');
-    $query->condition('uid',$uid);
+    $query->condition('uid', $uid);
     $result = $query->execute()->fetchObject();
     $xu = 0;
-    if($result){
+    if ($result) {
         $xu = $result->xu;
     }
     print $xu;
     drupal_exit();
 }
+
+/**
+ * Implement create change gif
+ */
+function artline_product_gif($node, $ajax)
+{
+    global $user;
+    if ($user->uid > 0) {
+        if ($ajax) {
+            ctools_include('ajax');
+            ctools_include('modal');
+            ctools_add_js('ajax-responder');
+            $form_state = array(
+                'node' => $node,
+                'ajax' => TRUE,
+                'title' => t('Đổi quà.'),
+            );
+
+            // a form in a modal popup.
+            $output = ctools_modal_form_wrapper('artline_product_gif_change', $form_state);
+            // such as dismissing the modal popup.
+            if (!empty($form_state['ajax_commands'])) {
+                $output = $form_state['ajax_commands'];
+            }
+            // Return the ajax instructions to the browser via ajax_render().
+            print ajax_render($output);
+            drupal_exit();
+        } else {
+            return drupal_get_form('artline_product_gif_change');
+        }
+    } else {
+        if ($ajax) {
+            ctools_include('ajax');
+            ctools_include('modal');
+            ctools_add_js('ajax-responder');
+            $form_state = array(
+                'ajax' => TRUE,
+                'title' => t('Vui lòng đăng nhập để đổi quà.'),
+            );
+
+            // a form in a modal popup.
+            $output = ctools_modal_form_wrapper('user_login', $form_state);
+            // such as dismissing the modal popup.
+            if (!empty($form_state['ajax_commands'])) {
+                $output = $form_state['ajax_commands'];
+            }
+            // Return the ajax instructions to the browser via ajax_render().
+            print ajax_render($output);
+            drupal_exit();
+        } else {
+            return drupal_get_form('user_login');
+        }
+    }
+
+}
+
+/**
+ * form gif change
+ */
+function artline_product_gif_change($form, &$form_state)
+{
+
+    global $user;
+    if ($user->uid > 0) {
+        $xu = _user_get_xu($user->uid);
+        $node = $form_state['node'];
+        if (isset($node->field_product[LANGUAGE_NONE])) {
+            $product = node_load($node->field_product[LANGUAGE_NONE][0]['target_id']);
+            if ($product->status == 1) {
+                $colors = array();
+                if (isset($product->field_color[LANGUAGE_NONE])) {
+                    foreach ($product->field_color[LANGUAGE_NONE] as $t) {
+                        $terms = taxonomy_term_load($t['tid']);
+                        $colors['Màu ' . $terms->name] = 'Màu ' . $terms->name;
+                    }
+                }
+
+                $product_info = theme('product_info', array('product' => $product));
+                $form_state['product'] = $product;
+                $form['product_info'] = array(
+                    '#markup' => render($product_info)
+                );
+                //check xu before load form
+                if ($product->field_xu[LANGUAGE_NONE][0]['value'] <= $xu) {
+                    $form['color'] = array(
+                        '#type' => 'select',
+                        '#options' => $colors,
+                        '#title' => t('Chọn màu sản phẩm.')
+                    );
+                    $form['address_info'] = array(
+                        '#type' => 'select',
+                        '#options' => array(
+                            0 => t('Sử dụng thông tin nhận quà của bạn.'),
+                            1 => t('Nhập thông tin nhận quà mới.'),
+                        ),
+                        '#title' => t('Địa chỉ nhận quà.')
+                    );
+                    $form['xu'] = array(
+                        '#type' => 'hidden',
+                        '#value' => $product->field_xu[LANGUAGE_NONE][0]['value'],
+                    );
+                    $form['product_id'] = array(
+                        '#type' => 'hidden',
+                        '#value' => $product->nid,
+                    );
+                    $form['name'] = array(
+                        '#type' => 'textfield',
+                        '#title' => t('Họ và tên người nhận. '),
+                    );
+                    $form['address'] = array(
+                        '#type' => 'textfield',
+                        '#title' => t('Địa chỉ nhận quà.'),
+                    );
+                    $form['telephone'] = array(
+                        '#type' => 'textfield',
+                        '#title' => t('Điện thoại người nhận. '),
+                    );
+                    $form['notice'] = array(
+                        '#type' => 'textfield',
+                        '#title' => t('Lời nhắn. '),
+                    );
+                    $form['submit'] = array(
+                        '#type' => 'submit',
+                        '#value' => t('Đổi quà')
+                    );
+                } else {
+                    $no_condition = theme('no_condition');
+                    $form['no_condition'] = array(
+                        '#markup' => render($no_condition),
+                    );
+                }
+
+            } else {
+                $no_product = theme('no_product');
+                $form['no_product'] = array(
+                    '#markup' => render($no_product),
+                );
+            }
+        } else {
+            $no_product = theme('no_product');
+            $form['no_product'] = array(
+                '#markup' => render($no_product),
+            );
+        }
+
+    }
+
+
+    return $form;
+
+}
+
+/**
+ * Implement hook_form_validate
+ */
+function artline_product_gif_change_validate($form, &$form_state)
+{
+    if ($form_state['values']['address_info'] == 1) {
+        if (empty($form_state['values']['name'])) {
+            form_set_error('name', t('Vui lòng nhập họ và tên.'));
+        }
+        if (empty($form_state['values']['address'])) {
+            form_set_error('address', t('Vui lòng nhập địa chỉ nhận quà.'));
+        }
+        if (empty($form_state['values']['telephone'])) {
+            form_set_error('telephone', t('Vui lòng nhập số điện thoại.'));
+        }
+    }
+}
+
+/**
+ * Implement hook_form_validate
+ */
+function artline_product_gif_change_submit($form, &$form_state)
+{
+
+    global $user;
+    $account = user_load($user->uid);
+    $article = $form_state['node'];
+    $data = $form_state['values'];
+    $product = $form_state['product'];
+    if (isset($data['name']) && !empty($data['name'])) {
+        $name = $data['name'];
+    } else {
+        $name = $account->field_name_gif[LANGUAGE_NONE][0]['value'];
+    }
+    if (isset($data['address']) && !empty($data['address'])) {
+        $address = $data['address'];
+    } else {
+        $address = $account->field_address_info[LANGUAGE_NONE][0]['value'];
+    }
+    if (isset($data['telephone']) && !empty($data['telephone'])) {
+        $phone = $data['telephone'];
+    } else {
+        $phone = $account->field_phone[LANGUAGE_NONE][0]['value'];
+    }
+    $node = new stdClass();
+    $node->title = $name . ' vừa đổi quà ' . $product->title;
+    $node->uid = $user->uid;
+    $node->created = REQUEST_TIME;
+    $node->type = 'gif';
+    $node->status = 1;
+    $node->language = LANGUAGE_NONE;
+    $node->field_your_name[LANGUAGE_NONE][0]['value'] = $name;
+    $node->field_gif_address[LANGUAGE_NONE][0]['value'] = $address;
+    $node->field_gif_phone[LANGUAGE_NONE][0]['value'] = $phone;
+    $node->field_gif_email[LANGUAGE_NONE][0]['value'] = $user->mail;
+    $node->field_product_id[LANGUAGE_NONE][0]['target_id'] = $product->nid;
+    $node->field_author[LANGUAGE_NONE][0]['target_id'] = $article->uid;
+    $node->field_gif_xu[LANGUAGE_NONE][0]['value'] = $product->field_xu[LANGUAGE_NONE][0]['value'];
+    $node->field_gif_color[LANGUAGE_NONE][0]['value'] = $data['color'];
+    if (!empty($data['notice'])) {
+        $node->body[LANGUAGE_NONE][0]['value'] = $data['notice'];
+    }
+    $node->field_status[LANGUAGE_NONE][0]['value'] = 'pending';
+    node_save($node);
+    //update down xu of client
+    _update_downxu_user($user->uid, $product->field_xu[LANGUAGE_NONE][0]['value']);
+    //send email to admin
+    drupal_set_message(t('Bạn vừa đổi quà thành công. Chúng tôi sẽ kiểm tra và gửi đến bạn trong thời gian sớm nhất.'));
+    $form_state['ajax_commands'][] = ctools_ajax_command_reload();
+    $form_state['ajax_commands'][] = ctools_modal_command_dismiss();
+
+}
+
+
+/**
+ * Implement ctools
+ */
+function artline_product_post($node, $ajax)
+{
+    if ($ajax) {
+        ctools_include('ajax');
+        ctools_include('modal');
+        ctools_add_js('ajax-responder');
+        $form_state = array(
+            'node' => $node,
+            'ajax' => TRUE,
+            'title' => t('Update product'),
+        );
+        // a form in a modal popup.
+        $output = ctools_modal_form_wrapper('artline_product_update', $form_state);
+        // such as dismissing the modal popup.
+        if (!empty($form_state['ajax_commands'])) {
+            $output = $form_state['ajax_commands'];
+        }
+        // Return the ajax instructions to the browser via ajax_render().
+        print ajax_render($output);
+        drupal_exit();
+    } else {
+        return drupal_get_form('artline_product_update');
+    }
+}
+
+/**
+ * product update
+ */
+function artline_product_update($form, &$form_state)
+{
+    $node = $form_state['node'];
+    $form['nid'] = array(
+        '#type' => 'hidden',
+        '#value' => $node->nid,
+    );
+    $form['product'] = array(
+        '#type' => 'radios',
+        '#title' => t('Chọn Product'),
+        '#options' => _get_products(),
+        '#default_value' => $node->field_product[LANGUAGE_NONE][0]['target_id'],
+        '#suffix' => '<div class="product-submit">',
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Cập nhật',
+        '#suffix' => '</div>'
+    );
+    return $form;
+}
+
+function artline_product_update_validate($form, &$form_state)
+{
+    if (empty($form_state['values']['product'])) {
+        form_set_error('product', t('Vui lòng chọn sản phẩm.'));
+    }
+}
+
+function artline_product_update_submit($form, &$form_state)
+{
+    $node = node_load($form_state['values']['nid']);
+    $node->field_product[LANGUAGE_NONE][0]['target_id'] = $form_state['values']['product'];
+    node_save($node);
+    $form_state['ajax_commands'][] = ctools_ajax_command_reload();
+    $form_state['ajax_commands'][] = ctools_modal_command_dismiss();
+}
+
+function _get_products()
+{
+    $query = db_select('node', 'n');
+    $query->fields('n');
+    $query->condition('type', 'product');
+    $query->condition('status', 1);
+    $query->orderBy('title', 'ASC');
+    $result = $query->execute()->fetchAllAssoc('nid');
+    $data = array();
+    if ($result) {
+        foreach ($result as $n) {
+            $data[$n->nid] = $n->title;
+        }
+    }
+    return $data;
+}
+
+
+/**
+ * Implements hook_mail().
+ */
+/*
+ * 	drupal mail looks for a function that matches the first parameter _ mail to build the message
+ */
+function artline_mail($key, &$message, $params)
+{
+    switch ($key) {
+        case 'doiqua':
+            $headers = array(
+                'MIME-Version' => '1.0',
+                'Content-Type' => 'text/html; charset=UTF-8; format=flowed',
+                'Content-Transfer-Encoding' => '8Bit',
+                'X-Mailer' => 'Drupal'
+            );
+            foreach ($headers as $key => $value) {
+                $message['headers'][$key] = $value;
+            };
+            $message['subject'] = t($params['subject']);
+            $message['body'][] = $params['body'];
+            break;
+    }
+}
+
+/**
+ * Implement hook_node_update
+ *
+ */
+
+function artline_node_update($node){
+    if($node->type=='gif'){
+      if($node->field_status[LANGUAGE_NONE][0]['value']=='processing'){
+          //hash content before
+          $time = time();
+          $email  = $node->field_gif_email[LANGUAGE_NONE][0]['value'];
+          $hashtoken = $time.'|'.$email.'|'.$node->nid;
+          $token = base64_encode($hashtoken);
+          //load content
+          $product = node_load($node->field_product_id[LANGUAGE_NONE][0]['target_id']);
+          $params = array();
+          $to = $email;
+          $params['subject'] = 'Xác nhận thông tin nhận quà.';
+          $info = '';
+          $info .='<p><strong>Họ và tên:</strong> '.$node->field_your_name[LANGUAGE_NONE][0]['value'].'</p>';
+          $info .='<p><strong>Email:</strong> '.$node->field_gif_email[LANGUAGE_NONE][0]['value'].'</p>';
+          $info .='<p><strong>Địa chỉ:</strong> '.$node->field_gif_address[LANGUAGE_NONE][0]['value'].'</p>';
+          $info .='<p><strong>Điện thoại:</strong> '.$node->field_gif_phone[LANGUAGE_NONE][0]['value'].'</p>';
+
+          $info .='<p><strong>Quà tặng:</strong> '.$product->title.'</p>';
+          $info .='<p><strong>Màu sắc:</strong> '.$node->field_gif_color[LANGUAGE_NONE][0]['value'].'</p>';
+
+          if(isset($node->body[LANGUAGE_NONE]) && !empty($node->body[LANGUAGE_NONE][0]['value'])){
+              $info .='<p><strong>Lời nhắn:</strong> '.$node->body[LANGUAGE_NONE][0]['value'].'</p>';
+          }
+
+          $info .='<p> Để xác nhận thông tin trước khi giao hàng, bạn vui lòng click vào link bên dưới. </p>';
+          $info .='<p> <a href="'.url('gift/confirm/'.$token,array('absolute'=>true)).'">'.url('gift/confirm/'.$token,array('absolute'=>true)).'</a> </p>';
+
+          // Add an associative array about this desired attachment.
+          drupal_mail('artline', 'doiqua', $to, language_default(), $params, 'no-reply@butvietnhatban.vn', TRUE);
+      }
+
+        if($node->field_status[LANGUAGE_NONE][0]['value']=='completed'){
+            //hash content before
+            $email  = $node->field_gif_email[LANGUAGE_NONE][0]['value'];
+            //load content
+            $product = node_load($node->field_product_id[LANGUAGE_NONE][0]['target_id']);
+            $params = array();
+            $to = $email;
+            $params['subject'] = 'Giao quà thành công.';
+            $info = '';
+            $info .='<p><strong>Quà tặng:</strong> '.$product->title.'</p>';
+            $info .='<p><strong>Màu sắc:</strong> '.$node->field_gif_color[LANGUAGE_NONE][0]['value'].'</p>';
+            $info .='<p>Đã được giao thành công theo thông tin bên dưới:</p>';
+            $info .='<p><strong>Họ và tên:</strong> '.$node->field_your_name[LANGUAGE_NONE][0]['value'].'</p>';
+            $info .='<p><strong>Email:</strong> '.$node->field_gif_email[LANGUAGE_NONE][0]['value'].'</p>';
+            $info .='<p><strong>Địa chỉ:</strong> '.$node->field_gif_address[LANGUAGE_NONE][0]['value'].'</p>';
+            $info .='<p><strong>Điện thoại:</strong> '.$node->field_gif_phone[LANGUAGE_NONE][0]['value'].'</p>';
+            $info .='<p> Cám ơn bạn đã tham gia chương trình. </p>';
+            $info .='<p> Đến với Butvietnhatban.vn và nhận những món quà đặc biệt và hấp dẫn. </p>';
+
+            // Add an associative array about this desired attachment.
+            drupal_mail('artline', 'doiqua', $to, language_default(), $params, 'no-reply@butvietnhatban.vn', TRUE);
+        }
+    }
+}
+
 

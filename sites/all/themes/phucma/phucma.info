@@ -14,15 +14,24 @@ stylesheets[all][] = css/font-awesome.min.css
 stylesheets[all][] = css/reset.css
 stylesheets[all][] = css/bootstrap.min.css
 stylesheets[all][] = css/style.css
+stylesheets[all][] = css/nice-select.css
+stylesheets[all][] = lib/icheck/skins/all.css
+stylesheets[all][] = lib/dropzone/dist/dropzone.css
+stylesheets[all][] = css/artline.css
+
 
 ;add js to theme
 scripts[] = js/bootstrap.min.js
+;scripts[] = js/jquery.minbk.js
 ;scripts[] = js/custom.js
 ;scripts[] = js/jquery.pinto.min.js
+scripts[] = js/jquery.nice-select.js
 scripts[] = js/artline.js
-scripts[] = js/prototype.js
+;scripts[] = js/prototype.js
 scripts[] = js/waypoint.js
 scripts[] = js/jquery.waypoints.js
+scripts[] = lib/icheck/icheck.js
+
 
 
 regions[header] = Header

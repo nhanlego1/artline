@@ -102,8 +102,10 @@ if ($account->picture) {
                 <div class="edit-content">
                     <span class="action-link action-link-<?php print $node->nid ?>">
                         <?php if (in_array('admin', $user->roles) || in_array('administrator', $user->roles)): ?>
-                            <a class="uptotop-post uptop-<?php print $node->nid ?>"
-                               href="<?php print url('artline/uptop/' . $node->nid, array('query' => array('destination' => $_GET['q']))) ?>">Up to top</a> |
+                            <a data="<?php print $node->nid ?>" class="product-post product-post-<?php print $node->nid ?>"
+                               href="#">Update product</a> |
+                             <a class="uptotop-post uptop-<?php print $node->nid ?>"
+                                href="<?php print url('artline/uptop/' . $node->nid, array('query' => array('destination' => $_GET['q']))) ?>">Up to top</a> |
                             <?php if ($node->status == 0): ?>
                                 <a class="public-post public-<?php print $node->nid ?>" data="<?php print $node->nid ?>"
                                    href="#">Xuất bản</a> |
@@ -189,7 +191,7 @@ if ($account->picture) {
             <?php if ($node->field_category[LANGUAGE_NONE][0]['tid'] != TIDSUKIEN): ?>
                 <!--doi xu lay but-->
                 <div class="xu xu-<?php print $node->nid ?>">
-                    <a data="<?php print $node->nid ?>" href="#">Đổi xu lấy bút miễn phí</a>
+                    <a data="<?php print $node->nid ?>" href="#">Đổi điểm lấy bút miễn phí</a>
                 </div>
             <?php endif; ?>
         </div>

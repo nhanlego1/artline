@@ -83,11 +83,14 @@
   <div id="fb-root"></div>
 
 
-    <div class="xu-alert-info like-xu">+<?php print variable_get('xu_like', "10") ?></div>
-    <div class="xu-alert-info like-post">+<?php print variable_get('xu_post', "20") ?></div>
-    <div class="xu-alert-info like-share-social">+<?php print variable_get('xu_share_social', "20") ?></div>
-    <div class="xu-alert-info like-comment">+<?php print variable_get('xu_comment', "20") ?></div>
-    <div class="xu-alert-info like-click">+<?php print variable_get('xu_click', "10") ?></div>
+    <div id="like-xu" class="xu-alert-info like-xu">+<?php print variable_get('xu_like', "10") ?></div>
+    <div id="post-xu" class="xu-alert-info like-post">+<?php print variable_get('xu_post', "20") ?></div>
+    <div id="share-socila-xu" class="xu-alert-info like-share-social">+<?php print variable_get('xu_share_social', "20") ?></div>
+    <div id="comment-xu" class="xu-alert-info like-comment">+<?php print variable_get('xu_comment', "20") ?></div>
+    <div id="click-xu" class="xu-alert-info like-click">+<?php print variable_get('xu_click', "10") ?></div>
+  <?php if(arg(0) != 'artline' && arg(1) != 'product'): ?>
+<!--  <script src="--><?php //print base_path().path_to_theme('phucma') ?><!--/js/prototype.js"></script>-->
+<?php endif; ?>
 
 </body>
 </html>

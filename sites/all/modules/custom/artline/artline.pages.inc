@@ -440,5 +440,8 @@ function artline_share_social()
     $nid = $_POST['nid'];
     $uid = $_POST['uid'];
     //add xu
+    $node = node_load($nid);
     _update_xu_user($user->uid, _type_of_xu('share_social'));
+    _update_xu_user($node->uid, _type_of_xu('owner_post'));
 }
+

@@ -13,6 +13,7 @@ if($account->picture){
 }else{
     $avatar = base_path() . path_to_theme("theme", "phucma").'/images/default-avatar.png';
 }
+$node = node_load($nid);
 ?>
 <div class="clearfix"></div>
 <div class="title-comment"><span>Bình luận</span><span class="close-comment" data="<?php print $nid; ?>">Đóng bình luận</span></div>
@@ -28,7 +29,7 @@ if($account->picture){
     <form id="artline-comment-<?php print $nid ?>" nam="artline_cmment" method="POST" data="<?php print $nid; ?>">
         <input type="hidden"  name="node_comment" class="node-comment" value="<?php print $nid; ?>">
         <input type="hidden"  name="reply_comment" class="reply-comment" value="<?php print $pid ?>">
-        <input type="hidden"  name="user_comment" class="user-comment" value="<?php print $user->uid ?>">
+        <input type="hidden"  name="user_comment" class="user-comment" value="<?php print $node->uid ?>">
         <input type="hidden"  name="user_comment_avatar" class="user-comment-avatar" value="<?php print $avatar ?>">
 
         <?php if ($user->uid > 0): ?>

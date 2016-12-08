@@ -1,0 +1,47 @@
+Step 1 ---
+
+Upload folder "admin-panel" to the directory of the themed designed by go1
+
+Step 2 ---
+
+
+Create a new page and ensure the URL path to this node is "admin-panel"
+
+Copy and paste the following code into the Body section:
+
+Step 3 ---
+
+Update the .info file and add:
+
+stylesheets[all][] = admin-panel/admin-panel.css
+
+And add the following region:
+
+regions[admin_panel_links] = Admin Panel Links ONLY
+
+Step 4 ---
+
+Update the page.tpl.php file and add:
+
+  <?php // ADMIN PANEL LINKS ?>
+  <div id="admin-panel-links"><?php print $admin_panel_links; ?></div>
+  <?php // END ADMIN PANEL LINKS ?>
+  
+  Make sure this is placed just outside the body tag - ensure the above snippet is not nested within any <div> tags, as we will use CSS to position:absolute; the #admin-panel-links div.
+  
+Step 5 ---
+
+Create a new drupal block called "Admin Panel Links" and add the following HTML:
+
+<ul>
+<li class="return"><a href="/admin-panel">Return to the Administration Panel</a></li>
+<li class="logout"><a href="/logout">Logout</a></li>
+</ul>
+
+Step 6 ---
+
+Assign the newly created block to the "Admin Panel Links ONLY" content region.
+
+
+
+And you're DONE!!! :)

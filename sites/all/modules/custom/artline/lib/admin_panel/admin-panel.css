@@ -1,0 +1,145 @@
+/* 
+
+Admin Panel Styling 
+(do not modify the below)
+
+*/
+
+#admin-panel {
+width: 45%;
+	float: left;
+	border: 1px solid #aaa;
+	padding: 5px;
+	margin: 5px;
+}
+#admin-panel #title {
+	margin-bottom: 20px;
+}
+#admin-panel #title h2 {
+	height: 30px;
+	line-height: 30px;
+	background: url(images/admin-panel-title.png) no-repeat left;
+	width:280px;
+	padding-left: 40px;
+	color: #333333;
+}
+#admin-panel h3 {
+	font-size: 16px;
+	color: #666;
+	padding-left: 15px;
+	border-bottom: 1px dotted #ccc;
+	background: transparent;
+	margin-top: 2px;
+	padding-bottom: 8px;
+}
+#admin-panel ul {
+	margin-top: 20px;
+	padding-right: 15px;
+}
+#admin-panel ul li {
+	margin-bottom: 10px;
+	padding-left: 10px;
+	line-height: 20px;
+	background: none repeat scroll 0 0 transparent;
+        list-style:none;
+}
+#admin-panel ul li a {
+	color: #666;
+	font-size: 12px;
+	background: #fff no-repeat;
+	padding: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius:4px;
+	display: block;
+	border:1px solid #fff;
+
+}
+#admin-panel ul li a:hover {
+	background: #F2A800;
+	border:1px solid #d89600;
+	color: #fff;
+	text-decoration: none;
+}
+#admin-panel ul li a, #admin-panel ul li a:hover {
+	background-repeat: no-repeat;
+	background-position: right;
+}
+
+#admin-panel ul li.add a {
+	background-image:url(images/add.png);
+}
+#admin-panel ul li.manage a {
+	background-image:url(images/manage.png);
+}
+#admin-panel ul li.view a {
+	background-image:url(images/view.png);
+}
+#admin-panel ul li.manual a {
+	background-image:url(images/manual.png);
+}
+#admin-panel ul li.stats a {
+	background-image:url(images/stats.png);
+}
+#admin-panel ul li.user-logout a {
+	background-image:url(images/user-logout.png);
+}
+
+
+/* Admin panel links styling */
+
+div#admin-panel-links {
+	position: absolute;
+	top: 0;
+	right:0;
+	z-index: 99999;
+}
+div#admin-panel-links ul {
+	margin: 0;
+	padding: 0;
+}
+div#admin-panel-links ul li {
+	display: inline;
+	margin-right: 5px;
+	padding: 0;
+	background: none repeat scroll 0 0 #FFF;
+}
+div#admin-panel-links ul li a {
+	padding: 10px;
+	padding-left: 15px;
+	padding-right: 15px;
+	font-size: 11px;
+	background: #fff;
+	border:1px solid #ccc;
+	-webkit-border-bottom-right-radius: 8px;
+	-webkit-border-bottom-left-radius: 8px;
+	-moz-border-radius-bottomright: 8px;
+	-moz-border-radius-bottomleft: 8px;
+	border-bottom-right-radius: 8px;
+	border-bottom-left-radius: 8px;
+	
+	color: #333;
+	
+}
+div#admin-panel-links ul li a:hover {
+	text-decoration: none;
+}
+div#admin-panel-links ul li.return a {
+	background:url(images/admin-panel-title-return-link.png) no-repeat left #FFF;
+	padding-left: 35px;
+}
+div#admin-panel-links ul li.return a:hover {
+	background:url(images/admin-panel-title-return-link.png) no-repeat left #f7f7f7;
+	padding-left: 35px;
+}
+#dashboard h2{
+font-size:18px;
+font-weight: bold;
+}
+/*
+
+OVERRIDE SECTION
+
+(modify below)
+
+---------------

@@ -211,7 +211,7 @@
                                 <div class="main">
                                     <div class="wrap-main">
                                         <div class="row">
-                                            <div class="col-md-6 col-xs-12 pinto ">
+                                            <div class="col-md-12 col-xs-12 pinto ">
                                                 <?php print render($page['content']); ?>
                                             </div>
                                         </div>

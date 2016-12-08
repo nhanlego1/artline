@@ -185,11 +185,6 @@
 
     function _loadinitjs() {
 
-        $(".auto-loadmore").click(function () {
-            console.log('nhan');
-            processing = false;
-        });
-
         $(".reply-comment-child span.reply-form").hide();
         $(".readmore-article").each(function () {
             $(this).click(function () {
@@ -201,24 +196,7 @@
         });
         $(".more .like-article").each(function () {
             $(this).click(function () {
-                //load animation alert
-                var offsets = $(this).offset();
-                var top = offsets.top;
-                    var timeoutlike, cleartimeoutlike;
-                    clearTimeout(timeoutlike);
-                    timeoutlike = setTimeout(function () {
-                        $(".like-xu").removeClass("xu-alert-info");
-                        $(".like-xu").toggleClass("xu-alert-info-run");
-                        $(".like-xu").css({'top':top+'px'});
-                    },2000);
 
-                    clearTimeout(cleartimeoutlike);
-                    cleartimeoutlike = setTimeout(function () {
-                        $(".like-xu").removeClass("xu-alert-info-run");
-                        $(".like-xu").toggleClass("xu-alert-info");
-                        $(".like-xu").css({'top':'-50%'});
-                    },4000);
-               //end alert
 
                 var uid = $(this).attr('data-uid');
                 var nid = $(this).attr('data-nid');
@@ -226,6 +204,24 @@
                 if (uid == 0) {
                     $("#block-artline-artline-post a.inline").click();
                 } else {
+                    //load animation alert
+                    var offsets = $(this).offset();
+                    var top = offsets.top;
+                    var left = offsets.left;
+                    var timeoutlike, cleartimeoutlike;
+                    clearTimeout(timeoutlike);
+                    timeoutlike = setTimeout(function () {
+                        $(".like-xu").removeClass("xu-alert-info");
+                        $(".like-xu").toggleClass("xu-alert-info-run");
+                        $(".like-xu").css({'top':top+'px','left':left +'px'});
+                    },2000);
+
+                    var clearSlide;
+                    clearTimeout(clearSlide);
+                    clearSlide = setTimeout(function(){
+                        beeConner($(".like-xu"));
+                    },3000);
+                    //end alert
                     $.ajax({
                         type: "POST",
                         url: '/artline/like/' + uid + '/' + nid,
@@ -269,15 +265,14 @@
                 timeoutlike = setTimeout(function () {
                     $(".like-comment").removeClass("xu-alert-info");
                     $(".like-comment").toggleClass("xu-alert-info-run");
-                    $(".like-comment").css({'top':top+'px'});
+                    $(".like-comment").css({'top':top+'px','left':left +'px'});
                 },2000);
 
-                clearTimeout(cleartimeoutlike);
-                cleartimeoutlike = setTimeout(function () {
-                    $(".like-comment").removeClass("xu-alert-info-run");
-                    $(".like-comment").toggleClass("xu-alert-info");
-                    $(".like-comment").css({'top':'-50%'});
-                },4000);
+                var clearSlide;
+                clearTimeout(clearSlide);
+                clearSlide = setTimeout(function(){
+                    beeConner($(".like-comment"));
+                },3000);
                 //end alert
                 var nid_ = $(this).attr('data');
                 var class_ = '.artline-comment-' + nid_;
@@ -346,20 +341,20 @@
                 //load animation alert
                 var offsets = $(this).offset();
                 var top = offsets.top;
+                var left = offsets.left;
                 var timeoutlike, cleartimeoutlike;
                 clearTimeout(timeoutlike);
                 timeoutlike = setTimeout(function () {
                     $(".like-comment").removeClass("xu-alert-info");
                     $(".like-comment").toggleClass("xu-alert-info-run");
-                    $(".like-comment").css({'top':top+'px'});
+                    $(".like-comment").css({'top':top+'px','left':left + 'px'});
                 },2000);
 
-                clearTimeout(cleartimeoutlike);
-                cleartimeoutlike = setTimeout(function () {
-                    $(".like-comment").removeClass("xu-alert-info-run");
-                    $(".like-comment").toggleClass("xu-alert-info");
-                    $(".like-comment").css({'top':'-50%'});
-                },4000);
+                var clearSlide;
+                clearTimeout(clearSlide);
+                clearSlide = setTimeout(function(){
+                    beeConner($(".like-comment"));
+                },3000);
 
 
                 //end alert
@@ -713,37 +708,57 @@
            var _nid = $(this).attr('data');
             var _uid = $(this).attr('data-uid');
             $(this).click(function(){
-                //load animation alert
-                var offsets = $(this).offset();
-                var top = offsets.top;
-                var timeoutlike, cleartimeoutlike;
-                clearTimeout(timeoutlike);
-                timeoutlike = setTimeout(function () {
-                    $(".like-share-social").removeClass("xu-alert-info");
-                    $(".like-share-social").toggleClass("xu-alert-info-run");
-                    $(".like-share-social").css({'top':top+'px'});
-                },5000);
+                if(_uid > 0){
+                    //load animation alert
+                    var offsets = $(this).offset();
+                    var top = offsets.top;
+                    var left = offsets.left;
+                    var timeoutlike, cleartimeoutlike;
+                    clearTimeout(timeoutlike);
+                    timeoutlike = setTimeout(function () {
+                        $(".like-share-social").removeClass("xu-alert-info");
+                        $(".like-share-social").toggleClass("xu-alert-info-run");
+                        $(".like-share-social").css({'top':top+'px','left':left+'px'});
+                    },2000);
 
-                clearTimeout(cleartimeoutlike);
-                cleartimeoutlike = setTimeout(function () {
-                    $(".like-share-social").removeClass("xu-alert-info-run");
-                    $(".like-share-social").toggleClass("xu-alert-info");
-                    $(".like-share-social").css({'top':'-50%'});
-                },7000);
-                $.post("/posts/share/social", {nid: _nid, uid: _uid})
-                    .done(function (data) {
+                    var clearSlide;
+                    clearTimeout(clearSlide);
+                    clearSlide = setTimeout(function(){
+                        beeConner($(".like-share-social"));
+                    },3000);
+                    $.post("/posts/share/social", {nid: _nid, uid: _uid})
+                        .done(function (data) {
 
-                        var cleartimeoutUpdate;
-                        clearTimeout(cleartimeoutUpdate);
-                        cleartimeoutUpdate = setTimeout(function(){
-                            _updateXu(_uid);
-                        },4000);
+                            var cleartimeoutUpdate;
+                            clearTimeout(cleartimeoutUpdate);
+                            cleartimeoutUpdate = setTimeout(function(){
+                                _updateXu(_uid);
+                            },4000);
 
-                    })
-                    .fail(function () {
-                        //alert( "error" );
-                    });
+                        })
+                        .fail(function () {
+                            //alert( "error" );
+                        });
+                }else{
+                    $.post("/posts/share/social", {nid: _nid, uid: _uid})
+                        .done(function (data) {
 
+                        })
+                        .fail(function () {
+                            //alert( "error" );
+                        });
+                }
+
+
+            });
+        });
+
+        //form update product
+        $("a.product-post").each(function(){
+           var nid_ = $(this).attr('data');
+            $(this).click(function(event){
+                event.preventDefault();
+                $(".product-ctools-use-modal-"+nid_).click();
             });
         });
 
@@ -758,6 +773,21 @@
                 //alert( "error" );
             });
     }
+
+
+    function beeConner(e) {
+        var offsets = $(".xu-point").offset();
+        var top = offsets.top;
+        var left = offsets.left;
+
+        e.animate({top: (top - 40)+'px',left: left+'px'}, 1000);
+        var clear;
+        clearTimeout(clear);
+        clear = setTimeout(function(){
+            e.css({"top":"-50%"});
+        },2000);
+    }
+
 
 })
 (jQuery);

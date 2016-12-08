@@ -261,11 +261,13 @@
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             node = _ref[_i];
             node.textContent = this._renameFilename(file.name);
+            node.innerHTML = "<input type='hidden' name='upload[]' value='"+file.name+"' />";
           }
           _ref1 = file.previewElement.querySelectorAll("[data-dz-size]");
           for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
             node = _ref1[_j];
             node.innerHTML = this.filesize(file.size);
+
           }
           if (this.options.addRemoveLinks) {
             file._removeLink = Dropzone.createElement("<a data="+file.name+" class=\"dz-remove\" href=\"/artline/remove/"+file.name+"\" data-dz-remove>" + this.options.dictRemoveFile + "</a>");
@@ -485,10 +487,12 @@
       return _results;
     };
 
+
     Dropzone.prototype.deleteFile = function(file){
-      new Ajax.Request('/artline/remove/'+file.name, {
-        method: 'post'
-      });
+
+      // new Ajax.Request('/artline/remove/'+file.name, {
+      //   method: 'post'
+      // });
     };
 
     Dropzone.prototype.getRejectedFiles = function() {

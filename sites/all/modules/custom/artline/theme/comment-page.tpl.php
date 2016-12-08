@@ -47,7 +47,7 @@ if($account2->picture){
                             <input type="hidden" name="reply_comment" class="reply-comment-reply"
                                    value="<?php print $comment->cid ?>"/>
                             <input type="hidden" name="user_comment" class="user-comment-reply"
-                                   value="<?php print $user->uid ?>"/>
+                                   value="<?php print $comment->uid ?>"/>
                             <input type="hidden"  name="user_comment_avatar" class="user-comment-avatar-reply" value="<?php print $avatar ?>"/>
 
 

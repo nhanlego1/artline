@@ -5,7 +5,7 @@
  * Date: 11/2/16
  * Time: 11:13 PM
  */
-function artline_admin(){
+function artline_admin($form, &$form_state){
     $form = array();
     $form['footer'] = array(
         '#type'         => 'fieldset',
@@ -77,12 +77,12 @@ function artline_admin(){
         '#collapsible'  => TRUE,
         '#collapsed'    => FALSE,
     );
-    $form['cndk']['logo_cndk'] = array(
-        '#type'=>'managed_file',
-        '#title' => 'Upload Logo đăng ký',
-        '#upload_location' => 'public://',
-        '#default_value' => variable_get('logo_cndk')
-    );
+//    $form['cndk']['logo_cndk'] = array(
+//        '#type'=>'managed_file',
+//        '#title' => 'Upload Logo đăng ký',
+//        '#upload_location' => 'public://',
+//        '#default_value' => variable_get('logo_cndk')
+//    );
 
     $form['setting'] = array(
         '#type'         => 'fieldset',
@@ -100,5 +100,92 @@ function artline_admin(){
         '#title'=>'Lọc từ khoá tục tỉu',
         '#default_value'=> variable_get('filter_word')
     );
-    return system_settings_form($form);
+
+    //set default value
+
+    $form['setting']['xu_like'] = array(
+        '#type'=>'textfield',
+        '#title'=>'Số điểm khi like',
+        '#default_value'=> variable_get('xu_like',10)
+    );
+    $form['setting']['xu_post'] = array(
+        '#type'=>'textfield',
+        '#title'=>'Số điểm khi đăng bài',
+        '#default_value'=> variable_get('xu_post',20)
+    );
+    $form['setting']['xu_share_social'] = array(
+        '#type'=>'textfield',
+        '#title'=>'Số điểm khi share bài',
+        '#default_value'=> variable_get('xu_share_social',20)
+    );
+    $form['setting']['xu_comment'] = array(
+        '#type'=>'textfield',
+        '#title'=>'Số điểm khi bình luận',
+        '#default_value'=> variable_get('xu_comment',20)
+    );
+    $form['setting']['xu_click'] = array(
+        '#type'=>'textfield',
+        '#title'=>'Số điểm khi xem bài viết của bạn',
+        '#default_value'=> variable_get('xu_click',10)
+    );
+    $form['setting']['xu_register'] = array(
+        '#type'=>'textfield',
+        '#title'=>'Số điểm khi đăng ký tài khoản',
+        '#default_value'=> variable_get('xu_register',20)
+    );
+    $form['setting']['xu_friend'] = array(
+        '#type'=>'textfield',
+        '#title'=>'Số điểm khi giới thiệu bạn bè đăng ký',
+        '#default_value'=> variable_get('xu_friend',10)
+    );
+    $form['setting']['owner_post'] = array(
+        '#type'=>'textfield',
+        '#title'=>'Số điểm khi tác giả bài post nhận được',
+        '#default_value'=> variable_get('owner_post',2)
+    );
+    $form['setting']['rule_game'] = array(
+        '#type'=>'text_format',
+        '#title'=>'Thể lệ và nội quy',
+        '#default_value'=> variable_get('rule_game')
+    );
+    $form['setting']['email_processcing'] = array(
+        '#type'=>'text_format',
+        '#title'=>'',
+        '#default_value'=> variable_get('email_processcing')
+    );
+    $form['setting']['email_compeleted'] = array(
+        '#type'=>'text_format',
+        '#title'=>'',
+        '#default_value'=> variable_get('email_compeleted')
+    );
+    $form['submit'] = array(
+        '#type'=>'submit',
+        '#value'=>'Save'
+    );
+    return $form;
+}
+
+function artline_admin_submit($form, &$form_state){
+    $data = $form_state['values'];
+    variable_set('company_name', $data['company_name']);
+    variable_set('address', $data['address']);
+    variable_set('phone', $data['phone']);
+    variable_set('fax', $data['fax']);
+    variable_set('hotline', $data['hotline']);
+    variable_set('email_company', $data['email_company']);
+    variable_set('facebook_link', $data['facebook_link']);
+    variable_set('facebook_fanpage', $data['facebook_fanpage']);
+    variable_set('google_plus', $data['google_plus']);
+    variable_set('youtube_link', $data['youtube_link']);
+    variable_set('timeline_view', $data['timeline_view']);
+    variable_set('filter_word', $data['filter_word']);
+    variable_set('xu_like', $data['xu_like']);
+    variable_set('xu_post', $data['xu_post']);
+    variable_set('xu_share_social', $data['xu_share_social']);
+    variable_set('xu_comment', $data['xu_comment']);
+    variable_set('xu_click', $data['xu_click']);
+    variable_set('xu_register', $data['xu_register']);
+    variable_set('xu_friend', $data['xu_friend']);
+    variable_set('owner_post', $data['owner_post']);
+    variable_set('rule_game', $data['rule_game']['value']);
 }

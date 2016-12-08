@@ -11,6 +11,8 @@
         <?php foreach ($nodes as $node): ?>
             <a class="ctools-use-modal ctools-use-modal-<?php print $node->nid ?>"
                href="<?php print url('artline/store/' . $node->nid . '/nojs'); ?>">Store <?php $node->nid ?></a>
+            <a class="ctools-use-modal product-ctools-use-modal-<?php print $node->nid ?>"
+               href="<?php print url('artline/product/' . $node->nid . '/nojs'); ?>">product <?php $node->nid ?></a>
             <a class="ctools-use-modal xu-ctools-use-modal-<?php print $node->nid ?>"
                href="<?php print url('artline/xu/' . $node->nid . '/nojs'); ?>">Store <?php $node->nid ?></a>
         <?php endforeach; ?>
