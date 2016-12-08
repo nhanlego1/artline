@@ -15,16 +15,6 @@
         <div class="product-name">
             <?php print $product->title; ?>
         </div>
-        <?php if (isset($product->field_color[LANGUAGE_NONE])) : ?>
-            <div class="product-color">
-                <?php foreach ($product->field_color[LANGUAGE_NONE] as $t) : ?>
-                    <?php $terms = taxonomy_term_load($t['tid']); ?>
-                    <span class="color"
-                          style="background: <?php print $terms->field_color_code[LANGUAGE_NONE][0]['value'] ?>">&nbsp;</span>
-                <?php endforeach; ?>
-            </div>
-            <div class="clearfix"></div>
-        <?php endif; ?>
         <?php if (isset($product->field_price[LANGUAGE_NONE])) : ?>
             <div class="product-price">
                 <?php print number_format($product->field_price[LANGUAGE_NONE][0]['value']) ?>đ
