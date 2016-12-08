@@ -299,7 +299,7 @@ function artline_theme()
     );
     $items['admins_dashboard'] = array(
         'render element' => 'element',
-        'path' => drupal_get_path('module', 'booking') . '/theme',
+        'path' => drupal_get_path('module', 'artline') . '/theme',
         'template' => 'admin-dashboard',
     );
 
