@@ -42,6 +42,7 @@ global $user;
     <ul>
         <li class="user-logout"><a href="/admin/report/post?destination=admin/dashboard">Report theo users</a></li>
         <li class="user-logout"><a href="/admin/config/people/accounts/fields/field_info_register?destination=admin/dashboard">Quản lý nội dung thông tin trang dăng ký</a></li>
+        <li class="user-logout"><a href="/admin/structure/block/manage/popup_announcement/popup_announcement_1/configure?destination=admin/dashboard">Cấu hình popup trang chủ</a></li>
         <li class="user-logout"><a href="/admin/users/post?destination=admin/dashboard">Thống kê bài viết theo user</a></li>
         <li class="user-logout"><a href="/admin/config/content/artline?destination=admin/dashboard">Cấu hình thông tin website</a></li>
         <li class="user-logout"><a href="/admin/config/system/googleanalytics?destination=admin/dashboard">Google Analystics</a></li>

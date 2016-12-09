@@ -212,6 +212,11 @@ global $user;
                                 <?php if ($tabs): ?>
                                     <div class="tabs">
                                         <?php print render($tabs); ?>
+                                        <?php if($user->uid > 0): ?>
+                                        <ul class="tabs primary">
+                                            <li><a href="/user/invite/friend">Giới thiệu bạn bè</a></li>
+                                        </ul>
+                                        <?php endif; ?>
                                     </div>
                                 <?php endif; ?>
                                 <?php print render($page['help']); ?>

@@ -110,7 +110,7 @@ function popup_announcement_block_configure($delta) {
       '#type' => 'textarea',
       '#title' => t('Announcement text'),
       '#description' => t('You may use html here if necessary.'),
-      '#default_value' => variable_get('popup_info'),
+      '#default_value' =>  variable_get('popup_info','<h2>Welcome to butvietnhatban.vn</h2>'),
     );
     $form['width'] = array(
       '#type' => 'textfield',

@@ -186,6 +186,16 @@ function artline_menu()
         'page callback' => 'artline_admins_dashboard',
         'access arguments' => array('administer artline'),
     );
+
+    $items['user/invite/friend'] = array(
+        'title' => 'Giới thiệu bạn bè',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('invite_friend'),
+        'access callback' => TRUE,
+        'access arguments' => array(1),
+        'type' => MENU_LOCAL_TASK,
+        'file' => 'artline.pages.inc',
+    );
     return $items;
 }
 
@@ -1521,6 +1531,9 @@ function _type_of_xu($type)
         case 'click':
             $xu = variable_get('xu_click', 10);
             break;
+        case 'friend':
+            $xu = variable_get('xu_friend', 20);
+            break;
         case 'owner':
             $xu = variable_get('owner_post', 2);
             break;
@@ -2058,6 +2071,26 @@ function artline_admins_dashboard()
 {
    // drupal_add_css(drupal_get_path('module', 'artline') . '/lib/admin_panel/admin-panel.css');
     return theme('admins_dashboard');
+}
+
+/**
+ * Implement hook_form_register_alter
+ */
+function artline_form_alter(&$form, &$form_state, $form_id) {
+    if ($form_id == 'user_register_form') {
+      if(isset($_GET['token'])){
+          $token = base64_decode($_GET['token']);
+          $user_invite = user_load_by_mail($token);
+          $form_state['user_invite'] = $user_invite;
+
+          $form['#submit'][] = 'invite_add_score';
+      }
+    }
+}
+
+function invite_add_score($form, &$form_state){
+    $user_invite = $form_state['user_invite'];
+    _update_xu_user($user_invite->uid, _type_of_xu('friend'));
 }
 
 

@@ -458,3 +458,60 @@ function gift_confirm_update($token)
     drupal_set_message('Bạn đã xác nhận thành công.');
     drupal_goto('<front>');
 }
+
+/**
+ * invite form
+ */
+function invite_friend($form, &$form_state){
+    global $user;
+
+    if($user->uid <= 0){
+        drupal_set_message('Bạn vui lòng đăng nhập để mời bạn bè.');
+        drupal_goto('user');
+    }
+    $form['invite_info'] = array(
+        '#markup'=>'<h4>Hãy gửi email để mời những người bạn của bạn tham gia chương trình.</h4>'
+    );
+
+    $form['email'] = array(
+        '#type'=>'textarea',
+        '#title'=>'Email',
+        '#description'=> 'Bạn có thể nhập 1 hoặc nhiều email, mỗi email cách nhau duấ phẩy(,).',
+    );
+    $form['submit'] = array(
+        '#type'=>'submit',
+        '#value'=> 'Send E-mail',
+    );
+    return $form;
+}
+
+/**
+ * invite form
+ */
+function invite_friend_validate($form, &$form_state){
+    if(empty($form_state['values']['email'])){
+        form_set_error('email',t('Vui lòng nhập Email'));
+    }
+}
+
+/**
+ * invite form
+ */
+function invite_friend_submit($form, &$form_state){
+    global $user;
+    $token = base64_encode($user->mail);
+    $emails = $form_state['values']['email'];
+    $emails = explode(',',$emails);
+    $info = variable_get('email_invite');
+    foreach($emails as $email){
+        $to = trim($email);
+        $params['subject'] = 'Tham gia butvietnhatban.vn nhận quà hấp dẫn.';
+        $link= '<a href="' . url('user/register', array('absolute' => true,'query'=>array('token'=>$token))) . '">' . url('user/register', array('absolute' => true,'query'=>array('token'=>$token))) . '</a>';
+       $info = str_replace('[link]',$link,$info);
+
+        // Add an associative array about this desired attachment.
+        drupal_mail('artline', 'doiqua', $to, language_default(), $params, $user->mail, TRUE);
+        drupal_set_message('Bạn đã gửi mail thành công.');
+        drupal_goto('user');
+    }
+}

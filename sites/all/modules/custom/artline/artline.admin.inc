@@ -168,6 +168,11 @@ function artline_admin($form, &$form_state){
         '#title'=>'Email template Cancel giao quà.',
         '#default_value'=> variable_get('email_cancel')
     );
+    $form['setting']['email_invite'] = array(
+        '#type'=>'text_format',
+        '#title'=>'Email template Mời bạn bè tham gia.',
+        '#default_value'=> variable_get('email_invite')
+    );
     $form['submit'] = array(
         '#type'=>'submit',
         '#value'=>'Save'
@@ -202,4 +207,5 @@ function artline_admin_submit($form, &$form_state){
     variable_set('email_processcing', $data['email_processcing']['value']);
     variable_set('email_compeleted', $data['email_compeleted']['value']);
     variable_set('email_cancel', $data['email_cancel']['value']);
+    variable_set('email_cancel', $data['email_invite']['value']);
 }
