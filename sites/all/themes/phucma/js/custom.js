@@ -226,12 +226,7 @@
                             $(class_).html('<i class="fa fa-heart pink" aria-hidden="true"></i><i class="count-like">' + data + '</i>');
                         }
                     );
-
-                    var cleartimeoutUpdate;
-                    clearTimeout(cleartimeoutUpdate);
-                    cleartimeoutUpdate = setTimeout(function () {
                         _updateXu(uid);
-                    }, 4000);
 
                 }
 
@@ -263,13 +258,7 @@
                 $(class_ + " .loading-comment").show();
                 var avatar_ = $(class_ + " .user-comment-avatar").val();
                 var classApen_ = '.article-comment-parent-' + nid_;
-
-                var cleartimeoutUpdate;
-                clearTimeout(cleartimeoutUpdate);
-                cleartimeoutUpdate = setTimeout(function () {
                     _updateXu(uid_);
-                }, 4000);
-
                 var PostComment;
                 clearTimeout(PostComment);
                 PostComment = setTimeout(function () {
@@ -330,12 +319,7 @@
                 $(class_ + " .loading-comment").show();
                 var avatar_ = $(class_ + " .user-comment-avatar-reply").val();
                 var classApen_ = '.reply-comment-child-' + cid_;
-
-                var cleartimeoutUpdate;
-                clearTimeout(cleartimeoutUpdate);
-                cleartimeoutUpdate = setTimeout(function () {
                     _updateXu(uid_);
-                }, 4000);
 
                 var PostComment;
                 clearTimeout(PostComment);
@@ -672,13 +656,7 @@
                 if (_uid > 0) {
                     $.post("/posts/share/social", {nid: _nid, uid: _uid})
                         .done(function (data) {
-
-                            var cleartimeoutUpdate;
-                            clearTimeout(cleartimeoutUpdate);
-                            cleartimeoutUpdate = setTimeout(function () {
                                 _updateXu(_uid);
-                            }, 4000);
-
                         })
                         .fail(function () {
                             //alert( "error" );
@@ -718,7 +696,7 @@
                 clearTimeout(timeoutAlert);
                 timeoutAlert = setTimeout(function(){
                     $(".xu-point-alert").hide();
-                },5000);
+                },2000);
             })
             .fail(function () {
                 //alert( "error" );

@@ -930,6 +930,7 @@ span.close-form {
 }
 .hooks {
     top: 47px!important;
+    background: #ccc;
 }
 .hooks .left-bar {
     padding: 0px 0px 30px 0px!important;
@@ -937,7 +938,7 @@ span.close-form {
 .hooks .list-item a {
     position: relative;
     display: block;
-    padding: 6px 0 6px 45px!important;
+    padding: 3px 0 3px 45px!important;
     color: #000;
 }
 #content .col-md-12 .main .carousel-indicators {
@@ -1510,5 +1511,10 @@ div.info-point {
 .navbar-nav.navbar-right li:first-child {
    border-right: 1px solid #fff;
 }
+
+#user-login-form .form-item-name{
+    display: block!important;
+}
+
 
 
