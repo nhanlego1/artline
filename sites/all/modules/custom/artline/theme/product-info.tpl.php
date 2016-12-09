@@ -15,14 +15,14 @@
         <div class="product-name">
             <?php print $product->title; ?>
         </div>
-        <?php if (isset($product->field_price[LANGUAGE_NONE])) : ?>
-            <div class="product-price">
-                <?php print number_format($product->field_price[LANGUAGE_NONE][0]['value']) ?>đ
-            </div>
-        <?php endif; ?>
+<!--        --><?php //if (isset($product->field_price[LANGUAGE_NONE])) : ?>
+<!--            <div class="product-price">-->
+<!--                --><?php //print number_format($product->field_price[LANGUAGE_NONE][0]['value']) ?><!--đ-->
+<!--            </div>-->
+<!--        --><?php //endif; ?>
         <?php if (isset($product->field_xu[LANGUAGE_NONE])) : ?>
             <div class="pointer">
-                <?php print $product->field_xu[LANGUAGE_NONE][0]['value'] ?> điểm
+                <?php print $product->field_xu[LANGUAGE_NONE][0]['value'] ?> điểm /sản phẩm
             </div>
         <?php endif; ?>
     </div>

@@ -611,7 +611,7 @@ function artline_store_post($node, $ajax)
     if ($ajax) {
         ctools_include('ajax');
         $commands = array();
-        $commands[] = ctools_modal_command_display('Những store của Artline', $output);
+        $commands[] = ctools_modal_command_display('Điểm bán hàng', $output);
         print ajax_render($commands);
         drupal_exit();
     } else {
@@ -1651,7 +1651,7 @@ function artline_product_gif($node, $ajax)
             );
 
             // a form in a modal popup.
-            $output = ctools_modal_form_wrapper('user_login', $form_state);
+            $output = ctools_modal_form_wrapper('user_login_block', $form_state);
             // such as dismissing the modal popup.
             if (!empty($form_state['ajax_commands'])) {
                 $output = $form_state['ajax_commands'];
@@ -1660,7 +1660,7 @@ function artline_product_gif($node, $ajax)
             print ajax_render($output);
             drupal_exit();
         } else {
-            return drupal_get_form('user_login');
+            return drupal_get_form('user_login_block');
         }
     }
 

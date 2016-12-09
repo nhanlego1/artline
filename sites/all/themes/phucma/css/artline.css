@@ -1176,7 +1176,7 @@ div.ctools-modal-content #artline-product-gif-change .nice-select {
 .color-qty{
     width: 60px;
     float: left;
-    height: 115px;
+    height: 100px;
     text-align: center;
 }
 div.ctools-modal-content .form-item label {
@@ -1314,6 +1314,8 @@ div.info-point {
     }
     #modal-content{
         width: 300px!important;
+        min-height: 200px;
+        height: auto!important;
     }
     .tab {
         border: 1px solid #d4d4d1;
@@ -1466,6 +1468,41 @@ div.info-point {
     }
     div.info-point{
         float: left;
+    }
+
+    #content .col-md-12 .banner p {
+        font-size: 15px!important;
+    }
+    h1, .h1 {
+        font-size: 20px!important;
+    }
+    h4, .h4 {
+        font-size: 15px!important;
+    }
+    .close {
+        float: right;
+        font-size: 21px;
+        font-weight: bold;
+        line-height: 1;
+        color: #000;
+        text-shadow: 0 1px 0 #fff;
+        opacity: 1!important;
+        filter: alpha(opacity=20);
+    }
+    #user-login-form .form-item-name{
+        display: block!important;
+    }
+    .form-item-address-info .nice-select{
+        max-width: 100%!important;
+    }
+    #popup-announcement-wrap{
+        width: 309px!important;
+        height: 300px;
+        left: 5px!important;
+        top: 134px;
+    }
+    #user-register-form input[type="text"], #user-login input[type="text"], #user-login input[type="password"]{
+        max-width: 90%!important;
     }
 }
 
