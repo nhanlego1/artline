@@ -1888,7 +1888,7 @@ function artline_product_gif_change_submit($form, &$form_state)
     $finish = t('<p>Chúc mừng bạn đã đổi quà thành công.</p>Bạn vừa đổi sản phẩm '.$product->title.' và bạn bị trừ '.$qty * $product->field_xu[LANGUAGE_NONE][0]['value'].' điểm</p>');
     $form_state['ajax_commands'][] = ajax_command_replace('#artline-product-gif-change', $finish);
     $form_state['ajax_commands'][] = ctools_ajax_command_reload();
-    $form_state['ajax_commands'][] = ctools_modal_command_dismiss();
+   // $form_state['ajax_commands'][] = ctools_modal_command_dismiss();
 
 }
 
