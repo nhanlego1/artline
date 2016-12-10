@@ -1536,6 +1536,12 @@ div.info-point {
     width: 50px!important;
     height: 50px!important;
 }
+#popup-announcement a{
+    width: 100px;
+    padding: 10px 5px;
+    background: #48649f;
+    color:#fff;
+}
 
 
 
