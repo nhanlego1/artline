@@ -111,31 +111,31 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 12)
 {
     global $user;
     $data = array();
-    $children = taxonomy_get_children($tid);
-    $tids = array();
-    if ($children) {
-        foreach ($children as $child) {
-            if ($child->tid != $tid) {
-                $tids[] = $child->tid;
-            }
-        }
-
-    }
-
-    $parents = taxonomy_get_parents($tid);
-    if ($parents) {
-        $parent = reset($parents);
-        $tids[] = $parent->tid;
-        $children_ = taxonomy_get_children($parent->tid);
-        if ($children_) {
-            foreach ($children_ as $child_) {
-                if ($child_->tid != $tid) {
-                    $tids[] = $child_->tid;
-                }
-            }
-
-        }
-    }
+//    $children = taxonomy_get_children($tid);
+//    $tids = array();
+//    if ($children) {
+//        foreach ($children as $child) {
+//            if ($child->tid != $tid) {
+//                $tids[] = $child->tid;
+//            }
+//        }
+//
+//    }
+//
+//    $parents = taxonomy_get_parents($tid);
+//    if ($parents) {
+//        $parent = reset($parents);
+//        $tids[] = $parent->tid;
+//        $children_ = taxonomy_get_children($parent->tid);
+//        if ($children_) {
+//            foreach ($children_ as $child_) {
+//                if ($child_->tid != $tid) {
+//                    $tids[] = $child_->tid;
+//                }
+//            }
+//
+//        }
+//    }
     $query = db_select('node', 'n');
     $query->fields('n');
     $query->innerJoin('field_data_field_category', 'ca', 'n.nid = ca.entity_id');
@@ -185,9 +185,9 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 12)
             $data[] = node_load($n->nid);
         }
     }
-    if ($parents) {
-//        $data += artline_get_post_cate_other($tids);
-    }
+//    if ($parents) {
+////        $data += artline_get_post_cate_other($tids);
+//    }
     return theme('post_list', array('nodes' => $data));
 }
 
