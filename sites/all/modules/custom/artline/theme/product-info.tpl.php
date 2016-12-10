@@ -8,10 +8,10 @@
 ?>
 
 <div class="product-wrapper">
-    <div class="image-product col-md-6">
+    <div class="image-product col-md-12">
         <?php print theme('image_style', array('path' => $product->field_product_image[LANGUAGE_NONE][0]['uri'], 'style_name' => 'medium')) ?>
     </div>
-    <div class="info-product col-md-6">
+    <div class="info-product col-md-12">
         <div class="product-name">
             <?php print $product->title; ?>
         </div>
