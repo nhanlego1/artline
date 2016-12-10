@@ -186,7 +186,7 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 12)
         }
     }
     if ($parents) {
-        $data += artline_get_post_cate_other($tids);
+//        $data += artline_get_post_cate_other($tids);
     }
     return theme('post_list', array('nodes' => $data));
 }
