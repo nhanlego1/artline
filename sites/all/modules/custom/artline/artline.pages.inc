@@ -141,24 +141,24 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 12)
     $query->innerJoin('field_data_field_category', 'ca', 'n.nid = ca.entity_id');
 
     //add or
-    if ($user->uid > 0) {
-        if (in_array('admin', $user->roles) || in_array('administrator', $user->roles)) {
-            $db_or = db_or();
-            $db_or->condition('n.status', 0);
-            $db_or->condition('n.status', 1);
-            //check tids
-            $query->condition($db_or);
-        } else {
-            $db_or = db_or();
-            $db_or->condition('n.uid', $user->uid);
-            $db_or->condition('n.status', 0);
-            $db_or->condition('n.status', 1);
-            //check tids
-            $query->condition($db_or);
-        }
-    } else {
+//    if ($user->uid > 0) {
+//        if (in_array('admin', $user->roles) || in_array('administrator', $user->roles)) {
+//            $db_or = db_or();
+//            $db_or->condition('n.status', 0);
+//            $db_or->condition('n.status', 1);
+//            //check tids
+//            $query->condition($db_or);
+//        } else {
+//            $db_or = db_or();
+//            $db_or->condition('n.uid', $user->uid);
+//            $db_or->condition('n.status', 0);
+//            $db_or->condition('n.status', 1);
+//            //check tids
+//            $query->condition($db_or);
+//        }
+//    } else {
         $query->condition('n.status', 1);
-    }
+  //  }
 
     //check tids
     if ($parents) {
