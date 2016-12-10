@@ -1098,8 +1098,9 @@ label {
     display: none;
 }
 #artline-product-update .form-type-radio.form-item-product{
-    width: 30%;
+    width: 45%;
     float: left;
+    margin-left: 10px;
 }
 #artline-product-update .form-item-product input.form-radio{
     float: left;
@@ -1155,14 +1156,14 @@ label {
     margin-bottom: 15px;
     padding-top: 15px;
 }
-div.ctools-modal-content #artline-product-gif-change .form-item label {
+#artline-product-gif-change .form-item label {
     width: 100%;
     float: none;
     margin-bottom: 10px;
     margin-top: 20px;
 }
 
-div.ctools-modal-content #artline-product-gif-change .nice-select {
+#artline-product-gif-change .nice-select {
     float: none;
     width: auto;
     max-width: 60%;
@@ -1180,15 +1181,19 @@ div.ctools-modal-content #artline-product-gif-change .nice-select {
     height: 100px;
     text-align: center;
 }
-div.ctools-modal-content .form-item label {
+#artline-product-gif-change .form-item label {
     width: 15em;
     float: none!important;
     margin-bottom: 10px;
 }
-.ctools-use-modal-processed .form-item-name,
-.ctools-use-modal-processed .form-item-telephone,
-.ctools-use-modal-processed .form-item-address{
+#artline-product-gif-change .form-item-name,
+#artline-product-gif-change .form-item-telephone,
+#artline-product-gif-change .form-item-address{
     display: none;
+
+}
+#artline-product-gif-change input[type="text"]{
+    max-width: 100%;
 }
 .xu-point-alert{
     position: absolute!important;
@@ -1514,6 +1519,22 @@ div.info-point {
 
 #user-login-form .form-item-name{
     display: block!important;
+}
+.no-show{
+    display: none!important;
+}
+.and-show{
+    display: block!important;
+}
+
+.form-item-address-info .nice-select{
+    max-width: 100%!important;
+}
+#cboxClose {
+    right: 43%!important;
+    background: url(../images/icon-close-window.png) no-repeat center!important;
+    width: 50px!important;
+    height: 50px!important;
 }
 
 

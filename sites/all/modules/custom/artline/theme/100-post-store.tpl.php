@@ -9,12 +9,14 @@
 <div class="200-post-store" style="display: none;">
     <?php if ($nodes): ?>
         <?php foreach ($nodes as $node): ?>
-            <a class="ctools-use-modal ctools-use-modal-<?php print $node->nid ?>"
-               href="<?php print url('artline/store/' . $node->nid . '/nojs'); ?>">Store <?php $node->nid ?></a>
-            <a class="ctools-use-modal product-ctools-use-modal-<?php print $node->nid ?>"
-               href="<?php print url('artline/product/' . $node->nid . '/nojs'); ?>">product <?php $node->nid ?></a>
-            <a class="ctools-use-modal xu-ctools-use-modal-<?php print $node->nid ?>"
-               href="<?php print url('artline/xu/' . $node->nid . '/nojs'); ?>">Store <?php $node->nid ?></a>
+            <a class="ajax cboxElement ctools-use-modal-<?php print $node->nid ?>"
+               href="<?php print url('artline/store/' . $node->nid); ?>">Store <?php $node->nid ?></a>
+            <a class="ajax cboxElement product-ctools-use-modal-<?php print $node->nid ?>"
+               href="<?php print url('artline/product/' . $node->nid); ?>">product <?php $node->nid ?></a>
+            <a class="ajax cboxElement xu-ctools-use-modal-<?php print $node->nid ?>"
+               href="<?php print url('artline/xu/' . $node->nid); ?>">Store <?php $node->nid ?></a>
         <?php endforeach; ?>
     <?php endif; ?>
 </div>
+
+

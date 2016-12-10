@@ -9,7 +9,7 @@ global $user;
 $current_tid = $tid;
 ?>
 
-
+<h4>Điểm mua hàng</h4>
 <div class="store-wrapper">
     <div class="location">
         <select id="location-selector">
@@ -23,14 +23,14 @@ $current_tid = $tid;
 
     <ul class="store">
         <div class="online-store">
-            <h4>Bán online</h4>
+            <a href="#" class="online"><h4>Mua hàng online</h4></a>
             <?php if ($nodes): ?>
                 <?php foreach ($nodes as $node): ?>
                     <?php if ($node->field_online_offline[LANGUAGE_NONE][0]['tid'] == ONLINE): ?>
                         <?php if ($col1 = artline_load_collection($node)): ?>
                             <?php foreach ($col1 as $colect1): $colect1 = reset($colect1); ?>
                                 <?php if ($colect1->field_category[LANGUAGE_NONE][0]['tid'] == $current_tid): ?>
-                                    <li class=" location
+                                    <li class="no-show location
                     <?php foreach ($node->field_location[LANGUAGE_NONE] as $location): ?>
                     location-<?php print $location['tid'] ?>
 
@@ -76,14 +76,14 @@ $current_tid = $tid;
 
         </div>
         <div class="offline-store">
-            <h4>Bán offline</h4>
+            <a href="#" class="offline"><h4>Mua hàng offline</h4></a>
             <?php if ($nodes): ?>
                 <?php foreach ($nodes as $node): ?>
                     <?php if ($node->field_online_offline[LANGUAGE_NONE][0]['tid'] != ONLINE): ?>
                         <?php if ($col1 = artline_load_collection($node)): ?>
                             <?php foreach ($col1 as $colect1): $colect1 = reset($colect1); ?>
                                 <?php if ($colect1->field_category[LANGUAGE_NONE][0]['tid'] == $current_tid): ?>
-                                    <li class=" location
+                                    <li class="no-show location
                     <?php foreach ($node->field_location[LANGUAGE_NONE] as $location): ?>
                     location-<?php print $location['tid'] ?>
 
@@ -132,6 +132,20 @@ $current_tid = $tid;
             var tid_ = jQuery(this).val();
             jQuery("ul.store li.location-" + tid_).show();
         });
+
+        jQuery(".online-store a.online").click(function(event){
+            event.preventDefault();
+            jQuery(".online-store li").each(function(){
+                jQuery(this).toggleClass('no-show');
+            });
+            console.log('nhan');
+        });
+        jQuery(".offline-store a.offline").click(function(event){
+            event.preventDefault();
+            jQuery(".offline-store li").each(function(){
+                jQuery(this).toggleClass('no-show');
+            });
+        });
     });
 </script>
 <?php if ($user->uid > 0): ?>
@@ -162,6 +176,7 @@ $current_tid = $tid;
                     return false;
                 });
             });
+
         });
     </script>
 <?php endif; ?>

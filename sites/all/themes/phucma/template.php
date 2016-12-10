@@ -159,3 +159,14 @@ function phucma_field__taxonomy_term_reference($variables) {
 
   return $output;
 }
+
+function _after_gift($product, $xu){
+    $info = variable_get('gift_after');
+    $info = str_replace('[point]',$xu, $info);
+    $info = str_replace('[product]',$product, $info);
+    $output = '';
+    $output .='<div class="autoload cboxElement">';
+    $output .= $info;
+    $output .='</div>';
+    return $output;
+}

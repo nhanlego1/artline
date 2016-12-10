@@ -153,6 +153,11 @@ function artline_admin($form, &$form_state){
         '#title'=>'Quảng cáo game',
         '#default_value'=> variable_get('popup_info')
     );
+    $form['setting']['gift_after'] = array(
+        '#type'=>'text_format',
+        '#title'=>'Message sau khi đổi quà. ',
+        '#default_value'=> variable_get('gift_after')
+    );
     $form['setting']['email_processcing'] = array(
         '#type'=>'text_format',
         '#title'=>'Email template xác nhận thông tin nhận quà. ',
@@ -208,4 +213,5 @@ function artline_admin_submit($form, &$form_state){
     variable_set('email_compeleted', $data['email_compeleted']['value']);
     variable_set('email_cancel', $data['email_cancel']['value']);
     variable_set('email_cancel', $data['email_invite']['value']);
+    variable_set('gift_after',$data['gift_after']['value']);
 }

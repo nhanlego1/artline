@@ -22,8 +22,11 @@
             $('select').niceSelect();
 
 
-            $("#block-artline-artline-post a.inline").colorbox({inline: true, width: "375px", height: "500px"});
+            $("#block-artline-artline-post a.inline").colorbox({inline: true, width: "350px", height: "500px"});
 
+            $(".ajax").colorbox({width: "340px", height: "auto"});
+
+            $(".autoload").colorbox({width: "340px", height: "auto"});
 
             $(".post_bottom").click(function () {
                 $("#block-artline-artline-post a.inline").click();
