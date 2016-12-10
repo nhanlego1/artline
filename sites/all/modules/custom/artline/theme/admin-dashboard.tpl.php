@@ -20,6 +20,7 @@ global $user;
         <li class="manage"><a href="/admin/users?destination=admin/dashboard">Quản lý Users</a></li>
         <li class="manage"><a href="/admin/structure/taxonomy/location?destination=admin/dashboard">Quản lý location</a></li>
         <li class="manage"><a href="/admin/structure/taxonomy/category?destination=admin/dashboard">Quản lý danh mục</a></li>
+        <li class="manage"><a href="/admin/structure/taxonomy/color?destination=admin/dashboard">Quản lý Color</a></li>
         <li class="manage"><a href="/admin/giffs?destination=admin/dashboard">Quản lý quà tặng</a></li>
     </ul>
 </div>
@@ -33,6 +34,7 @@ global $user;
         <li class="add"><a href="/node/add/store?destination=admin/dashboard">Thêm store</a></li>
         <li class="add"><a href="/admin/people/create?destination=admin/dashboard">Thêm user</a></li>
         <li class="add"><a href="/admin/structure/taxonomy/category/add?destination=admin/dashboard"> Thêm danh mục sản phẩm</a></li>
+        <li class="add"><a href="/admin/structure/taxonomy/color/add?destination=admin/dashboard"> Thêm Color</a></li>
         <li class="add"><a href="/admin/structure/taxonomy/category/add?destination=admin/dashboard"> Thêm location</a></li>
     </ul>
 </div>
