@@ -24,7 +24,7 @@
 
             $("#block-artline-artline-post a.inline").colorbox({inline: true, width: "350px", height: "500px"});
 
-            $(".ajax").colorbox({width: "340px", height: "auto"});
+            $(".ajax").colorbox({width: "340px", height: "400px"});
 
             $(".autoload").colorbox({width: "340px", height: "auto"});
 
