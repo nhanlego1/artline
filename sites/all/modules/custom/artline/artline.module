@@ -369,9 +369,9 @@ function artline_article_uploader_post()
     if (!empty($_FILES)) {
         $tempFile = $_FILES['file']['tmp_name'];          //3
         $filename_tmp = str_replace(' ', '', $_FILES['file']['name']);
-        $filename_tmp = _replace_vietnamese($filename_tmp);
+        $filename_tmp2 = _replace_vietnamese($filename_tmp);
 
-        $targetFile = $storeFolder . '/' . $filename_tmp;  //5
+        $targetFile = $storeFolder . '/' . $filename_tmp2;  //5
         move_uploaded_file($tempFile, $targetFile); //6
     }
 
@@ -381,7 +381,7 @@ function artline_article_uploader_post()
             $images = array();
             foreach ($_POST['upload'] as $entry) {
                 $image_name = str_replace(' ', '', $entry);
-                $image_name = _replace_vietnamese($image_name);
+
                 $filepath = drupal_realpath($storeFolder . '/' . $image_name);
                 // Create managed File object and associate with Image field.
                 $image = file_get_contents($filepath);
