@@ -369,6 +369,7 @@ function artline_article_uploader_post()
     if (!empty($_FILES)) {
         $tempFile = $_FILES['file']['tmp_name'];          //3
         $filename_tmp = str_replace(' ', '', $_FILES['file']['name']);
+        $filename_tmp = _replace_vietnamese($filename_tmp);
 
         $targetFile = $storeFolder . '/' . $filename_tmp;  //5
         move_uploaded_file($tempFile, $targetFile); //6
@@ -380,6 +381,7 @@ function artline_article_uploader_post()
             $images = array();
             foreach ($_POST['upload'] as $entry) {
                 $image_name = str_replace(' ', '', $entry);
+                $image_name = _replace_vietnamese($image_name);
                 $filepath = drupal_realpath($storeFolder . '/' . $image_name);
                 // Create managed File object and associate with Image field.
                 $image = file_get_contents($filepath);
@@ -1635,7 +1637,7 @@ function artline_product_gif_change($form, &$form_state)
         $xu = _user_get_xu($user->uid);
         $node = $form_state['build_info']['args'][0];
         if (isset($node->field_product[LANGUAGE_NONE])) {
-            $product = node_load($node->field_product[LANGUAGE_NONE][0]['target_id']);
+            $product = _get_product_tid($node->field_category[LANGUAGE_NONE][0]['tid']);
             if ($product->status == 1) {
                 $colors = array();
                 if (isset($product->field_color[LANGUAGE_NONE])) {
@@ -2040,6 +2042,36 @@ function invite_add_score($form, &$form_state)
 {
     $user_invite = $form_state['user_invite'];
     _update_xu_user($user_invite->uid, _type_of_xu('friend'));
+}
+
+/**
+ * Get product relate
+ */
+
+function _get_product_tid($tid){
+    $nodes = taxonomy_select_nodes($tid);
+    foreach($nodes as $nid){
+        $node = node_load($nid);
+        if($node->type=='product'){
+            return $node;
+            break;
+        }
+    }
+}
+
+/**
+ * function replace tieng viet
+ */
+
+function _replace_vietnamese($text){
+    $alias = str_replace(array('ù', 'ú', 'ủ', 'ũ', 'ụ', 'ư', 'ứ', 'ừ', 'ử', 'ữ', 'ự'), 'u', $text);
+    $alias = str_replace(array('è', 'é', 'ẻ', 'ẽ', 'ẹ', 'ê', 'ế', 'ề', 'ể', 'ễ', 'ệ',), 'e', $alias);
+    $alias = str_replace(array('ò', 'ó', 'ỏ', 'õ', 'ọ', 'ơ', 'ớ', 'ờ', 'ở', 'ỡ', 'ợ', 'ô', 'ố', 'ồ', 'ổ', 'ỗ', 'ộ'), 'o', $alias);
+    $alias = str_replace(array('à', 'á', 'ả', 'ã', 'ạ', 'â', 'ấ', 'ầ', 'ẩ', 'ẫ', 'ậ', 'ă', 'ắ', 'ằ', 'ẳ', 'ẵ', 'ặ'), 'a', $alias);
+    $alias = str_replace(array('ì', 'í', 'ỉ', 'ĩ', 'ị'), 'i', $alias);
+    $alias = str_replace(array('ỳ', 'ý', 'ỹ', 'ỵ',), 'y', $alias);
+    $alias = str_replace(array('đ'), 'd', $alias);
+    return $alias;
 }
 
 
