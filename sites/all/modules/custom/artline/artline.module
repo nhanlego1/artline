@@ -417,7 +417,7 @@ function artline_article_uploader_post()
                 $filename = 'but-viet-artline-' . $image_name.$type;
                 $file = file_save_data($image, 'public://' . $filename, FILE_EXISTS_RENAME);
                 $images[] = $file;
-                artline_article_uploader_remove($image_name);
+                artline_article_uploader_remove($image_name.$type);
             }
         }
 
