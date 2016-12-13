@@ -409,7 +409,7 @@ function artline_article_uploader_post()
 
                // var_dump($image_name.$type);die;
 
-                $filepath = drupal_realpath($storeFolder . '/' . $image_name);
+                $filepath = drupal_realpath($storeFolder . '/' . $image_name.$type);
                 // Create managed File object and associate with Image field.
                 $image = file_get_contents($filepath);
                 // Returns the new file object
