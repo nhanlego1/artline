@@ -7,5 +7,5 @@
  */
 ?>
 <div class="no-product">
-    <p><?php print t('Hiện nay sản phẩm này không còn bán trên thị trường, các bạn hãy quay lại để chọn sản phẩm yêu thích nha.') ?></p>
+    <p><?php print t('Sản phẩm tạm thời hết hàng - Bạn vui lòng đổi sản phẩm khác hoặc chúng tôi sẽ thông báo qua email khi có hàng.') ?></p>
 </div>

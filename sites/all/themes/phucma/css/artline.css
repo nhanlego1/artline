@@ -741,6 +741,10 @@ ul.store h2{
 .post-edit-article{
     display: none;
 }
+
+.post-edit-article textarea{
+    width: 77%;
+}
 .sidebar-bottom{
     text-align: center;
     border-top: 1px solid #e4e4e4;
@@ -998,7 +1002,10 @@ td .field-type-taxonomy-term-reference{
 }
 .dropzone .dz-preview {
     margin-right: 2px!important;
-
+    width: 88px;
+}
+.dropzone .dz-preview img {
+    width: 88px;
 }
 footer .info {
     padding: 9px 0 2px!important;
@@ -1546,6 +1553,9 @@ div.info-point {
     height: 40px;
     background: #ccc;
     margin-top: 13px;
+}
+.node-type-page #block-system-main{
+    padding: 20px;
 }
 
 
