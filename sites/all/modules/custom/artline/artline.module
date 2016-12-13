@@ -370,7 +370,18 @@ function artline_article_uploader_post()
         $tempFile = $_FILES['file']['tmp_name'];          //3
         $filename_tmp = str_replace(' ', '', $_FILES['file']['name']);
         $filename_tmp = seo_friendly_url($filename_tmp);
-        $type = str_replace('image/','.', $_FILES['file']['type']);
+        if(strpos($filename_tmp,'jpg') !== false){
+            $type = '.jpg';
+        }
+        if(strpos($filename_tmp,'jpeg') !== false){
+            $type = '.jpeg';
+        }
+        if(strpos($filename_tmp,'png') !== false){
+            $type = '.png';
+        }
+        if(strpos($filename_tmp,'gif') !== false){
+            $type = '.gif';
+        }
 
         $targetFile = $storeFolder . '/' . $filename_tmp.$type;  //5
         move_uploaded_file($tempFile, $targetFile); //6
