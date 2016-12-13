@@ -35,26 +35,26 @@
             $(".post-article-click").click(function () {
                 $("#block-artline-artline-post a.inline").click();
             });
-            $("form#post-form-article-1").submit(function () {
-
-                var cate = $(this).find("select#category").val();
-
-                if ($.isNumeric(cate) == false) {
-                    $(this).find(".nice-select.category").addClass('error');
-                    return false;
-                } else {
-                    return true;
-                }
-            });
-            $("form#post-form-article-2").submit(function () {
-                var cate = $(this).find("select#category").val();
-                if ($.isNumeric(cate) == false) {
-                    $(this).find(".nice-select.category").addClass('error');
-                    return false;
-                } else {
-                    return true;
-                }
-            });
+            // $("form#post-form-article-1").submit(function () {
+            //
+            //     var cate = $(this).find("select#category").val();
+            //
+            //     if ($.isNumeric(cate) == false) {
+            //         $(this).find(".nice-select.category").addClass('error');
+            //         return false;
+            //     } else {
+            //         return true;
+            //     }
+            // });
+            // $("form#post-form-article-2").submit(function () {
+            //     var cate = $(this).find("select#category").val();
+            //     if ($.isNumeric(cate) == false) {
+            //         $(this).find(".nice-select.category").addClass('error');
+            //         return false;
+            //     } else {
+            //         return true;
+            //     }
+            // });
 
 
             $(".name-store a").each(function () {

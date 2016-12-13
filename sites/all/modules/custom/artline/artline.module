@@ -599,6 +599,8 @@ function get_category()
     foreach ($terms as $term) {
         if (!taxonomy_get_parents($term->tid)) {
             $data[$term->tid] = $term->name;
+        }else{
+            $data[$term->tid] = ' -'.$term->name;
         }
     }
     return $data;
@@ -1863,6 +1865,7 @@ function artline_product_post($node)
 {
     $form_state['build_info']['args'] = array($node);
     $form = drupal_build_form('artline_product_update', $form_state);
+   // drupal_add_js(drupal_get_path('theme','phucma').'/js/artline.js');
     print drupal_render($form);
     drupal_exit();
 }
@@ -1878,10 +1881,10 @@ function artline_product_update($form, &$form_state, $node)
         '#value' => $node->nid,
     );
     $form['product'] = array(
-        '#type' => 'radios',
+        '#type' => 'select',
         '#title' => t('Chọn Product'),
-        '#options' => _get_products(),
-        '#default_value' => $node->field_product[LANGUAGE_NONE][0]['target_id'],
+        '#options' => get_category(),
+        '#default_value' => $node->field_category[LANGUAGE_NONE][0]['tid'],
         '#suffix' => '<div class="product-submit">',
     );
     $form['submit'] = array(
@@ -1891,6 +1894,14 @@ function artline_product_update($form, &$form_state, $node)
     );
     return $form;
 }
+/**
+ * Get list taxonomy
+ */
+
+/**
+ * @param $form
+ * @param $form_state
+ */
 
 function artline_product_update_validate($form, &$form_state)
 {

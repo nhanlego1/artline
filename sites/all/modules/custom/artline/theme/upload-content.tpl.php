@@ -24,16 +24,16 @@ global $user;
                 <textarea name="article" id="taid" size="500" placeholder="Bạn đang nghĩ gì?" cols="40" rows="4"
                           wrap="soft"></textarea>
                         <div class="clearfix"></div>
-                        <div class="category">
-                            <select name="category" id="category" class="category">
-                                <option>-- Chọn danh mục --</option>
-                                <?php if ($category): ?>
-                                    <?php foreach ($category as $tid => $term): ?>
-                                        <option value="<?php print $tid ?>"><?php print $term ?></option>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </select>
-                        </div>
+<!--                        <div class="category">-->
+<!--                            <select name="category" id="category" class="category">-->
+<!--                                <option>-- Chọn danh mục --</option>-->
+<!--                                --><?php //if ($category): ?>
+<!--                                    --><?php //foreach ($category as $tid => $term): ?>
+<!--                                        <option value="--><?php //print $tid ?><!--">--><?php //print $term ?><!--</option>-->
+<!--                                    --><?php //endforeach; ?>
+<!--                                --><?php //endif; ?>
+<!--                            </select>-->
+<!--                        </div>-->
                         <div class="clearfix"></div>
                         <div class="dropzone dz-clickable" id="dropzone-upload"></div>
                         <div class="clearfix"></div>
@@ -58,16 +58,16 @@ global $user;
                 <textarea name="article" size="500" placeholder="Bạn đang nghĩ gì?" id="taid" cols="40" rows="4"
                           wrap="soft"></textarea>
                         <div class="clearfix"></div>
-                        <div class="category">
-                            <select name="category" id="category" class="category">
-                                <option>--Chọn danh mục--</option>
-                                <?php if ($category): ?>
-                                    <?php foreach ($category as $tid => $term): ?>
-                                        <option value="<?php print $tid ?>"><?php print $term ?></option>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </select>
-                        </div>
+<!--                        <div class="category">-->
+<!--                            <select name="category" id="category" class="category">-->
+<!--                                <option>--Chọn danh mục--</option>-->
+<!--                                --><?php //if ($category): ?>
+<!--                                    --><?php //foreach ($category as $tid => $term): ?>
+<!--                                        <option value="--><?php //print $tid ?><!--">--><?php //print $term ?><!--</option>-->
+<!--                                    --><?php //endforeach; ?>
+<!--                                --><?php //endif; ?>
+<!--                            </select>-->
+<!--                        </div>-->
                         <div class="clearfix"></div>
                         <div class="video-text">
                             <input placeholder="Nhập video url của Youtube hoặc Facebook" type="text" size="41"

@@ -57,7 +57,9 @@ if ($account->picture) {
                             <li data-target="#<?php print $node->nid; ?>" data-slide-to="<?php print $key ?>"
                                 class="<?php if ($key == 0) {
                                     print 'active';
-                                }; ?>"><?php print theme('image_style', array('path' => $image['uri'], 'style_name' => 'big')) ?></li>
+                                }; ?>">
+                                <img src="<?php print file_create_url($image['uri']) ?>"/>
+                                <?php //print theme('image_style', array('path' => $image['uri'], 'style_name' => 'big')) ?></li>
                         <?php endforeach; ?>
                     </ol>
 
@@ -67,7 +69,8 @@ if ($account->picture) {
                             <div class="item <?php if ($key == 0) {
                                 print 'active';
                             }; ?>">
-                                <?php print theme('image_style', array('path' => $image['uri'], 'style_name' => 'big')) ?>
+                                <img src="<?php print  file_create_url($image['uri']) ?>"/>
+                                <?php //print theme('image_style', array('path' => $image['uri'], 'style_name' => 'big')) ?>
                             </div>
                         <?php endforeach; ?>
                     </div>

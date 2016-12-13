@@ -1542,6 +1542,11 @@ div.info-point {
     background: #48649f;
     color:#fff;
 }
+#artline-product-update select{
+    height: 40px;
+    background: #ccc;
+    margin-top: 13px;
+}
 
 
 

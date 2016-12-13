@@ -107,7 +107,7 @@ if ($account->picture) {
                     <span class="action-link action-link-<?php print $node->nid ?>">
                         <?php if (in_array('admin', $user->roles) || in_array('administrator', $user->roles)): ?>
                             <a data="<?php print $node->nid ?>" class="product-post product-post-<?php print $node->nid ?>"
-                               href="#">Update product</a> |
+                               href="#">Update category</a> |
                              <a class="uptotop-post uptop-<?php print $node->nid ?>"
                                 href="<?php print url('artline/uptop/' . $node->nid, array('query' => array('destination' => $_GET['q']))) ?>">Up to top</a> |
                             <?php if ($node->status == 0): ?>
