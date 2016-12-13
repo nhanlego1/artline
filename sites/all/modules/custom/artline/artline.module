@@ -1636,7 +1636,7 @@ function artline_product_gif_change($form, &$form_state)
     if ($user->uid > 0) {
         $xu = _user_get_xu($user->uid);
         $node = $form_state['build_info']['args'][0];
-        if (isset($node->field_product[LANGUAGE_NONE])) {
+        if (_get_product_tid($node->field_category[LANGUAGE_NONE][0]['tid'])) {
             $product = _get_product_tid($node->field_category[LANGUAGE_NONE][0]['tid']);
             if ($product->status == 1) {
                 $colors = array();
