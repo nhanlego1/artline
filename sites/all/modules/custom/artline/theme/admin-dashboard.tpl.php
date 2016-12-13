@@ -42,6 +42,7 @@ global $user;
 
     <h2>Cấu hình và reports </h2>
     <ul>
+        <li class="user-logout"><a href="/node/404/edit?destination=admin/dashboard">Sua nội dung Policy</a></li>
         <li class="user-logout"><a href="/admin/report/post?destination=admin/dashboard">Report theo users</a></li>
         <li class="user-logout"><a href="/admin/config/people/accounts/fields/field_info_register?destination=admin/dashboard">Quản lý nội dung thông tin trang dăng ký</a></li>
         <li class="user-logout"><a href="/admin/structure/block/manage/popup_announcement/popup_announcement_1/configure?destination=admin/dashboard">Cấu hình popup trang chủ</a></li>
