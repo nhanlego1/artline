@@ -369,9 +369,10 @@ function artline_article_uploader_post()
     if (!empty($_FILES)) {
         $tempFile = $_FILES['file']['tmp_name'];          //3
         $filename_tmp = str_replace(' ', '', $_FILES['file']['name']);
-        $filename_tmp2 = _replace_vietnamese($filename_tmp);
+        $filename_tmp = seo_friendly_url($filename_tmp);
+        $type = str_replace('image/','.', $_FILES['file']['type']);
 
-        $targetFile = $storeFolder . '/' . $filename_tmp2;  //5
+        $targetFile = $storeFolder . '/' . $filename_tmp.$type;  //5
         move_uploaded_file($tempFile, $targetFile); //6
     }
 
@@ -381,13 +382,28 @@ function artline_article_uploader_post()
             $images = array();
             foreach ($_POST['upload'] as $entry) {
                 $image_name = str_replace(' ', '', $entry);
+                $image_name = seo_friendly_url($image_name);
+                if(strpos($image_name,'jpg') !== false){
+                    $type = '.jpg';
+                }
+                if(strpos($image_name,'jpeg') !== false){
+                    $type = '.jpeg';
+                }
+                if(strpos($image_name,'png') !== false){
+                    $type = '.png';
+                }
+                if(strpos($image_name,'gif') !== false){
+                    $type = '.gif';
+                }
+
+               // var_dump($image_name.$type);die;
 
                 $filepath = drupal_realpath($storeFolder . '/' . $image_name);
                 // Create managed File object and associate with Image field.
                 $image = file_get_contents($filepath);
                 // Returns the new file object
 
-                $filename = 'but-viet-artline-' . $image_name;
+                $filename = 'but-viet-artline-' . $image_name.$type;
                 $file = file_save_data($image, 'public://' . $filename, FILE_EXISTS_RENAME);
                 $images[] = $file;
                 artline_article_uploader_remove($image_name);
@@ -535,6 +551,16 @@ function artline_article_uploader_post()
     }
 
 
+}
+
+function seo_friendly_url($string){
+    $string = str_replace(array('[\', \']'), '', $string);
+    $string = preg_replace('/\[.*\]/U', '', $string);
+    $string = preg_replace('/&(amp;)?#?[a-z0-9]+;/i', '-', $string);
+    $string = htmlentities($string, ENT_COMPAT, 'utf-8');
+    $string = preg_replace('/&([a-z])(acute|uml|circ|grave|ring|cedil|slash|tilde|caron|lig|quot|rsquo);/i', '\\1', $string );
+    $string = preg_replace(array('/[^a-z0-9]/i', '/[-]+/') , '-', $string);
+    return strtolower(trim($string, ''));
 }
 
 /**
