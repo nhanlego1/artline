@@ -61,8 +61,8 @@ if ($account->picture) {
                                     class="<?php if ($key == 0) {
                                         print 'active';
                                     }; ?>">
-                                    <img src="<?php print $path= file_create_url($image['uri']) ?>"/>
-                                    <?php //print theme('image_style', array('path' => $image['uri'], 'style_name' => 'small')) ?>
+<!--                                    <img src="--><?php //print $path= file_create_url($image['uri']) ?><!--"/>-->
+                                    <?php print theme('image_style', array('path' => $image['uri'], 'style_name' => 'small')) ?>
                                 </li>
                             <?php endforeach; ?>
                         </ol>
@@ -73,8 +73,8 @@ if ($account->picture) {
                                 <div class="item <?php if ($key == 0) {
                                     print 'active';
                                 }; ?>">
-                                    <img src="<?php print $path= file_create_url($image['uri']) ?>"/>
-                                    <?php //print theme('image_style', array('path' => $image['uri'], 'style_name' => 'big')) ?>
+<!--                                    <img src="--><?php //print $path= file_create_url($image['uri']) ?><!--"/>-->
+                                    <?php print theme('image_style', array('path' => $image['uri'], 'style_name' => 'big')) ?>
                                 </div>
                             <?php endforeach; ?>
                         </div>
