@@ -204,7 +204,7 @@ function artline_get_post_cate_other($tids, $page_num = 0, $page_size = 12)
 
     $query = db_select('node', 'n');
     $query->fields('n');
-    $query->innerJoin('field_data_field_category', 'ca', 'n.nid = ca.entity_id');
+    $query->innerJoin('taxonomy_index', 'ca', 'n.nid = ca.nid');
 
     //add or
     if ($user->uid > 0) {
@@ -227,7 +227,7 @@ function artline_get_post_cate_other($tids, $page_num = 0, $page_size = 12)
     }
 
     //check tids
-    $query->condition('ca.field_category_tid', $tids, 'in');
+    $query->condition('ca.tid', $tids, 'in');
     $query->orderBy('n.created', 'DESC');
 
     $query->condition('n.type', 'article');
@@ -275,7 +275,7 @@ function artline_get_post_pager_category()
     }
     $query = db_select('node', 'n');
     $query->fields('n');
-    $query->innerJoin('field_data_field_category', 'ca', 'n.nid = ca.entity_id');
+    $query->innerJoin('taxonomy_index', 'ca', 'n.nid = ca.nid');
 
     //add or
 //    if ($user->uid > 0) {
@@ -314,9 +314,9 @@ function artline_get_post_pager_category()
 
     //check tids
     if ($tids) {
-        $query->condition('ca.field_category_tid', $tids, 'in');
+        $query->condition('ca.tid', $tids, 'in');
     } else {
-        $query->condition('ca.field_category_tid', $tid, '=');
+        $query->condition('ca.tid', $tid, '=');
     }
     $query->condition('n.type', 'article');
     $query->range($page_num, $page_size);
