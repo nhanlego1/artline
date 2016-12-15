@@ -189,11 +189,11 @@ global $user;
                     <div class="container">
                         <div class="row change">
                             <div class="col-md-12">
-                                <?php if ($page['highlighted']): ?>
-                                    <div class="banner">
-                                        <?php print render($page['highlighted']); ?>
-                                    </div>
-                                <?php endif; ?>
+<!--                                --><?php //if ($page['highlighted']): ?>
+<!--                                    <div class="banner">-->
+<!--                                        --><?php //print render($page['highlighted']); ?>
+<!--                                    </div>-->
+<!--                                --><?php //endif; ?>
 
                                 <?php if ($messages): ?>
                                     <div id="messages">
