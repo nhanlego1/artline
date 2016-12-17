@@ -508,6 +508,7 @@ function invite_friend_submit($form, &$form_state){
         $params['subject'] = 'Tham gia butvietnhatban.vn nhận quà hấp dẫn.';
         $link= '<a href="' . url('user/register', array('absolute' => true,'query'=>array('token'=>$token))) . '">' . url('user/register', array('absolute' => true,'query'=>array('token'=>$token))) . '</a>';
        $info = str_replace('[link]',$link,$info);
+        $params['body'] = $info;
 
         // Add an associative array about this desired attachment.
         drupal_mail('artline', 'doiqua', $to, language_default(), $params, $user->mail, TRUE);
