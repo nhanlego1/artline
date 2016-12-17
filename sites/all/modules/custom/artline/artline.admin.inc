@@ -212,6 +212,6 @@ function artline_admin_submit($form, &$form_state){
     variable_set('email_processcing', $data['email_processcing']['value']);
     variable_set('email_compeleted', $data['email_compeleted']['value']);
     variable_set('email_cancel', $data['email_cancel']['value']);
-    variable_set('email_cancel', $data['email_invite']['value']);
+    variable_set('email_invite', $data['email_invite']['value']);
     variable_set('gift_after',$data['gift_after']['value']);
 }
