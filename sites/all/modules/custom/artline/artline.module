@@ -2016,12 +2016,13 @@ function artline_node_update($node)
             $product = node_load($node->field_product_id[LANGUAGE_NONE][0]['target_id']);
             $params = array();
             $to = $email;
-            $params['subject'] = '[Buvietnhatban.vn] - Xác nhận thông tin nhận quà.';
+            $params['subject'] = 'Xác nhận thông tin nhận quà.';
             $link = '<a href="' . url('gift/confirm/' . $token, array('absolute' => true)) . '">' . url('gift/confirm/' . $token, array('absolute' => true)) . '</a>';
             $info = variable_get('email_processcing');
             $info = str_replace('[name]', $node->field_your_name[LANGUAGE_NONE][0]['value'], $info);
             $info = str_replace('[address]', $node->field_gif_address[LANGUAGE_NONE][0]['value'], $info);
             $info = str_replace('[phone]', $node->field_gif_phone[LANGUAGE_NONE][0]['value'], $info);
+            $info = str_replace('[link]', $link, $info);
             $params['body'] = $info;
 
                 // Add an associative array about this desired attachment.
@@ -2035,7 +2036,7 @@ function artline_node_update($node)
             $product = node_load($node->field_product_id[LANGUAGE_NONE][0]['target_id']);
             $params = array();
             $to = $email;
-            $params['subject'] = '[Butvietnhatban.vn] - Giao quà thành công.';
+            $params['subject'] = 'Giao quà thành công.';
             $link = '<a href="' . url('gift/confirm/' . $token, array('absolute' => true)) . '">' . url('gift/confirm/' . $token, array('absolute' => true)) . '</a>';
             $info = variable_get('email_compeleted');
             $info = str_replace('[name]', $node->field_your_name[LANGUAGE_NONE][0]['value'], $info);
