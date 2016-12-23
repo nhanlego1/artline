@@ -244,11 +244,17 @@
                 var pid_ = $(class_ + " .reply-comment").val();
                 var name_ = $(class_ + " .name-comment").val();
                 var comment_ = $(class_ + " .comment-comment").val();
+
                 if (name_ == '') {
                     $(class_ + " .name-comment").addClass('error');
                     return false;
                 }
                 if (comment_ == '') {
+                    $(class_ + " .comment-comment").addClass('error');
+                    return false;
+                }
+
+                if(comment_.length < 5){
                     $(class_ + " .comment-comment").addClass('error');
                     return false;
                 }
@@ -310,6 +316,10 @@
                 var name_ = $(class_ + " .name-comment").val();
                 var comment_ = $(class_ + " .comment-comment-reply").val();
                 if (comment_ == '') {
+                    $(class_ + " .comment-comment-reply").addClass('error');
+                    return false;
+                }
+                if(comment_.length < 5){
                     $(class_ + " .comment-comment-reply").addClass('error');
                     return false;
                 }
@@ -649,31 +659,31 @@
         });
 
         //share social get point
-        $(".share-item a").each(function () {
-            var _nid = $(this).attr('data');
-            var _uid = $(this).attr('data-uid');
-            $(this).click(function () {
-                if (_uid > 0) {
-                    $.post("/posts/share/social", {nid: _nid, uid: _uid})
-                        .done(function (data) {
-                                _updateXu(_uid);
-                        })
-                        .fail(function () {
-                            //alert( "error" );
-                        });
-                } else {
-                    $.post("/posts/share/social", {nid: _nid, uid: _uid})
-                        .done(function (data) {
-
-                        })
-                        .fail(function () {
-                            //alert( "error" );
-                        });
-                }
-
-
-            });
-        });
+        // $(".share-item a").each(function () {
+        //     var _nid = $(this).attr('data');
+        //     var _uid = $(this).attr('data-uid');
+        //     $(this).click(function () {
+        //         if (_uid > 0) {
+        //             $.post("/posts/share/social", {nid: _nid, uid: _uid})
+        //                 .done(function (data) {
+        //                         _updateXu(_uid);
+        //                 })
+        //                 .fail(function () {
+        //                     //alert( "error" );
+        //                 });
+        //         } else {
+        //             $.post("/posts/share/social", {nid: _nid, uid: _uid})
+        //                 .done(function (data) {
+        //
+        //                 })
+        //                 .fail(function () {
+        //                     //alert( "error" );
+        //                 });
+        //         }
+        //
+        //
+        //     });
+        // });
 
         //form update product
         $("a.product-post").each(function () {

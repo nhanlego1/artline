@@ -465,8 +465,7 @@ function artline_article_uploader_post()
             $node->field_category[LANGUAGE_NONE][0]['tid'] = $_POST['category'];
         }
         node_save($node);
-        //add xu
-        _update_xu_user($user->uid, _type_of_xu('post'));
+
         drupal_goto('<front>');
     }
     if (isset($_POST['video_upload']) && $_POST['video_upload'] == 1) {
@@ -554,9 +553,6 @@ function artline_article_uploader_post()
             $node->field_category[LANGUAGE_NONE][0]['tid'] = $_POST['category'];
         }
         node_save($node);
-        //add xu
-        //add xu
-        _update_xu_user($user->uid, _type_of_xu('post'));
         drupal_goto('<front>');
 
     }
@@ -2061,6 +2057,13 @@ function artline_node_update($node)
 
             // Add an associative array about this desired attachment.
             drupal_mail('artline', 'doiqua', $to, language_default(), $params, 'no-reply@butvietnhatban.vn', TRUE);
+        }
+    }
+
+    if($node->type=='article' && $node->status == 1){
+        if(variable_get('approve_'.$node->nid) != 1){
+            _update_xu_user($node->uid, _type_of_xu('post'));
+            variable_set('approve_'.$node->nid,1);
         }
     }
 }

@@ -294,8 +294,8 @@ function artline_get_post_pager_category()
 //            $query->condition($db_or);
 //        }
 //    } else {
-        $query->condition('n.status', 1);
-   // }
+    $query->condition('n.status', 1);
+    // }
 
     $parents = taxonomy_get_parents($tid);
     if ($parents) {
@@ -462,25 +462,26 @@ function gift_confirm_update($token)
 /**
  * invite form
  */
-function invite_friend($form, &$form_state){
+function invite_friend($form, &$form_state)
+{
     global $user;
 
-    if($user->uid <= 0){
+    if ($user->uid <= 0) {
         drupal_set_message('Bạn vui lòng đăng nhập để mời bạn bè.');
         drupal_goto('user');
     }
     $form['invite_info'] = array(
-        '#markup'=>'<h4>Hãy gửi email để mời những người bạn của bạn tham gia chương trình.</h4>'
+        '#markup' => '<h4>Hãy gửi email để mời những người bạn của bạn tham gia chương trình.</h4>'
     );
 
     $form['email'] = array(
-        '#type'=>'textarea',
-        '#title'=>'Email',
-        '#description'=> 'Bạn có thể nhập 1 hoặc nhiều email, mỗi email cách nhau duấ phẩy(,).',
+        '#type' => 'textarea',
+        '#title' => 'Email',
+        '#description' => 'Bạn có thể nhập 1 hoặc nhiều email, mỗi email cách nhau duấ phẩy(,).',
     );
     $form['submit'] = array(
-        '#type'=>'submit',
-        '#value'=> 'Send E-mail',
+        '#type' => 'submit',
+        '#value' => 'Send E-mail',
     );
     return $form;
 }
@@ -488,26 +489,29 @@ function invite_friend($form, &$form_state){
 /**
  * invite form
  */
-function invite_friend_validate($form, &$form_state){
-    if(empty($form_state['values']['email'])){
-        form_set_error('email',t('Vui lòng nhập Email'));
+function invite_friend_validate($form, &$form_state)
+{
+    if (empty($form_state['values']['email'])) {
+        form_set_error('email', t('Vui lòng nhập Email'));
     }
 }
 
 /**
  * invite form
  */
-function invite_friend_submit($form, &$form_state){
+function invite_friend_submit($form, &$form_state)
+{
     global $user;
     $token = base64_encode($user->mail);
     $emails = $form_state['values']['email'];
-    $emails = explode(',',$emails);
+    $emails = explode(',', $emails);
     $info = variable_get('email_invite');
-    foreach($emails as $email){
+    $link = '<a href="' . url('user/register', array('absolute' => true, 'query' => array('token' => $token))) . '">' . url('user/register', array('absolute' => true, 'query' => array('token' => $token))) . '</a>';
+    foreach ($emails as $key => $email) {
         $to = trim($email);
         $params['subject'] = 'Tham gia butvietnhatban.vn nhận quà hấp dẫn.';
-        $link= '<a href="' . url('user/register', array('absolute' => true,'query'=>array('token'=>$token))) . '">' . url('user/register', array('absolute' => true,'query'=>array('token'=>$token))) . '</a>';
-       $info = str_replace('[link]',$link,$info);
+
+        $info = str_replace('[link]', $link, $info);
         $params['body'] = $info;
 
         // Add an associative array about this desired attachment.
