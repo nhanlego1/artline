@@ -428,7 +428,7 @@ function artline_article_uploader_post()
         }
         $post = null;
         if (isset($_POST['article'])) {
-            $post = $_POST['article'];
+            $post = strip_tags($_POST['article']);
         }
 
         if (empty($post) && !$images) {
@@ -473,7 +473,7 @@ function artline_article_uploader_post()
         $post = null;
         $file = false;
         if (isset($_POST['article'])) {
-            $post = $_POST['article'];
+            $post = strip_tags($_POST['article']);
         }
         //check url link
         if (isset($_POST['video'])) {
@@ -974,8 +974,8 @@ function artline_post_comment()
     //   $comment->is_anonymous = 0; // leave it as is
     $comment->status = COMMENT_PUBLISHED; // We auto-publish this comment
     $comment->language = LANGUAGE_NONE; // The same as for a node
-    $comment->subject = filter_bad_word($data['comment']);
-    $comment->comment_body[$comment->language][0]['value'] = filter_bad_word($data['comment']); // Everything here is pretty much like with a node
+    $comment->subject = filter_bad_word(strip_tags($data['comment']));
+    $comment->comment_body[$comment->language][0]['value'] = filter_bad_word(strip_tags($data['comment'])); // Everything here is pretty much like with a node
     $comment->comment_body[$comment->language][0]['format'] = 'plain_text';
     try {
         comment_submit($comment); // saving a comment
@@ -988,7 +988,7 @@ function artline_post_comment()
         $return = 'ko';
     }
 
-    print filter_bad_word($data['comment']);
+    print filter_bad_word(strip_tags($data['comment']));
     drupal_exit();
 }
 
