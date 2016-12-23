@@ -56,6 +56,10 @@ DirectoryIndex index.php index.html index.htm
 <IfModule mod_rewrite.c>
   RewriteEngine on
 
+  RewriteCond %{HTTPS} off [OR]
+  RewriteCond %{HTTP_HOST} ^butvietnhatban\.vn*
+  RewriteRule ^(.*)$ https://butvietnhatban.vn/$1 [L,R=301]
+
   # Set "protossl" to "s" if we were accessed via https://.  This is used later
   # if you enable "www." stripping or enforcement, in order to ensure that
   # you don't bounce between http and https.
