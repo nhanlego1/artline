@@ -2038,7 +2038,7 @@ function artline_node_update($node)
             $title = str_replace(')','',$title);
             $title = str_replace('title=','',$title);
             $params['subject'] = $title;
-            $info = str_replace('(title=','',$result[0][0]);
+            $info = str_replace('(title=','',$info);
             $info = str_replace(')','',$info);
             $info = str_replace('title=','',$info);
             $info = str_replace($title, '',$info);
@@ -2066,7 +2066,7 @@ function artline_node_update($node)
             $title = str_replace(')','',$title);
             $title = str_replace('title=','',$title);
             $params['subject'] = $title;
-            $info = str_replace('(title=','',$result[0][0]);
+            $info = str_replace('(title=','',$info);
             $info = str_replace(')','',$info);
             $info = str_replace('title=','',$info);
             $info = str_replace($title, '',$info);
@@ -2092,7 +2092,7 @@ function artline_node_update($node)
             $title = str_replace(')','',$title);
             $title = str_replace('title=','',$title);
             $params['subject'] = $title;
-            $info = str_replace('(title=','',$result[0][0]);
+            $info = str_replace('(title=','',$info);
             $info = str_replace(')','',$info);
             $info = str_replace('title=','',$info);
             $info = str_replace($title, '',$info);
