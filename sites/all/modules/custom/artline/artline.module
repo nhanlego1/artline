@@ -2034,7 +2034,7 @@ function artline_node_update($node)
             $to = $email;
             $info = variable_get('email_processcing');
             preg_match_all('/<title=[^>]+>/i',$info, $result);
-            $title = str_replace('<title=','',$result);
+            $title = str_replace('<title=','',$result[0][0]);
             $title = str_replace('>','',$title);
             $params['subject'] = $title;
             $link = '<a href="' . url('gift/confirm/' . $token, array('absolute' => true)) . '">' . url('gift/confirm/' . $token, array('absolute' => true)) . '</a>';
@@ -2075,7 +2075,7 @@ function artline_node_update($node)
             $to = $email;
             $info = variable_get('email_cancel');
             preg_match_all('/<title=[^>]+>/i',$info, $result);
-            $title = str_replace('<title=','',$result);
+            $title = str_replace('<title=','',$result[0][0]);
             $title = str_replace('>','',$title);
             $params['subject'] = $title;
             $link = '<a href="' . url('gift/confirm/' . $token, array('absolute' => true)) . '">' . url('gift/confirm/' . $token, array('absolute' => true)) . '</a>';

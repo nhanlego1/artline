@@ -512,7 +512,7 @@ function invite_friend_submit($form, &$form_state)
         $to .= trim($email).',';
     }
     preg_match_all('/<title=[^>]+>/i',$info, $result);
-    $title = str_replace('<title=','',$result);
+    $title = str_replace('<title=','',$result[0][0]);
     $title = str_replace('>','',$title);
         $params['subject'] = $title;
 
