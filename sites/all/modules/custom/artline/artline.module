@@ -2033,12 +2033,15 @@ function artline_node_update($node)
             $params = array();
             $to = $email;
             $info = variable_get('email_processcing');
-            preg_match_all('/<title=[^>]+>/i',$info, $result);
-            $title = str_replace('<title=','',$result[0][0]);
-            $title = str_replace('>','',$title);
+            preg_match_all('/(title=[^)]+)/i',$info, $result);
+            $title = str_replace('(title=','',$result[0][0]);
+            $title = str_replace(')','',$title);
+            $title = str_replace('title=','',$title);
             $params['subject'] = $title;
+            $info = str_replace('(title=','',$result[0][0]);
+            $info = str_replace(')','',$title);
+            $info = str_replace('title=','',$title);
             $link = '<a href="' . url('gift/confirm/' . $token, array('absolute' => true)) . '">' . url('gift/confirm/' . $token, array('absolute' => true)) . '</a>';
-
             $info = str_replace('[name]', $node->field_your_name[LANGUAGE_NONE][0]['value'], $info);
             $info = str_replace('[address]', $node->field_gif_address[LANGUAGE_NONE][0]['value'], $info);
             $info = str_replace('[phone]', $node->field_gif_phone[LANGUAGE_NONE][0]['value'], $info);
@@ -2056,9 +2059,17 @@ function artline_node_update($node)
             $product = node_load($node->field_product_id[LANGUAGE_NONE][0]['target_id']);
             $params = array();
             $to = $email;
-            $params['subject'] = 'Giao quà thành công.';
-            $link = '<a href="' . url('gift/confirm/' . $token, array('absolute' => true)) . '">' . url('gift/confirm/' . $token, array('absolute' => true)) . '</a>';
             $info = variable_get('email_compeleted');
+            preg_match_all('/(title=[^)]+)/i',$info, $result);
+            $title = str_replace('(title=','',$result[0][0]);
+            $title = str_replace(')','',$title);
+            $title = str_replace('title=','',$title);
+            $params['subject'] = $title;
+            $info = str_replace('(title=','',$result[0][0]);
+            $info = str_replace(')','',$title);
+            $info = str_replace('title=','',$title);
+            $link = '<a href="' . url('gift/confirm/' . $token, array('absolute' => true)) . '">' . url('gift/confirm/' . $token, array('absolute' => true)) . '</a>';
+
             $info = str_replace('[name]', $node->field_your_name[LANGUAGE_NONE][0]['value'], $info);
             $params['body'] = $info;
 
@@ -2074,10 +2085,14 @@ function artline_node_update($node)
             $params = array();
             $to = $email;
             $info = variable_get('email_cancel');
-            preg_match_all('/<title=[^>]+>/i',$info, $result);
-            $title = str_replace('<title=','',$result[0][0]);
-            $title = str_replace('>','',$title);
+            preg_match_all('/(title=[^)]+)/i',$info, $result);
+            $title = str_replace('(title=','',$result[0][0]);
+            $title = str_replace(')','',$title);
+            $title = str_replace('title=','',$title);
             $params['subject'] = $title;
+            $info = str_replace('(title=','',$result[0][0]);
+            $info = str_replace(')','',$title);
+            $info = str_replace('title=','',$title);
             $link = '<a href="' . url('gift/confirm/' . $token, array('absolute' => true)) . '">' . url('gift/confirm/' . $token, array('absolute' => true)) . '</a>';
 
             $info = str_replace('[name]', $node->field_your_name[LANGUAGE_NONE][0]['value'], $info);

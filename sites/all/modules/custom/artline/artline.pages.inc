@@ -511,10 +511,14 @@ function invite_friend_submit($form, &$form_state)
     foreach ($emails as $key => $email) {
         $to .= trim($email).',';
     }
-    preg_match_all('/<title=[^>]+>/i',$info, $result);
-    $title = str_replace('<title=','',$result[0][0]);
-    $title = str_replace('>','',$title);
-        $params['subject'] = $title;
+    preg_match_all('/(title=[^)]+)/i',$info, $result);
+    $title = str_replace('(title=','',$result[0][0]);
+    $title = str_replace(')','',$title);
+    $title = str_replace('title=','',$title);
+    $params['subject'] = $title;
+    $info = str_replace('(title=','',$result[0][0]);
+    $info = str_replace(')','',$title);
+    $info = str_replace('title=','',$title);
 
         $info = str_replace('[link]', $link, $info);
         $params['body'] = $info;
