@@ -17,7 +17,7 @@ global $user;
         <li class="manage"><a href="/admin/stores?destination=admin/dashboard">Quản lý store</a></li>
         <li class="manage"><a href="/admin/products?destination=admin/dashboard">Quản lý Product</a></li>
         <li class="manage"><a href="/admin/content/store?destination=admin/dashboard">Sắp xếp store</a></li>
-        <li class="manage"><a href="/admin/users?destination=admin/dashboard">Quản lý Users</a></li>
+        <li class="manage"><a href="/admin/users">Quản lý Users</a></li>
         <li class="manage"><a href="/admin/structure/taxonomy/location?destination=admin/dashboard">Quản lý location</a></li>
         <li class="manage"><a href="/admin/structure/taxonomy/category?destination=admin/dashboard">Quản lý danh mục</a></li>
         <li class="manage"><a href="/admin/structure/taxonomy/color?destination=admin/dashboard">Quản lý Color</a></li>
