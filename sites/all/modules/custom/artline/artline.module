@@ -370,20 +370,20 @@ function artline_article_uploader_post()
         $tempFile = $_FILES['file']['tmp_name'];          //3
         $filename_tmp = str_replace(' ', '', $_FILES['file']['name']);
         $filename_tmp = seo_friendly_url($filename_tmp);
-        if(strpos($filename_tmp,'jpg') !== false){
+        if (strpos($filename_tmp, 'jpg') !== false) {
             $type = '.jpg';
         }
-        if(strpos($filename_tmp,'jpeg') !== false){
+        if (strpos($filename_tmp, 'jpeg') !== false) {
             $type = '.jpeg';
         }
-        if(strpos($filename_tmp,'png') !== false){
+        if (strpos($filename_tmp, 'png') !== false) {
             $type = '.png';
         }
-        if(strpos($filename_tmp,'gif') !== false){
+        if (strpos($filename_tmp, 'gif') !== false) {
             $type = '.gif';
         }
 
-        $targetFile = $storeFolder . '/' . $filename_tmp.$type;  //5
+        $targetFile = $storeFolder . '/' . $filename_tmp . $type;  //5
         move_uploaded_file($tempFile, $targetFile); //6
     }
 
@@ -394,30 +394,30 @@ function artline_article_uploader_post()
             foreach ($_POST['upload'] as $entry) {
                 $image_name = str_replace(' ', '', $entry);
                 $image_name = seo_friendly_url($image_name);
-                if(strpos($image_name,'jpg') !== false){
+                if (strpos($image_name, 'jpg') !== false) {
                     $type = '.jpg';
                 }
-                if(strpos($image_name,'jpeg') !== false){
+                if (strpos($image_name, 'jpeg') !== false) {
                     $type = '.jpeg';
                 }
-                if(strpos($image_name,'png') !== false){
+                if (strpos($image_name, 'png') !== false) {
                     $type = '.png';
                 }
-                if(strpos($image_name,'gif') !== false){
+                if (strpos($image_name, 'gif') !== false) {
                     $type = '.gif';
                 }
 
-               // var_dump($image_name.$type);die;
+                // var_dump($image_name.$type);die;
 
-                $filepath = drupal_realpath($storeFolder . '/' . $image_name.$type);
+                $filepath = drupal_realpath($storeFolder . '/' . $image_name . $type);
                 // Create managed File object and associate with Image field.
                 $image = file_get_contents($filepath);
                 // Returns the new file object
 
-                $filename = 'but-viet-artline-' . $image_name.$type;
+                $filename = 'but-viet-artline-' . $image_name . $type;
                 $file = file_save_data($image, 'public://' . $filename, FILE_EXISTS_RENAME);
                 $images[] = $file;
-                artline_article_uploader_remove($image_name.$type);
+                artline_article_uploader_remove($image_name . $type);
             }
         }
 
@@ -560,13 +560,14 @@ function artline_article_uploader_post()
 
 }
 
-function seo_friendly_url($string){
+function seo_friendly_url($string)
+{
     $string = str_replace(array('[\', \']'), '', $string);
     $string = preg_replace('/\[.*\]/U', '', $string);
     $string = preg_replace('/&(amp;)?#?[a-z0-9]+;/i', '-', $string);
     $string = htmlentities($string, ENT_COMPAT, 'utf-8');
-    $string = preg_replace('/&([a-z])(acute|uml|circ|grave|ring|cedil|slash|tilde|caron|lig|quot|rsquo);/i', '\\1', $string );
-    $string = preg_replace(array('/[^a-z0-9]/i', '/[-]+/') , '-', $string);
+    $string = preg_replace('/&([a-z])(acute|uml|circ|grave|ring|cedil|slash|tilde|caron|lig|quot|rsquo);/i', '\\1', $string);
+    $string = preg_replace(array('/[^a-z0-9]/i', '/[-]+/'), '-', $string);
     return strtolower(trim($string, ''));
 }
 
@@ -632,8 +633,8 @@ function get_category()
     foreach ($terms as $term) {
         if (!taxonomy_get_parents($term->tid)) {
             $data[$term->tid] = $term->name;
-        }else{
-            $data[$term->tid] = ' -'.$term->name;
+        } else {
+            $data[$term->tid] = ' -' . $term->name;
         }
     }
     return $data;
@@ -1880,11 +1881,11 @@ function artline_product_gif_change_submit($form, &$form_state)
     //  drupal_set_message(t('Bạn vừa đổi quà thành công. Chúng tôi sẽ kiểm tra và gửi đến bạn trong thời gian sớm nhất.'));
     //  $form_state['ajax_commands'][] = ctools_ajax_command_reload();
     //  $form_state['ajax_commands'][] = ctools_modal_command_dismiss();
-    drupal_goto('<front>',array(
-        'query'=>array(
-            'popup'=>'true',
-            'point'=>$qty * $product->field_xu[LANGUAGE_NONE][0]['value'],
-            'product'=>$product->title
+    drupal_goto('<front>', array(
+        'query' => array(
+            'popup' => 'true',
+            'point' => $qty * $product->field_xu[LANGUAGE_NONE][0]['value'],
+            'product' => $product->title
         )));
 
 
@@ -1898,7 +1899,7 @@ function artline_product_post($node)
 {
     $form_state['build_info']['args'] = array($node);
     $form = drupal_build_form('artline_product_update', $form_state);
-   // drupal_add_js(drupal_get_path('theme','phucma').'/js/artline.js');
+    // drupal_add_js(drupal_get_path('theme','phucma').'/js/artline.js');
     print drupal_render($form);
     drupal_exit();
 }
@@ -1927,6 +1928,7 @@ function artline_product_update($form, &$form_state, $node)
     );
     return $form;
 }
+
 /**
  * Get list taxonomy
  */
@@ -2021,7 +2023,7 @@ function artline_node_update($node)
             $info = str_replace('[link]', $link, $info);
             $params['body'] = $info;
 
-                // Add an associative array about this desired attachment.
+            // Add an associative array about this desired attachment.
             drupal_mail('artline', 'doiqua', $to, language_default(), $params, 'no-reply@butvietnhatban.vn', TRUE);
         }
 
@@ -2060,10 +2062,10 @@ function artline_node_update($node)
         }
     }
 
-    if($node->type=='article' && $node->status == 1){
-        if(variable_get('approve_'.$node->nid) != 1){
+    if ($node->type == 'article' && $node->status == 1) {
+        if (variable_get('approve_' . $node->nid) != 1) {
             _update_xu_user($node->uid, _type_of_xu('post'));
-            variable_set('approve_'.$node->nid,1);
+            variable_set('approve_' . $node->nid, 1);
         }
     }
 }
@@ -2103,11 +2105,12 @@ function invite_add_score($form, &$form_state)
  * Get product relate
  */
 
-function _get_product_tid($tid){
+function _get_product_tid($tid)
+{
     $nodes = taxonomy_select_nodes($tid);
-    foreach($nodes as $nid){
+    foreach ($nodes as $nid) {
         $node = node_load($nid);
-        if($node->type=='product'){
+        if ($node->type == 'product') {
             return $node;
             break;
         }
@@ -2118,7 +2121,8 @@ function _get_product_tid($tid){
  * function replace tieng viet
  */
 
-function _replace_vietnamese($text){
+function _replace_vietnamese($text)
+{
     $alias = str_replace(array('ù', 'ú', 'ủ', 'ũ', 'ụ', 'ư', 'ứ', 'ừ', 'ử', 'ữ', 'ự'), 'u', $text);
     $alias = str_replace(array('è', 'é', 'ẻ', 'ẽ', 'ẹ', 'ê', 'ế', 'ề', 'ể', 'ễ', 'ệ',), 'e', $alias);
     $alias = str_replace(array('ò', 'ó', 'ỏ', 'õ', 'ọ', 'ơ', 'ớ', 'ờ', 'ở', 'ỡ', 'ợ', 'ô', 'ố', 'ồ', 'ổ', 'ỗ', 'ộ'), 'o', $alias);
@@ -2127,6 +2131,35 @@ function _replace_vietnamese($text){
     $alias = str_replace(array('ỳ', 'ý', 'ỹ', 'ỵ',), 'y', $alias);
     $alias = str_replace(array('đ'), 'd', $alias);
     return $alias;
+}
+
+
+/**
+ * Implements hook_field_extra_fields().
+ */
+function artline_field_extra_fields()
+{
+    $extra['user']['user'] = array(
+        'display' => array(
+            'point' => array(
+                'label' => t('Point'),
+                'description' => t('Point'),
+                'weight' => 0,
+            ),
+        )
+    );
+    return $extra;
+}
+
+/**
+ * Implements hook_user_view().
+ */
+function artline_user_view($account, $view_mode)
+{
+
+    $account->content['point'] = array(
+        '#markup' => '<div class="point-user"><h4>Số điểm hiện tại</h4> <p>' . _user_get_xu($account->uid) . '</p></div>',
+    );
 }
 
 
