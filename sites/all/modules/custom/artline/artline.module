@@ -982,15 +982,33 @@ function artline_post_comment()
         comment_submit($comment); // saving a comment
         comment_save($comment);
         //add xu
-        _update_xu_user($user->uid, _type_of_xu('comment'));
-        _update_xu_user($data['uid'], _type_of_xu('owner'));
-        $return = 'ok';
+        if(_check_ready_comment($user->uid, $data['nid'])){
+            _update_xu_user($user->uid, _type_of_xu('comment'));
+            _update_xu_user($data['uid'], _type_of_xu('owner'));
+            $return = 'ok';
+        }else{
+            $return = 'ok';
+        }
+
     } catch (Exception $ex) {
         $return = 'ko';
     }
 
     print filter_bad_word(strip_tags($data['comment']));
     drupal_exit();
+}
+
+function _check_ready_comment($uid, $nid){
+    $query = db_select('comment','cm');
+    $query->fields('cm');
+    $query->condition('nid',$nid);
+    $query->condition('uid',$uid);
+    $result = $query->execute()->fetchAll();
+    if($result){
+        return false;
+    }else{
+        return true;
+    }
 }
 
 /**
@@ -2014,9 +2032,13 @@ function artline_node_update($node)
             $product = node_load($node->field_product_id[LANGUAGE_NONE][0]['target_id']);
             $params = array();
             $to = $email;
-            $params['subject'] = 'Xác nhận thông tin nhận quà.';
-            $link = '<a href="' . url('gift/confirm/' . $token, array('absolute' => true)) . '">' . url('gift/confirm/' . $token, array('absolute' => true)) . '</a>';
             $info = variable_get('email_processcing');
+            preg_match_all('/<title=[^>]+>/i',$info, $result);
+            $title = str_replace('<title=','',$result);
+            $title = str_replace('>','',$title);
+            $params['subject'] = $title;
+            $link = '<a href="' . url('gift/confirm/' . $token, array('absolute' => true)) . '">' . url('gift/confirm/' . $token, array('absolute' => true)) . '</a>';
+
             $info = str_replace('[name]', $node->field_your_name[LANGUAGE_NONE][0]['value'], $info);
             $info = str_replace('[address]', $node->field_gif_address[LANGUAGE_NONE][0]['value'], $info);
             $info = str_replace('[phone]', $node->field_gif_phone[LANGUAGE_NONE][0]['value'], $info);
@@ -2051,9 +2073,13 @@ function artline_node_update($node)
             $product = node_load($node->field_product_id[LANGUAGE_NONE][0]['target_id']);
             $params = array();
             $to = $email;
-            $params['subject'] = '[Butvietnhatban.vn] - Huỷ giao quà.';
-            $link = '<a href="' . url('gift/confirm/' . $token, array('absolute' => true)) . '">' . url('gift/confirm/' . $token, array('absolute' => true)) . '</a>';
             $info = variable_get('email_cancel');
+            preg_match_all('/<title=[^>]+>/i',$info, $result);
+            $title = str_replace('<title=','',$result);
+            $title = str_replace('>','',$title);
+            $params['subject'] = $title;
+            $link = '<a href="' . url('gift/confirm/' . $token, array('absolute' => true)) . '">' . url('gift/confirm/' . $token, array('absolute' => true)) . '</a>';
+
             $info = str_replace('[name]', $node->field_your_name[LANGUAGE_NONE][0]['value'], $info);
             $params['body'] = $info;
 

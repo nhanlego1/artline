@@ -511,7 +511,10 @@ function invite_friend_submit($form, &$form_state)
     foreach ($emails as $key => $email) {
         $to .= trim($email).',';
     }
-        $params['subject'] = 'Tham gia butvietnhatban.vn nhận quà hấp dẫn.';
+    preg_match_all('/<title=[^>]+>/i',$info, $result);
+    $title = str_replace('<title=','',$result);
+    $title = str_replace('>','',$title);
+        $params['subject'] = $title;
 
         $info = str_replace('[link]', $link, $info);
         $params['body'] = $info;
