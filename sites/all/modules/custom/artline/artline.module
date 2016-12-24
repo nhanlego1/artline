@@ -2083,6 +2083,9 @@ function artline_node_update($node)
             $info = str_replace('[name]', $node->field_your_name[LANGUAGE_NONE][0]['value'], $info);
             $params['body'] = $info;
 
+            //refun diem diem to user
+            _update_xu_user($node->uid, $node->field_gif_xu[LANGUAGE_NONE][0]['value']);
+
             // Add an associative array about this desired attachment.
             drupal_mail('artline', 'doiqua', $to, language_default(), $params, 'no-reply@butvietnhatban.vn', TRUE);
         }
