@@ -507,8 +507,10 @@ function invite_friend_submit($form, &$form_state)
     $emails = explode(',', $emails);
     $info = variable_get('email_invite');
     $link = '<a href="' . url('user/register', array('absolute' => true, 'query' => array('token' => $token))) . '">' . url('user/register', array('absolute' => true, 'query' => array('token' => $token))) . '</a>';
+    $to = array();
     foreach ($emails as $key => $email) {
-        $to = trim($email);
+        $to[] = trim($email);
+    }
         $params['subject'] = 'Tham gia butvietnhatban.vn nhận quà hấp dẫn.';
 
         $info = str_replace('[link]', $link, $info);
@@ -518,5 +520,4 @@ function invite_friend_submit($form, &$form_state)
         drupal_mail('artline', 'doiqua', $to, language_default(), $params, $user->mail, TRUE);
         drupal_set_message('Bạn đã gửi mail thành công.');
         drupal_goto('user');
-    }
 }
