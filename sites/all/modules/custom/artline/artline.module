@@ -2039,8 +2039,9 @@ function artline_node_update($node)
             $title = str_replace('title=','',$title);
             $params['subject'] = $title;
             $info = str_replace('(title=','',$result[0][0]);
-            $info = str_replace(')','',$title);
-            $info = str_replace('title=','',$title);
+            $info = str_replace(')','',$info);
+            $info = str_replace('title=','',$info);
+            $info = str_replace($title, '',$info);
             $link = '<a href="' . url('gift/confirm/' . $token, array('absolute' => true)) . '">' . url('gift/confirm/' . $token, array('absolute' => true)) . '</a>';
             $info = str_replace('[name]', $node->field_your_name[LANGUAGE_NONE][0]['value'], $info);
             $info = str_replace('[address]', $node->field_gif_address[LANGUAGE_NONE][0]['value'], $info);
@@ -2066,8 +2067,9 @@ function artline_node_update($node)
             $title = str_replace('title=','',$title);
             $params['subject'] = $title;
             $info = str_replace('(title=','',$result[0][0]);
-            $info = str_replace(')','',$title);
-            $info = str_replace('title=','',$title);
+            $info = str_replace(')','',$info);
+            $info = str_replace('title=','',$info);
+            $info = str_replace($title, '',$info);
             $link = '<a href="' . url('gift/confirm/' . $token, array('absolute' => true)) . '">' . url('gift/confirm/' . $token, array('absolute' => true)) . '</a>';
 
             $info = str_replace('[name]', $node->field_your_name[LANGUAGE_NONE][0]['value'], $info);
@@ -2091,8 +2093,9 @@ function artline_node_update($node)
             $title = str_replace('title=','',$title);
             $params['subject'] = $title;
             $info = str_replace('(title=','',$result[0][0]);
-            $info = str_replace(')','',$title);
-            $info = str_replace('title=','',$title);
+            $info = str_replace(')','',$info);
+            $info = str_replace('title=','',$info);
+            $info = str_replace($title, '',$info);
             $link = '<a href="' . url('gift/confirm/' . $token, array('absolute' => true)) . '">' . url('gift/confirm/' . $token, array('absolute' => true)) . '</a>';
 
             $info = str_replace('[name]', $node->field_your_name[LANGUAGE_NONE][0]['value'], $info);
