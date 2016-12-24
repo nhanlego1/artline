@@ -507,9 +507,9 @@ function invite_friend_submit($form, &$form_state)
     $emails = explode(',', $emails);
     $info = variable_get('email_invite');
     $link = '<a href="' . url('user/register', array('absolute' => true, 'query' => array('token' => $token))) . '">' . url('user/register', array('absolute' => true, 'query' => array('token' => $token))) . '</a>';
-    $to = array();
+    $to = '';
     foreach ($emails as $key => $email) {
-        $to[] = trim($email);
+        $to .= trim($email).',';
     }
         $params['subject'] = 'Tham gia butvietnhatban.vn nhận quà hấp dẫn.';
 
