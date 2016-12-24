@@ -517,11 +517,13 @@ function invite_friend_submit($form, &$form_state)
     $title = str_replace('title=','',$title);
     $params['subject'] = $title;
     $info = str_replace('(title=','',$result[0][0]);
-    $info = str_replace(')','',$title);
-    $info = str_replace('title=','',$title);
+    $info = str_replace(')','',$info);
+    $info = str_replace('title=','',$info);
 
         $info = str_replace('[link]', $link, $info);
         $params['body'] = $info;
+
+    var_dump($params);die;
 
         // Add an associative array about this desired attachment.
         drupal_mail('artline', 'doiqua', $to, language_default(), $params, $user->mail, TRUE);
