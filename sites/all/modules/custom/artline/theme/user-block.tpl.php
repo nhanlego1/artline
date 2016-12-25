@@ -26,9 +26,9 @@ if ($user->uid > 0) {
     <?php if ($user->uid > 0): ?>
         <li>
         <?php if ($account->picture): ?>
-            <span><img src="<?php print image_style_url('avatar', $account->picture->uri) ?>"></span>
+            <span><img src="<?php print image_style_url('avatar', $account->picture->uri) ?>"><i class="notification">1</i></span>
         <?php else: ?>
-            <span><img src="<?php print base_path() . drupal_get_path('theme', 'phucma') ?>/images/default-avatar.png"></span>
+            <span><img src="<?php print base_path() . drupal_get_path('theme', 'phucma') ?>/images/default-avatar.png"><i class="notification">1</i></span>
         <?php endif; ?>
     <?php else: ?>
         <span><img

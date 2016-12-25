@@ -1202,6 +1202,22 @@ label {
 #artline-product-gif-change input[type="text"]{
     max-width: 100%;
 }
+.error-text p{
+    width: 100%;
+    float: left;
+    margin-top: 10px;
+    color: red;
+}
+i.notification{
+    background: #fa3e3e;
+    padding: 1px 5px;
+    border-radius: 25px 25px;
+    color: #fff;
+    position: relative;
+    top: -7px;
+    left: -11px;
+    z-index: 99;
+}
 .xu-point-alert{
     position: absolute!important;
     font-size: 70px;
@@ -1564,4 +1580,5 @@ div.info-point {
 #messages{
     margin-top: 60px;
 }
+
 

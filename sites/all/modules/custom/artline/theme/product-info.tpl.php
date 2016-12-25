@@ -50,5 +50,34 @@
                 jQuery('#artline-product-gif-change .form-item-telephone').hide();
             }
         });
+
+        jQuery("form#artline-product-gif-change").submit(function(){
+            var color = 0;
+            jQuery(".color-qty select").each(function(){
+               color += jQuery(this).val();
+            });
+
+            if(color <=0 ){
+                jQuery(".error-text").append('<p>Vui lòng chọn màu.</p>');
+                return false;
+            }else{
+                jQuery(".error-text p").remove();
+            }
+
+           if(jQuery('#artline-product-gif-change #edit-address-info').val()==1){
+               if(jQuery('#artline-product-gif-change .form-item-name input').val() == ''){
+                   jQuery('#artline-product-gif-change .form-item-name').addClass('error');
+                   return false;
+               }
+               if(jQuery('#artline-product-gif-change .form-item-address input').val() == ''){
+                   jQuery('#artline-product-gif-change .form-item-address').addClass('error');
+                   return false;
+               }
+               if(jQuery('#artline-product-gif-change .form-item-telephone input').val() == ''){
+                   jQuery('#artline-product-gif-change .form-item-telephone').addClass('error');
+                   return false;
+               }
+           }
+        });
     });
 </script>

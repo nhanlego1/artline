@@ -963,6 +963,10 @@ function artline_post_comment()
 {
     global $user;
     $data = $_POST;
+    if(_check_ready_comment($user->uid, $data['nid'])){
+        _update_xu_user($user->uid, _type_of_xu('comment'));
+        _update_xu_user($data['uid'], _type_of_xu('owner'));
+    }
     $comment = new stdClass();
     $comment->nid = $data['nid']; // nid of a node you want to attach a comment to
     $comment->pid = $data['cid']; // parent comment id, 0 if none
@@ -981,14 +985,7 @@ function artline_post_comment()
     try {
         comment_submit($comment); // saving a comment
         comment_save($comment);
-        //add xu
-        if(_check_ready_comment($user->uid, $data['nid'])){
-            _update_xu_user($user->uid, _type_of_xu('comment'));
-            _update_xu_user($data['uid'], _type_of_xu('owner'));
             $return = 'ok';
-        }else{
-            $return = 'ok';
-        }
 
     } catch (Exception $ex) {
         $return = 'ko';
@@ -1003,6 +1000,7 @@ function _check_ready_comment($uid, $nid){
     $query->fields('cm');
     $query->condition('nid',$nid);
     $query->condition('uid',$uid);
+
     $result = $query->execute()->fetchAll();
     if($result){
         return false;
@@ -1238,9 +1236,9 @@ function artline_get_avatar()
         $account = user_load($user->uid);
 
         if ($account->picture) {
-            $output .= '<span><i class="fa fa-search" aria-hidden="true"></i>' . theme('image_style', array('path' => $account->picture->uri, 'style_name' => 'avatar')) . '</span>';
+            $output .= '<span><i class="fa fa-search" aria-hidden="true"></i>' . theme('image_style', array('path' => $account->picture->uri, 'style_name' => 'avatar')) . '<i class="notification">1</i></span>';
         } else {
-            $output .= '<span><i class="fa fa-search" aria-hidden="true"></i><img src="' . base_path() . drupal_get_path("theme", "phucma") . '/images/default-avatar.png"></span>';
+            $output .= '<span><i class="fa fa-search" aria-hidden="true"></i><img src="' . base_path() . drupal_get_path("theme", "phucma") . '/images/default-avatar.png"><i class="notification">1</i></span>';
         }
     } else {
         $output .= '<span><i class="fa fa-search" aria-hidden="true"></i><img src="' . base_path() . drupal_get_path("theme", "phucma") . '/images/default-avatar.png"></span>';
@@ -1744,7 +1742,7 @@ function artline_product_gif_change($form, &$form_state)
                             1 => t('Nhập thông tin nhận quà mới.'),
                         ),
                         '#title' => t('Địa chỉ nhận quà.'),
-                        '#prefix' => '<div class="clearfix"></div>',
+                        '#prefix' => '<div class="clearfix error-text"></div>',
                     );
                     $form['xu'] = array(
                         '#type' => 'hidden',
