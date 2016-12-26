@@ -2258,7 +2258,7 @@ function artline_user_view($account, $view_mode)
 
 function _tracking_log($uid, $nid, $type){
 
-    db_insert('artline_like')// Table name no longer needs {}
+    db_insert('artline_log')// Table name no longer needs {}
     ->fields(array(
         'uid' => $uid,
         'type' => $type,
