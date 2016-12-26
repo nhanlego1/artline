@@ -465,6 +465,7 @@ function artline_article_uploader_post()
             $node->field_category[LANGUAGE_NONE][0]['tid'] = $_POST['category'];
         }
         node_save($node);
+        _tracking_log($user->uid, $node->nid, 'post');
 
         drupal_goto('<front>');
     }
@@ -553,6 +554,8 @@ function artline_article_uploader_post()
             $node->field_category[LANGUAGE_NONE][0]['tid'] = $_POST['category'];
         }
         node_save($node);
+
+        _tracking_log($user->uid, $node->nid, 'post');
         drupal_goto('<front>');
 
     }
@@ -853,29 +856,35 @@ function artline_block_view($delta = '')
  */
 function artline_like_article($uid, $nid)
 {
-    $select = db_select('artline_like', 'al');
-    $select->fields('al');
-    $select->condition('uid', $uid);
-    $select->condition('nid', $nid);
-    $result = $select->execute()->fetchObject();
-    if ($result) {
-        return false;
-    } else {
-        db_insert('artline_like')// Table name no longer needs {}
-        ->fields(array(
-            'uid' => $uid,
-            'nid' => $nid,
-            'count' => 1,
-        ))
-            ->execute();
+    $node = node_load($nid);
+    $user = user_load($uid);
+    if($node && $user){
+        $select = db_select('artline_like', 'al');
+        $select->fields('al');
+        $select->condition('uid', $uid);
+        $select->condition('nid', $nid);
+        $result = $select->execute()->fetchObject();
+        if ($result) {
+            return false;
+        } else {
+            db_insert('artline_like')// Table name no longer needs {}
+            ->fields(array(
+                'uid' => $uid,
+                'nid' => $nid,
+                'count' => 1,
+            ))
+                ->execute();
 
-        //add xu
-        $node = node_load($nid);
-        _update_xu_user($uid, _type_of_xu('like'));
-        _update_xu_user($node->uid, _type_of_xu('owner'));
-        return 'oke';
+            //add xu
+            $node = node_load($nid);
+            _update_xu_user($uid, _type_of_xu('like'));
+            _update_xu_user($node->uid, _type_of_xu('owner'));
+            _tracking_log($uid, $nid, 'like');
+            return 'oke';
+        }
+        return 'ko';
     }
-    return 'oke';
+
 }
 
 /**
@@ -985,6 +994,7 @@ function artline_post_comment()
     try {
         comment_submit($comment); // saving a comment
         comment_save($comment);
+        _tracking_log($user->uid, $data['nid'], 'comment');
             $return = 'ok';
 
     } catch (Exception $ex) {
@@ -1082,6 +1092,7 @@ function get_location()
  */
 function artline_node_view($node)
 {
+    global $user;
     if ($node->type == 'article') {
         if (artline_check_ip($node->nid)) {
             db_insert('artline_post_view')// Table name no longer needs {}
@@ -1093,6 +1104,7 @@ function artline_node_view($node)
                 'ip' => ip_address()
             ))
                 ->execute();
+            _tracking_log($node->uid, $node->nid, 'view');
             // _update_xu_user($node->uid, _type_of_xu('click'));
         }
         $account = user_load($node->uid);
@@ -1108,6 +1120,7 @@ function artline_node_view($node)
                     'ip' => ip_address()
                 ))
                     ->execute();
+                _tracking_log($node->uid, $node->nid, 'view');
                 //  _update_xu_user($node->uid, _type_of_xu('click'));
             }
         }
@@ -1387,6 +1400,7 @@ function artline_article_shared($token)
                 //add xu
                 _update_xu_user($uid, _type_of_xu('click'));
                 _update_xu_user($node->uid, _type_of_xu('owner'));
+                _tracking_log($node->uid, $node->nid, 'view');
             }
             $account = user_load($node->uid);
             if (in_array('partner', $account->roles) || in_array('store', $account->roles)) {
@@ -1404,6 +1418,7 @@ function artline_article_shared($token)
 
                     _update_xu_user($uid, _type_of_xu('click'));
                     _update_xu_user($node->uid, _type_of_xu('owner'));
+                    _tracking_log($node->uid, $node->nid, 'view');
                 }
             }
 
@@ -1422,6 +1437,7 @@ function artline_article_shared($token)
 
                     _update_xu_user($uid, _type_of_xu('click'));
                     _update_xu_user($node->uid, _type_of_xu('owner'));
+                    _tracking_log($node->uid, $node->nid, 'view');
                 }
             }
         }
@@ -1894,6 +1910,7 @@ function artline_product_gif_change_submit($form, &$form_state)
     node_save($node);
     //update down xu of client
     _update_downxu_user($user->uid, $qty * $product->field_xu[LANGUAGE_NONE][0]['value']);
+    _tracking_log($user->uid, $product->nid, 'gif_charge');
     //send email to admin
     //  drupal_set_message(t('Bạn vừa đổi quà thành công. Chúng tôi sẽ kiểm tra và gửi đến bạn trong thời gian sớm nhất.'));
     //  $form_state['ajax_commands'][] = ctools_ajax_command_reload();
@@ -2237,6 +2254,19 @@ function artline_user_view($account, $view_mode)
     $account->content['email'] = array(
         '#markup' => '<div class="point-user"><h4>Email</h4> <p>' . $account->mail . '</p></div>',
     );
+}
+
+function _tracking_log($uid, $nid, $type){
+
+    db_insert('artline_like')// Table name no longer needs {}
+    ->fields(array(
+        'uid' => $uid,
+        'type' => $type,
+        'type_id' => $nid,
+        'ip'=>ip_address(),
+        'created'=>REQUEST_TIME
+    ))
+        ->execute();
 }
 
 
