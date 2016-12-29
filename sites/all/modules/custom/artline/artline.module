@@ -858,7 +858,7 @@ function artline_like_article($uid, $nid)
 {
     $node = node_load($nid);
     $user = user_load($uid);
-    if($node && $user){
+    if($node && $user && $node->status==1){
         $select = db_select('artline_like', 'al');
         $select->fields('al');
         $select->condition('uid', $uid);
@@ -972,7 +972,9 @@ function artline_post_comment()
 {
     global $user;
     $data = $_POST;
-    if(_check_ready_comment($user->uid, $data['nid'])){
+    $node = node_load($data['nid']);
+
+    if(_check_ready_comment($user->uid, $data['nid']) && $node->status==1){
         _update_xu_user($user->uid, _type_of_xu('comment'));
         _update_xu_user($data['uid'], _type_of_xu('owner'));
     }
