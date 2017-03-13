@@ -10,7 +10,7 @@ global $user;
 <link type="text/css" rel="stylesheet" href="<?php print base_path().drupal_get_path('module','artline') ?>/lib/admin_panel/admin-panel.css" media="all">
 <div id="admin-panel">
     <h2>Quản lý</h2>
-    <ul>
+    <ul><li class="manage"><a href="/admin/content/comment">Quản lý Comment</a></li>
         <li class="manage"><a href="/admin/posts?destination=admin/dashboard">Quản lý bài viết</a></li>
         <li class="manage"><a href="/admin/content/comment?destination=admin/dashboard">Quản lý bình luận</a></li>
         <li class="manage"><a href="/admin/banners?destination=admin/dashboard">Quản lý banner</a></li>
