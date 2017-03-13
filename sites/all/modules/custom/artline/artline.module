@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: nhan
@@ -974,10 +975,10 @@ function artline_post_comment()
     $data = $_POST;
     $node = node_load($data['nid']);
 
-    if(_check_ready_comment($user->uid, $data['nid']) && $node->status==1){
-        _update_xu_user($user->uid, _type_of_xu('comment'));
-        _update_xu_user($data['uid'], _type_of_xu('owner'));
-    }
+//    if(_check_ready_comment($user->uid, $data['nid']) && $node->status==1){
+//        _update_xu_user($user->uid, _type_of_xu('comment'));
+//        _update_xu_user($data['uid'], _type_of_xu('owner'));
+//    }
     $comment = new stdClass();
     $comment->nid = $data['nid']; // nid of a node you want to attach a comment to
     $comment->pid = $data['cid']; // parent comment id, 0 if none
@@ -2269,6 +2270,20 @@ function _tracking_log($uid, $nid, $type){
         'created'=>REQUEST_TIME
     ))
         ->execute();
+}
+
+/**
+ * Comment hook()
+ */
+function artline_comment_update($comment) {
+    if($comment->status == 1){
+         $node = node_load($comment->nid);
+        if(_check_ready_comment($comment->uid, $comment->nid) && $node->status==1){
+        _update_xu_user($comment->uid, _type_of_xu('comment'));
+            // _update_xu_user($data['uid'], _type_of_xu('owner'));
+        }
+    }
+   
 }
 
 
