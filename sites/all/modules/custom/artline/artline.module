@@ -988,7 +988,7 @@ function artline_post_comment()
     $comment->hostname = ip_address();
     $comment->created = time(); // OPTIONAL. You can set any time you want here. Useful for backdated comments creation.
     //   $comment->is_anonymous = 0; // leave it as is
-    $comment->status = COMMENT_PUBLISHED; // We auto-publish this comment
+    $comment->status = 0; // We auto-publish this comment
     $comment->language = LANGUAGE_NONE; // The same as for a node
     $comment->subject = filter_bad_word(strip_tags($data['comment']));
     $comment->comment_body[$comment->language][0]['value'] = filter_bad_word(strip_tags($data['comment'])); // Everything here is pretty much like with a node
