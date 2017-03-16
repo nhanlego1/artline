@@ -975,10 +975,10 @@ function artline_post_comment()
     $data = $_POST;
     $node = node_load($data['nid']);
 
-//    if(_check_ready_comment($user->uid, $data['nid']) && $node->status==1){
-//        _update_xu_user($user->uid, _type_of_xu('comment'));
-//        _update_xu_user($data['uid'], _type_of_xu('owner'));
-//    }
+    if(_check_ready_comment($user->uid, $data['nid']) && $node->status==1){
+        _update_xu_user($user->uid, _type_of_xu('comment'));
+        //_update_xu_user($data['uid'], _type_of_xu('owner'));
+    }
     $comment = new stdClass();
     $comment->nid = $data['nid']; // nid of a node you want to attach a comment to
     $comment->pid = $data['cid']; // parent comment id, 0 if none
@@ -989,7 +989,7 @@ function artline_post_comment()
     $comment->hostname = ip_address();
     $comment->created = time(); // OPTIONAL. You can set any time you want here. Useful for backdated comments creation.
     //   $comment->is_anonymous = 0; // leave it as is
-    $comment->status = 0; // We auto-publish this comment
+    $comment->status = 1; // We auto-publish this comment
     $comment->language = LANGUAGE_NONE; // The same as for a node
     $comment->subject = filter_bad_word(strip_tags($data['comment']));
     $comment->comment_body[$comment->language][0]['value'] = filter_bad_word(strip_tags($data['comment'])); // Everything here is pretty much like with a node
@@ -1592,7 +1592,7 @@ function _type_of_xu($type)
             $xu = variable_get('xu_like', 10);
             break;
         case 'comment':
-            $xu = variable_get('xu_comment', 20);
+            $xu = variable_get('xu_comment', 0);
             break;
         case 'click':
             $xu = variable_get('xu_click', 10);
@@ -2272,18 +2272,18 @@ function _tracking_log($uid, $nid, $type){
         ->execute();
 }
 
-/**
- * Comment hook()
- */
-function artline_comment_update($comment) {
-    if($comment->status == 1){
-         $node = node_load($comment->nid);
-        if(_check_ready_comment($comment->uid, $comment->nid) && $node->status==1){
-        _update_xu_user($comment->uid, _type_of_xu('comment'));
-            // _update_xu_user($data['uid'], _type_of_xu('owner'));
-        }
-    }
-   
-}
+///**
+// * Comment hook()
+// */
+//function artline_comment_update($comment) {
+//    if($comment->status == 1){
+//         $node = node_load($comment->nid);
+//        if(_check_ready_comment($comment->uid, $comment->nid) && $node->status==1){
+//        _update_xu_user($comment->uid, _type_of_xu('comment'));
+//            // _update_xu_user($data['uid'], _type_of_xu('owner'));
+//        }
+//    }
+//
+//}
 
 
