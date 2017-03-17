@@ -136,7 +136,7 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 12)
     $query->condition('ca.tid', $tid, '=');
     $query->condition('n.type', 'article');
     $query->orderBy('n.created', 'DESC');
-    // $query->range($page_num, $page_size);
+    $query->range($page_num, $page_size);
 
     $result = $query->execute()->fetchAllAssoc('nid');
     $data = array();
@@ -193,7 +193,7 @@ function artline_get_post_pager_category()
     $query->condition('ca.tid', $tid, '=');
     $query->condition('n.type', 'article');
     $query->orderBy('n.created', 'DESC');
-    // $query->range($page_num, $page_size);
+     $query->range($page_num, $page_size);
 
     $result = $query->execute()->fetchAllAssoc('nid');
 
