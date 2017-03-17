@@ -81,7 +81,7 @@
                             if ($(window).scrollTop() > $(".front footer .container").offset().top - 800) {
                                 isWorking = true;
                                 var number_li = $("#view-content-ajax li.post-item").length;
-                                var num = number_li / 9;
+                                var num = number_li / 6;
                                 var data_ = $(".loading-view").attr('data');
                                 $.post('/posts/list/pager', {page_num: num})
                                     .done(function (data) {
@@ -120,7 +120,7 @@
                                 $(".loading-view").show();
                                 isWorking = true;
                                 var number_li = $("#view-content-ajax li.post-item").length;
-                                var num = number_li / 9;
+                                var num = number_li / 6;
                                 var data_ = $(".loading-view").attr('data');
                                 $.post('/posts/category/pager', {page_num: num, tid: data_})
                                     .done(function (data) {
@@ -159,7 +159,7 @@
                             if ($(window).scrollTop() > $(".page-my-posts footer .container").offset().top - 800) {
                                 isWorking = true;
                                 var number_li = $("#view-content-ajax li.post-item").length;
-                                var num = number_li / 9;
+                                var num = number_li / 6;
                                 var data_ = $(".loading-view").attr('data');
                                 $.post('/posts/my/pager', {page_num: num})
                                     .done(function (data) {
