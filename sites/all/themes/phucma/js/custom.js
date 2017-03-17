@@ -114,7 +114,7 @@
                 clearTimeout(timerScrolltaxonomy);
 
                 timerScrolltaxonomy = setTimeout(function () {
-                    if ($(".page-taxonomy #view-content-ajax").length > 0) {
+                    
                         console.log('nhan');
                         if (!isWorking) {
                             if ($(window).scrollTop() > $(".page-taxonomy footer .container").offset().top - 800) {
@@ -141,7 +141,7 @@
                                     });
                             }
                         }
-                    }
+
                 }, 500);
             });
         }
