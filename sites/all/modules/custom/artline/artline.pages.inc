@@ -288,13 +288,13 @@ function artline_list_100_post_store()
     $query = db_select('node', 'n');
     $query->fields('n');
     $query->condition('type', 'article');
-    $query->range(0, 50);
+    $query->range(0, 200);
     $query->orderBy('created', 'DESC');
     $result = $query->execute()->fetchAllAssoc('nid');
     $data = array();
     if ($result) {
         foreach ($result as $n) {
-            $data[] = node_load($n->nid);
+            $data[] = $n->nid;
         }
         return theme('100_post_store', array('nodes' => $data));
     } else {
