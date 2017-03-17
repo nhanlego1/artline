@@ -288,7 +288,7 @@ function artline_list_100_post_store()
     $query = db_select('node', 'n');
     $query->fields('n');
     $query->condition('type', 'article');
-    $query->range(0, 200000);
+    $query->range(0, 100);
     $query->orderBy('created', 'DESC');
     $result = $query->execute()->fetchAllAssoc('nid');
     $data = array();
