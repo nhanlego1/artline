@@ -12,7 +12,7 @@
  * @param int $page_size
  * @return bool|string
  */
-function artline_get_post($page_num = 0, $page_size = 12)
+function artline_get_post($page_num = 0, $page_size = 9)
 {
     global $user;
     $query = db_select('node', 'n');
@@ -59,7 +59,7 @@ function artline_get_post_pager()
 {
 
     $page_num = 0;
-    $page_size = 12;
+    $page_size = 9;
     global $user;
     if ($_POST['page_num']) {
 
@@ -107,7 +107,7 @@ function artline_get_post_pager()
  * @param int $page_size
  * @return bool|string
  */
-function artline_get_post_cate($tid, $page_num = 0, $page_size = 12)
+function artline_get_post_cate($tid, $page_num = 0, $page_size = 9)
 {
     global $user;
     $query = db_select('node', 'n');
@@ -160,7 +160,7 @@ function artline_get_post_pager_category()
 {
 
     $page_num = 0;
-    $page_size = 12;
+    $page_size = 9;
     global $user;
     if ($_POST['page_num']) {
 
@@ -244,7 +244,7 @@ function artline_get_my_post($page_num = 0, $page_size = 12)
 function artline_get_my_post_pager()
 {
     $page_num = 0;
-    $page_size = 12;
+    $page_size = 9;
     global $user;
     if ($_POST['page_num']) {
         $page_num = $page_size * $_POST['page_num'];
