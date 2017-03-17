@@ -110,32 +110,6 @@ function artline_get_post_pager()
 function artline_get_post_cate($tid, $page_num = 0, $page_size = 12)
 {
     global $user;
-    $data = array();
-    $children = taxonomy_get_children($tid);
-    $tids = array();
-    if ($children) {
-        foreach ($children as $child) {
-            if ($child->tid != $tid) {
-                $tids[] = $child->tid;
-            }
-        }
-
-    }
-
-    $parents = taxonomy_get_parents($tid);
-    if ($parents) {
-        $parent = reset($parents);
-        $tids[] = $parent->tid;
-        $children_ = taxonomy_get_children($parent->tid);
-        if ($children_) {
-            foreach ($children_ as $child_) {
-                if ($child_->tid != $tid) {
-                    $tids[] = $child_->tid;
-                }
-            }
-
-        }
-    }
     $query = db_select('node', 'n');
     $query->fields('n');
     $query->innerJoin('taxonomy_index', 'ca', 'n.nid = ca.nid');
@@ -159,21 +133,7 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 12)
     } else {
         $query->condition('n.status', 1);
     }
-
-    //check tids
-    if ($parents) {
-        $query->condition('ca.tid', $tid, '=');
-
-    } else {
-        if ($tids) {
-            $query->condition('ca.tid', $tids, 'in');
-        } else {
-            $query->condition('ca.tid', $tid, '=');
-        }
-
-
-    }
-
+    $query->condition('ca.tid', $tid, '=');
     $query->condition('n.type', 'article');
     $query->orderBy('n.created', 'DESC');
     // $query->range($page_num, $page_size);
@@ -185,65 +145,9 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 12)
             $data[] = node_load($n->nid);
         }
     }
-    if ($parents) {
-//        $data += artline_get_post_cate_other($tids);
-    }
     return theme('post_list', array('nodes' => $data));
 }
 
-/**
- * @param $tid
- * @param int $page_num
- * @param int $page_size
- * @return bool|string
- */
-function artline_get_post_cate_other($tids, $page_num = 0, $page_size = 12)
-{
-    global $user;
-    $data = array();
-
-    $query = db_select('node', 'n');
-    $query->fields('n');
-    $query->innerJoin('taxonomy_index', 'ca', 'n.nid = ca.nid');
-
-    //add or
-    if ($user->uid > 0) {
-        if (in_array('admin', $user->roles) || in_array('administrator', $user->roles)) {
-            $db_or = db_or();
-            $db_or->condition('n.status', 0);
-            $db_or->condition('n.status', 1);
-            //check tids
-            $query->condition($db_or);
-        } else {
-            $db_or = db_or();
-            $db_or->condition('n.uid', $user->uid);
-            $db_or->condition('n.status', 0);
-            $db_or->condition('n.status', 1);
-            //check tids
-            $query->condition($db_or);
-        }
-    } else {
-        $query->condition('n.status', 1);
-    }
-
-    //check tids
-    $query->condition('ca.tid', $tids, 'in');
-    $query->orderBy('n.created', 'DESC');
-
-    $query->condition('n.type', 'article');
-    //$query->range($page_num, $page_size);
-    //$query->orderBy('n.created', 'DESC');
-    $result = $query->execute()->fetchAllAssoc('nid');
-    $data = array();
-    if ($result) {
-        foreach ($result as $n) {
-            $data[] = node_load($n->nid);
-        }
-        return $data;
-    } else {
-        return false;
-    }
-}
 
 
 /**
@@ -263,64 +167,34 @@ function artline_get_post_pager_category()
         $page_num = $page_size * $_POST['page_num'];
     }
     $tid = $_POST['tid'];
-    $children = taxonomy_get_children($tid);
-    $tids = array();
-    if ($children) {
-        foreach ($children as $child) {
-            if ($child->tid != $tid) {
-                $tids[] = $child->tid;
-            }
-        }
-
-    }
     $query = db_select('node', 'n');
     $query->fields('n');
     $query->innerJoin('taxonomy_index', 'ca', 'n.nid = ca.nid');
 
     //add or
-//    if ($user->uid > 0) {
-//        if (in_array('admin', $user->roles) || in_array('administrator', $user->roles)) {
-//            $db_or = db_or();
-//            $db_or->condition('n.status', 0);
-//            $db_or->condition('n.status', 1);
-//            //check tids
-//            $query->condition($db_or);
-//        } else {
-//            $db_or = db_or();
-//            $db_or->condition('n.uid', $user->uid);
-//            $db_or->condition('n.status', 0);
-//            $db_or->condition('n.status', 1);
-//            //check tids
-//            $query->condition($db_or);
-//        }
-//    } else {
-    $query->condition('n.status', 1);
-    // }
-
-    $parents = taxonomy_get_parents($tid);
-    if ($parents) {
-        $parent = reset($parents);
-        $tids[] = $parent->tid;
-        $children_ = taxonomy_get_children($parent->tid);
-        if ($children_) {
-            foreach ($children_ as $child_) {
-                if ($child_->tid != $tid) {
-                    $tids[] = $child_->tid;
-                }
-            }
-
+    if ($user->uid > 0) {
+        if (in_array('admin', $user->roles) || in_array('administrator', $user->roles)) {
+            $db_or = db_or();
+            $db_or->condition('n.status', 0);
+            $db_or->condition('n.status', 1);
+            //check tids
+            $query->condition($db_or);
+        } else {
+            $db_or = db_or();
+            $db_or->condition('n.uid', $user->uid);
+            $db_or->condition('n.status', 0);
+            $db_or->condition('n.status', 1);
+            //check tids
+            $query->condition($db_or);
         }
-    }
-
-    //check tids
-    if ($tids) {
-        $query->condition('ca.tid', $tids, 'in');
     } else {
-        $query->condition('ca.tid', $tid, '=');
+        $query->condition('n.status', 1);
     }
+    $query->condition('ca.tid', $tid, '=');
     $query->condition('n.type', 'article');
-    $query->range($page_num, $page_size);
     $query->orderBy('n.created', 'DESC');
+    // $query->range($page_num, $page_size);
+
     $result = $query->execute()->fetchAllAssoc('nid');
 
     $data = array();
@@ -329,9 +203,6 @@ function artline_get_post_pager_category()
             $data[] = node_load($n->nid);
         }
 
-    }
-    if ($parents) {
-        $data += artline_get_post_cate_other($tids, $page_num, $page_size);
     }
 
     print (render(theme('post_list_pager', array('nodes' => $data))));
