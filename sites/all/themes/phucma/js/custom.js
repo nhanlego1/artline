@@ -109,23 +109,22 @@
     Drupal.behaviors.ArtlineLoadmorePagerTaxonomy = {
         attach: function (context, settings) {
             var isWorking = false;
-            console.log('nhan2');
             $(window).on('scroll', function () {
                 clearTimeout(timerScrolltaxonomy);
 
                 timerScrolltaxonomy = setTimeout(function () {
-                    
-                        console.log('nhan');
+
+
                         if (!isWorking) {
                             if ($(window).scrollTop() > $(".page-taxonomy footer .container").offset().top - 800) {
-                                $(".loading-view").hide();
+                                $(".loading-view").show();
                                 isWorking = true;
                                 var number_li = $("#view-content-ajax li.post-item").length;
                                 var num = number_li / 9;
                                 var data_ = $(".loading-view").attr('data');
                                 $.post('/posts/category/pager', {page_num: num, tid: data_})
                                     .done(function (data) {
-                                        console.log('nhan1');
+
                                         if (data != 'ko') {
                                             $(".loading-view").hide();
                                             $("#view-content-ajax").append(data);
