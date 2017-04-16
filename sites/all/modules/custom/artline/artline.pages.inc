@@ -113,7 +113,13 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 6)
     $query = db_select('node', 'n');
     $query->fields('n');
     $query->innerJoin('taxonomy_index', 'ca', 'n.nid = ca.nid');
-
+    $termId = array();
+    $termId[] = $tid;
+    if($terms = taxonomy_get_children($tid)){
+        foreach($terms as $term){
+          $termId[] = $term->tid;  
+        }
+    }
     //add or
     if ($user->uid > 0) {
         if (in_array('admin', $user->roles) || in_array('administrator', $user->roles)) {
@@ -133,7 +139,7 @@ function artline_get_post_cate($tid, $page_num = 0, $page_size = 6)
     } else {
         $query->condition('n.status', 1);
     }
-    $query->condition('ca.tid', $tid, '=');
+    $query->condition('ca.tid', $termId, 'IN');
     $query->condition('n.type', 'article');
     $query->orderBy('n.created', 'DESC');
     $query->range($page_num, $page_size);
@@ -167,6 +173,13 @@ function artline_get_post_pager_category()
         $page_num = $page_size * $_POST['page_num'];
     }
     $tid = $_POST['tid'];
+    $termId = array();
+    $termId[] = $tid;
+    if($terms = taxonomy_get_children($tid)){
+        foreach($terms as $term){
+          $termId[] = $term->tid;  
+        }
+    }
     $query = db_select('node', 'n');
     $query->fields('n');
     $query->innerJoin('taxonomy_index', 'ca', 'n.nid = ca.nid');
@@ -190,7 +203,7 @@ function artline_get_post_pager_category()
     } else {
         $query->condition('n.status', 1);
     }
-    $query->condition('ca.tid', $tid, '=');
+    $query->condition('ca.tid', $termId, 'IN');
     $query->condition('n.type', 'article');
     $query->orderBy('n.created', 'DESC');
      $query->range($page_num, $page_size);
