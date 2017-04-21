@@ -49,6 +49,8 @@ Allow: /themes/*.jpg
 Allow: /themes/*.jpeg
 Allow: /themes/*.png
 # Directories
+Disallow: /users/
+Disallow: /artline/xu/
 Disallow: /includes/
 Disallow: /misc/
 Disallow: /modules/
